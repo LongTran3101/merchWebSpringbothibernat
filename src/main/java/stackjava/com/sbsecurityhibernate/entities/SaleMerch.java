@@ -8,6 +8,8 @@ package stackjava.com.sbsecurityhibernate.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 /**
  *
@@ -96,8 +99,18 @@ public class SaleMerch implements Serializable {
     private int previousmonthSale ;
     private double alltimeMoney;
     private int alltimeSale;
+    @Transient
+    private List<ImageMerch> LstimageMerch;
 
 
+
+	public List<ImageMerch> getLstimageMerch() {
+		return LstimageMerch;
+	}
+
+	public void setLstimageMerch(List<ImageMerch> lstimageMerch) {
+		LstimageMerch = lstimageMerch;
+	}
 
 	public String getTier() {
 		return tier;
