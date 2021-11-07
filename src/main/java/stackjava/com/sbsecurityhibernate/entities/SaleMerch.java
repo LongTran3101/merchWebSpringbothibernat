@@ -57,10 +57,104 @@ public class SaleMerch implements Serializable {
     private String path;
     @Column(name = "username")
     private String username;
-    @Column(name = "tier")
     private String tier;
+    private int coutDesgin;
+    private double last7dayMoney;
+    private int last7daySale ;
+    private double thismonthMoney;
+    private int thismonthSale;
+    private double previousmonthMoney;
+    private int previousmonthSale ;
+    private double alltimeMoney;
+    private int alltimeSale;
 
-    public SaleMerch() {
+
+
+	public String getTier() {
+		return tier;
+	}
+
+	public void setTier(String tier) {
+		this.tier = tier;
+	}
+
+	public int getCoutDesgin() {
+		return coutDesgin;
+	}
+
+	public void setCoutDesgin(int coutDesgin) {
+		this.coutDesgin = coutDesgin;
+	}
+
+	public double getLast7dayMoney() {
+		return last7dayMoney;
+	}
+
+	public void setLast7dayMoney(double last7dayMoney) {
+		this.last7dayMoney = last7dayMoney;
+	}
+
+	public int getLast7daySale() {
+		return last7daySale;
+	}
+
+	public void setLast7daySale(int last7daySale) {
+		this.last7daySale = last7daySale;
+	}
+
+	public double getThismonthMoney() {
+		return thismonthMoney;
+	}
+
+	public void setThismonthMoney(double thismonthMoney) {
+		this.thismonthMoney = thismonthMoney;
+	}
+
+	public int getThismonthSale() {
+		return thismonthSale;
+	}
+
+	public void setThismonthSale(int thismonthSale) {
+		this.thismonthSale = thismonthSale;
+	}
+
+	public double getPreviousmonthMoney() {
+		return previousmonthMoney;
+	}
+
+	public void setPreviousmonthMoney(double previousmonthMoney) {
+		this.previousmonthMoney = previousmonthMoney;
+	}
+
+	public int getPreviousmonthSale() {
+		return previousmonthSale;
+	}
+
+	public void setPreviousmonthSale(int previousmonthSale) {
+		this.previousmonthSale = previousmonthSale;
+	}
+
+	public double getAlltimeMoney() {
+		return alltimeMoney;
+	}
+
+	public void setAlltimeMoney(double alltimeMoney) {
+		this.alltimeMoney = alltimeMoney;
+	}
+
+	public int getAlltimeSale() {
+		return alltimeSale;
+	}
+
+	public void setAlltimeSale(int alltimeSale) {
+		this.alltimeSale = alltimeSale;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public SaleMerch() {
     }
 
     public SaleMerch(Integer id) {

@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Cấu hình cho Login Form.
 		http.authorizeRequests()
-		.antMatchers("/", "/login", "/logout", "/static/**", "/css/**","/dist/**","/plugins/**", "/images/**", "/js/**", "/templates/**","/api/**")
+		.antMatchers("/", "/login", "/logout", "/static/**", "/css/**","/dist/**","/plugins/**", "/images/**", "/js/**", "/templates/**","/saveCheckSale/**")
 		.permitAll().anyRequest().authenticated()
 		.and().formLogin()//
 				.loginProcessingUrl("/j_spring_security_login")//
