@@ -48,8 +48,12 @@ public class UserController {
 		String daySeach=request.getParameter("daySearch");
 		String daySearchTo=request.getParameter("daySearchTo");
 		User user= (User) session.getAttribute("user");
+
+		model.addAttribute("daySeach", daySeach);
+    	model.addAttribute("daySearchTo", daySearchTo);
     	if(daySeach!=null && daySeach!="")
     	{
+    		
     		List<SaleMerch> lst=userDAO.getAllSaleMerch(daySeach, daySearchTo,user.getUsername());
     		model.addAttribute("lst", lst);
             return "dashboard/checkSaleMerch";

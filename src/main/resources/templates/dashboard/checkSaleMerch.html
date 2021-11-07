@@ -76,12 +76,12 @@
 			<div class="form-row">
 				<div class="form-group col-md-4">
 					<label class="col-md-2" for="inputEmail4">Từ ngày</label> 
-					<input type="date" id="tu"
+					<input type="date" id="tu" th:value="${daySeach!=null ? daySeach:''}"
 						name="daySearch">
 				</div>
 				<div class="form-group col-md-4">
 					<label for="inputPassword4" class="col-md-2" >Đến ngày</label> <input type="date"
-						id="birthday" name="daySearchTo">
+						id="birthday"  th:value="${daySearchTo!=null ? daySearchTo:''}"  name="daySearchTo">
 				</div>
 			</div>
 
