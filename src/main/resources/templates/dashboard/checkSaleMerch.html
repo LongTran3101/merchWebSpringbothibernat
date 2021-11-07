@@ -1,0 +1,163 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+<title>Navbar Template for Bootstrap</title>
+
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/4.0/examples/navbars/">
+
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<!-- Custom styles for this template -->
+
+</head>
+
+<body>
+
+
+
+	<nav class="navbar navbar-expand-lg navbar-light"
+		style="background-color: #e3f2fd;">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarColor03" aria-controls="navbarColor03"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarColor03">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/user/allAcc}">All Account <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/user/checkSale}">Thống kê</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/admin/alluser}" >Quản lý người dùng</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+			</ul>
+			<form class="form-inline">
+				<input class="form-control mr-sm-2" type="search"
+					placeholder="Search" aria-label="Search">
+				 <a href="#" th:href="@{/logout}">Log Out</a>
+			</form>
+		</div>
+	</nav>
+
+
+
+	<div class="row" style="padding-left: 15px;">
+
+
+		<div class="col-sm-2">
+			<section>
+				<h3>
+					<small>Quản lý account</small>
+				</h3>
+
+			</section>
+		</div>
+
+
+	</div>
+	<div class="row" style="padding-left: 15px;">
+		<form th:action="@{/user/checkSale}" style="width: 100%;">
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label class="col-md-2" for="inputEmail4">Từ ngày</label> 
+					<input type="date" id="tu"
+						name="daySearch">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="inputPassword4" class="col-md-2" >Đến ngày</label> <input type="date"
+						id="birthday" name="daySearchTo">
+				</div>
+			</div>
+
+			<div class="col-md-2 " style="margin: auto;">
+	
+	<button type="submit" class="btn btn-primary col-md-12">Tìm kiếm</button>
+</div>
+
+
+
+
+			
+		</form>
+
+
+
+	</div>
+	<div class="form-control">
+
+		<div class="card-body table-responsive p-0">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>STT</th>
+						<th>name</th>
+						<th>Sale</th>
+						<th>Money</th>
+						<th>Sale yesterday</th>
+						<th>Money Yesterday</th>
+						<th>ip</th>
+						<th>email</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:if="${lst != null}">
+						<tr data-toggle="tooltip" th:each="item, k : ${lst}">
+
+							<td th:text="${k.index + 1}" class="text-right"
+								style="width: 5%;">1</td>
+							<td th:text="${item.name}" class="text-left"></td>
+							<td th:text="${item.sale}" class="text-left"></td>
+							<td th:text="${item.money}" class="text-left"></td>
+							<td th:text="${item.yesterday}" class="text-left"></td>
+							<td th:text="${item.moneyyesterday}" class="text-left"></td>
+							<td th:text="${item.ip}" class="text-left"></td>
+							<td th:text="${item.email}" class="text-left"></td>
+
+
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+
+
+
+
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+
+
+</body>
+</html>

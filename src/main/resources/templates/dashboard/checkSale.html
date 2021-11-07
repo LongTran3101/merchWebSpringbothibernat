@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>Dashboard</title>
+</head>
+<body>
+	<section layout:fragment="header">
+		<h1>
+			Dashboard <small>Quản lý account</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Check Sale</li>
+		</ol>
+	</section>
+	<div layout:fragment="content">
+		<!-- Small boxes (Stat box) -->
+		<div class="row">
+			<form class="form-horizontal" role="form"
+				th:action="@{/checkSale}">
+				<div class="col-md-12">
+				<label class="col-md-2">Từ ngày</label>
+				<div class="col-md-3">
+
+					<input type="date" id="birthday" name="daySearch" >
+
+				</div>
+
+				<!-- <label class="col-md-2">Đến ngày</label>
+				<div class="col-md-2">
+
+					<div class="input-group ">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i
+								class="far fa-calendar-alt"></i></span>
+						</div>
+						<input type="text" name="denNgay" class="form-control"
+							data-inputmask-alias="datetime"
+							data-inputmask-inputformat="dd/mm/yyyy" data-mask=""
+							im-insert="false">
+					</div>
+
+				</div> -->
+
+
+			</div>
+			<div class="col-md-12">
+				<div class="col-md-5"></div>
+				<div class="col-md-1">
+					<button type="submit" class="btn btn-block btn-primary btn-lg ">Tìm
+						kiếm</button>
+				</div>
+
+			</div>
+			</form>
+			
+			
+
+
+			<div class="col-md-12">
+				<div class="card-body table-responsive p-0">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>STT</th>
+								<th>name</th>
+								<th>Sale</th>
+								<th>Money</th>
+								<th>Sale yesterday</th>
+								<th>Money Yesterday</th>
+								<th>ip</th>
+								<th>email</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:if="${lst != null}">
+								<tr data-toggle="tooltip" th:each="item, k : ${lst}">
+
+									<td th:text="${k.index + 1}" class="text-right"
+										style="width: 5%;">1</td>
+									<td th:text="${item.name}" class="text-left"></td>
+									<td th:text="${item.sale}" class="text-left"></td>
+									<td th:text="${item.money}" class="text-left"></td>
+									<td th:text="${item.yesterday}" class="text-left"></td>
+									<td th:text="${item.moneyyesterday}" class="text-left"></td>
+									<td th:text="${item.ip}" class="text-left"></td>
+									<td th:text="${item.email}" class="text-left"></td>
+
+
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+			<!--  <div class="col-lg-3 col-xs-6">
+            small box
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>150</h3>
+
+                    <p>New Orders</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div> -->
+			<!-- ./col -->
+
+			<!-- ./col -->
+
+			<!-- ./col -->
+
+			<!-- ./col -->
+		</div>
+		<!-- /.row -->
+		<!-- Main row -->
+
+		<!-- /.row (main row) -->
+		<script type="text/javascript" th:inline="javascript">
+			
+		</script>
+	</div>
+
+</body>
+
+</html>

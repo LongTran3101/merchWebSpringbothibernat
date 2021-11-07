@@ -1,0 +1,189 @@
+package stackjava.com.sbsecurityhibernate.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
+import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
+import stackjava.com.sbsecurityhibernate.entities.User;
+
+@Repository(value = "userDAO")
+@Transactional(rollbackFor = Exception.class)
+public class UserDAO {
+
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	
+	public List<AccountMerch> getAllUser(final String username) {
+		try {
+			List<AccountMerch> users = new ArrayList<AccountMerch>();
+			Session session = this.sessionFactory.getCurrentSession();
+			users = session.createNativeQuery("select * from account_merch where username=:user", AccountMerch.class)
+					.setParameter("user", username)
+					.getResultList();
+					
+
+				return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+
+	}
+	
+	public List<User> getAllUserActive( ) {
+		try {
+			List<User> users = new ArrayList<User>();
+			Session session = this.sessionFactory.getCurrentSession();
+			users = session.createNativeQuery("select * from users where enabled=:user", User.class)
+					.setParameter("user", 1)
+					.getResultList();
+					
+
+				return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+
+	}
+	
+	
+	
+	
+	public AccountMerch saveOrUpdate(AccountMerch acc)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		AccountMerch out = new AccountMerch();
+		try {
+
+			out = (AccountMerch) session.merge(acc);
+			session.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
+	public SaleMerch saveOrUpdate(SaleMerch acc)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		SaleMerch out = new SaleMerch();
+		try {
+
+			out = (SaleMerch) session.merge(acc);
+			session.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
+	
+	public User saveOrUpdateUser(User use)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		User out = new User();
+		try {
+
+			out = (User) session.merge(use);
+			session.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
+	
+	
+	
+	public AccountMerch getAccountMerchByID(int id)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		AccountMerch out = new AccountMerch();
+		try {
+
+			out = (AccountMerch) session.get(AccountMerch.class, id);
+			session.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
+	
+	public boolean deleteuser (int id)
+	{
+		
+		try {
+			Session session = this.sessionFactory.getCurrentSession();
+			session.createNativeQuery("DELETE FROM users WHERE id= :id")
+			.setParameter("id", id).executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	public boolean insertusersroles (int idUser,int idRole)
+	{
+		
+		try {
+			Session session = this.sessionFactory.getCurrentSession();
+			session.createNativeQuery(" INSERT INTO users_roles(user,role) VALUES(:userID,:idRole) ")
+			.setParameter("userID", idUser)
+			.setParameter("idRole", idRole)
+			.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	public boolean deleteAcoutMerch (int id)
+	{
+		
+		try {
+			Session session = this.sessionFactory.getCurrentSession();
+			session.createNativeQuery("DELETE FROM account_merch WHERE id= :id")
+			.setParameter("id", id).executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public User loadUserByUsername(final String username) {
+		try {
+			List<User> users = new ArrayList<User>();
+			Session session = this.sessionFactory.getCurrentSession();
+			users = session.createNativeQuery("select * from users where username=:user ", User.class)
+					.setParameter("user", username).getResultList();
+					
+
+			if (users.size() > 0) {
+				return users.get(0);
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="layout">
+<head>
+<title>Dashboard</title>
+</head>
+<body>
+	<section layout:fragment="header">
+		<h1>
+			Dashboard <small>Quản lý account</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Check Sale</li>
+		</ol>
+	</section>
+	<div layout:fragment="content">
+		<!-- Small boxes (Stat box) -->
+		<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-2">
+		<button type="button" class="btn btn-block btn-primary btn-sm " data-toggle="modal" data-target="#modal-default">
+                  Thêm mới acc
+                </button>
+		</div>
+			
+		</div>
+		<div class="row">
+			<form class="form-horizontal" role="form" th:action="@{/checkSale}">
+
+
+			</form>
+
+			<div class="col-md-12">
+				<div class="card-body table-responsive p-0">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>STT</th>
+								<th>name</th>
+								<th>Sale</th>
+								<th>Money</th>
+								<th>ip</th>
+								<th>path</th>
+								<th>email</th>
+								<th>checkSale</th>
+								<th>DELETE</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:if="${lst != null}">
+								<tr data-toggle="tooltip" th:each="item, k : ${lst}">
+
+									<td th:text="${k.index + 1}" class="text-right"
+										style="width: 5%;">1</td>
+									<td th:text="${item.name}" class="text-left"></td>
+									<td th:text="${item.sale}" class="text-left"></td>
+									<td th:text="${item.money}" class="text-left"></td>
+									<td th:text="${item.ip}" class="text-left"></td>
+									<td th:text="${item.path}" class="text-left"></td>
+									<td th:text="${item.email}" class="text-left"></td>
+									<td>
+										<button type="button" th:attr="data-id=${item.id}"
+											class="btn btn-block btn-primary btn-sm checkSaleButton">check
+											sale</button>
+									</td>
+									<td>
+										<button type="button" th:attr="data-id=${item.id}"
+											class="btn btn-block btn-primary btn-sm deleteButton">DELETE</button>
+									</td>
+
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+			<!--  <div class="col-lg-3 col-xs-6">
+            small box
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>150</h3>
+
+                    <p>New Orders</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div> -->
+			<!-- ./col -->
+
+			<!-- ./col -->
+
+			<!-- ./col -->
+
+			<!-- ./col -->
+		</div>
+	<script src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Thêm mới acc</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <form class="form-horizontal" role="form" id="fromAdd">
+             	<div class="row">
+             		<label class="col-md-2">Name</label>
+             		<div class="col-md-10"> 
+             		<input class="form-control" name="name" type="text"  required="required">
+             		</div>
+             		<label class="col-md-2">Email</label>
+             		<div class="col-md-10"> 
+             		<input class="form-control" type="text" name="email" required="required">
+             		</div>
+             		<label class="col-md-2">IP</label>
+             		<div class="col-md-10"> 
+             		<input class="form-control" type="text" name="ip" required="required">
+             		</div>
+             		<label class="col-md-2">PATH</label>
+             		<div class="col-md-10"> 
+             		<input class="form-control" type="text" name="path" required="required">
+             		</div>
+             	</div>
+            </form>
+             
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default closetModal" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary saveAccount">Save changes</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+		<!-- /.row -->
+		<!-- Main row -->
+
+		<!-- /.row (main row) -->
+		<script src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+		<script src="/plugins/jQuery/toastr.min.js"></script>
+		<script type="text/javascript" th:inline="javascript">
+		var base_url = [[@{/}]];
+		 $('.deleteButton').click(function() {
+			 var id = $(this).attr("data-id"); 
+			 $.ajax({
+	              url: base_url + 'deleteAccountMerch',
+	              data:{id:id},
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+	            		  {
+	            		  setTimeout(function(){ alert("Thành công!"); }, 1500);
+	            		  
+	            		  
+	            		  }else{
+	            			  alert("Thất bại vui lòng kiểm tra !");
+	            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 $('.checkSaleButton').click(function() {
+			 var id = $(this).attr("data-id");
+			 $.ajax({
+	              url: base_url + 'checkSaleById',
+	              data:{id:id},
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+            		  {
+            		  alert("Thành công!");
+            		  }else  if(rs=='02') {
+            			  alert("Kiểm tra tool vps chưa bật !");
+            		  }
+            		  else   {
+            			  alert("Thất bại vui lòng kiểm tra !");
+            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 
+		 $('.saveAccount').click(function() {
+			 
+			
+		        var frm = $('#fromAdd'); 
+			 $.ajax({
+	              url: base_url + 'saveAccountMerch',
+	              data: frm.serialize(),
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+	            		  {
+	            		  alert("Thành công!");
+	            		  }else  if(rs=='02') {
+	            			  alert("Kiểm tra tool vps chưa bật !");
+	            		  }
+	            		  else   {
+	            			  alert("Thất bại vui lòng kiểm tra !");
+	            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		</script>
+	</div>
+
+</body>
+
+</html>

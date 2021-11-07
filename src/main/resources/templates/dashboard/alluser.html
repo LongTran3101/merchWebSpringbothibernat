@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+   <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Navbar Template for Bootstrap</title>
+ <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/navbars/">
+
+    <!-- Bootstrap core CSS -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    
+  </head>
+
+  <body>
+
+    
+
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" th:href="@{/user/allAcc}">All Account <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/user/checkSale}">Thống kê</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/admin/alluser}" >Quản lý người dùng</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+      </ul>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <a href="#" th:href="@{/logout}">Log Out</a>
+      </form>
+    </div>
+  </nav>
+
+      
+   
+    <div class="row" style="padding-left: 15px;">
+
+    	
+    	<div class="col-sm-2">
+    		<section >
+		<h3>
+			 <small>Quản lý user</small>
+		</h3>
+		
+		</section>
+    	</div>
+    		
+
+    </div>
+    <div class="row"style="padding-left: 15px;">
+		<div class="col-md-4"></div>
+		<div class="col-md-2">
+		<button type="button" class="btn btn-block btn-primary btn-sm " data-toggle="modal" data-target="#modal-default">
+                  Thêm mới acc
+                </button>
+		</div>
+			
+		</div>
+    <div class="form-control">
+
+				<div class="col-md-12">
+								<div class="card-body table-responsive p-0">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th>STT</th>
+												<th>name</th>
+												<th>trang thai</th>
+												<th>DELETE</th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block th:if="${lst != null}">
+												<tr data-toggle="tooltip" th:each="item, k : ${lst}">
+
+													<td th:text="${k.index + 1}" class="text-right"
+														style="width: 5%;">1</td>
+													<td th:text="${item.username}" class="text-left"></td>
+													<td th:text="${item.enabled}" class="text-left"></td>
+													
+													<td>
+														<button type="button" th:attr="data-id=${item.id}"
+															class="btn btn-block btn-primary btn-sm deleteButton">DELETE</button>
+													</td>
+
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+
+    </div>
+    	
+ 	<div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Thêm mới acc</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <form class="form-horizontal" role="form" id="fromAdd">
+             	<div class="row">
+             		<label class="col-md-2">username</label>
+             		<div class="col-md-10"> 
+             		<input class="form-control" name="username" type="text"  required="required">
+             		</div>
+             		<label class="col-md-2">pass</label>
+             		<div class="col-md-10"> 
+             		<input class="form-control" type="password" name="password" required="required">
+             		</div>
+             		
+             	</div>
+            </form>
+             
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default closetModal" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary saveAccount">Save changes</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+
+
+    
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" th:inline="javascript">
+		var base_url = [[@{/}]];
+		 $('.deleteButton').click(function() {
+			 var id = $(this).attr("data-id"); 
+			 $.ajax({
+	              url: base_url + 'admin/delete',
+	              data:{id:id},
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+	            		  {
+	            		  setTimeout(function(){ alert("Thành công!"); }, 1500);
+	            		  
+	            		  
+	            		  }else{
+	            			  alert("Thất bại vui lòng kiểm tra !");
+	            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 $('.checkSaleButton').click(function() {
+			 var id = $(this).attr("data-id");
+			 $.ajax({
+	              url: base_url + 'admin/checkSaleById',
+	              data:{id:id},
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+            		  {
+            		  alert("Thành công!");
+            		  }else  if(rs=='02') {
+            			  alert("Kiểm tra tool vps chưa bật !");
+            		  }
+            		  else   {
+            			  alert("Thất bại vui lòng kiểm tra !");
+            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 
+		 $('.saveAccount').click(function() {
+			 
+			
+		        var frm = $('#fromAdd'); 
+			 $.ajax({
+	              url: base_url + 'admin/adduser',
+	              data: frm.serialize(),
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+	            		  {
+	            		  alert("Thành công!");
+	            		  }else  if(rs=='02') {
+	            			  alert("Kiểm tra tool vps chưa bật !");
+	            		  }
+	            		  else   {
+	            			  alert("Thất bại vui lòng kiểm tra !");
+	            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		</script>
+  </body>
+</html>
