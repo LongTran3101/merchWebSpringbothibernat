@@ -106,11 +106,21 @@
 				<thead>
 					<tr>
 						<th>STT</th>
-						<th>name</th>
+						<th>Name</th>
+						<th>Tier</th>
+						<th>Design</th>
 						<th>Sale</th>
 						<th>Money</th>
 						<th>Sale yesterday</th>
 						<th>Money Yesterday</th>
+						<th>Sale Last 7 Days</th>
+						<th>Money Last 7 Days</th>
+						<th>Sale This Month</th>
+						<th>Money This Month</th>
+						<th>Sale Previous Month</th>
+						<th>Money Previous Month</th>
+						<th>Sale All Time</th>
+						<th>Money All Time</th>
 						<th>ip</th>
 						<th>email</th>
 					</tr>
@@ -122,10 +132,24 @@
 							<td th:text="${k.index + 1}" class="text-right"
 								style="width: 5%;">1</td>
 							<td th:text="${item.name}" class="text-left"></td>
+							<td th:text="${item.tier}" class="text-left"></td>
+							<td th:text="${item.coutDesgin +'/'+item.tier}" class="text-left"></td>
 							<td th:text="${item.sale}" class="text-left"></td>
 							<td th:text="${item.money}" class="text-left"></td>
 							<td th:text="${item.yesterday}" class="text-left"></td>
 							<td th:text="${item.moneyyesterday}" class="text-left"></td>
+							
+							
+							<td th:text="${item.last7daySale}" class="text-left"></td>
+							<td th:text="${item.last7dayMoney}" class="text-left"></td>
+							<td th:text="${item.thismonthSale}" class="text-left"></td>
+							<td th:text="${item.thismonthMoney}" class="text-left"></td>
+							<td th:text="${item.previousmonthSale}" class="text-left"></td>
+							<td th:text="${item.previousmonthMoney}" class="text-left"></td>
+							<td th:text="${item.alltimeSale}" class="text-left"></td>
+							<td th:text="${item.alltimeMoney}" class="text-left"></td>
+							
+							
 							<td th:text="${item.ip}" class="text-left"></td>
 							<td th:text="${item.email}" class="text-left"></td>
 

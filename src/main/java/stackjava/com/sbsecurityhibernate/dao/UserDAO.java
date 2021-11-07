@@ -1,5 +1,7 @@
 package stackjava.com.sbsecurityhibernate.dao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +46,7 @@ public class UserDAO {
 		try {
 			List<User> users = new ArrayList<User>();
 			Session session = this.sessionFactory.getCurrentSession();
-			users = session.createNativeQuery("select * from users where enabled=:user", User.class)
-					.setParameter("user", 1)
+			users = session.createNativeQuery("select * from users ", User.class)
 					.getResultList();
 					
 
@@ -58,6 +59,29 @@ public class UserDAO {
 		
 
 	}
+	
+	
+	public List<SaleMerch> getAllSaleMerch(String dayFrom,String dayto ) {
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			List<SaleMerch> users = new ArrayList<SaleMerch>();
+			Session session = this.sessionFactory.getCurrentSession();
+			users = session.createNativeQuery("select * from sale_merch where  :dayFrom <= day and day <= :dayto", SaleMerch.class)
+					.setParameter("dayFrom", df.parse(dayFrom))
+					.setParameter("dayto", df.parse(dayto))
+					.getResultList();
+					
+
+				return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+
+	}
+	
 	
 	
 	

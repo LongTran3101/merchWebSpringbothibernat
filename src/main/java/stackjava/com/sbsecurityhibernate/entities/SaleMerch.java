@@ -19,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -57,7 +58,35 @@ public class SaleMerch implements Serializable {
     private String path;
     @Column(name = "username")
     private String username;
-    private String tier;
+    private int yesterday;
+    private double moneyyesterday;
+    @Transient
+    private String dayString;
+    public String getDayString() {
+		return dayString;
+	}
+
+	public void setDayString(String dayString) {
+		this.dayString = dayString;
+	}
+
+	public int getYesterday() {
+		return yesterday;
+	}
+
+	public void setYesterday(int yesterday) {
+		this.yesterday = yesterday;
+	}
+
+	public double getMoneyyesterday() {
+		return moneyyesterday;
+	}
+
+	public void setMoneyyesterday(double moneyyesterday) {
+		this.moneyyesterday = moneyyesterday;
+	}
+
+	private String tier;
     private int coutDesgin;
     private double last7dayMoney;
     private int last7daySale ;

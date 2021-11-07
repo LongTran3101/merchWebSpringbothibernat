@@ -44,7 +44,18 @@ public class UserController {
 	}
 	
 	@RequestMapping("/checkSale")
-	public String checkSaleMerch() {
+	public String checkSaleMerch( HttpSession session, Model model, HttpServletRequest request) {
+		String daySeach=request.getParameter("daySearch");
+		String daySearchTo=request.getParameter("daySearchTo");
+		
+    	if(daySeach!=null && daySeach!="")
+    	{
+    		List<SaleMerch> lst=userDAO.getAllSaleMerch(daySeach, daySearchTo);
+    		model.addAttribute("lst", lst);
+            return "dashboard/checkSaleMerch";
+    	}
+    	
+		model.addAttribute("lst", null);
 		return "dashboard/checkSaleMerch";
 	}
 	
