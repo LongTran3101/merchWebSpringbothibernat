@@ -61,14 +61,15 @@ public class UserDAO {
 	}
 	
 	
-	public List<SaleMerch> getAllSaleMerch(String dayFrom,String dayto ) {
+	public List<SaleMerch> getAllSaleMerch(String dayFrom,String dayto,String username ) {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			List<SaleMerch> users = new ArrayList<SaleMerch>();
 			Session session = this.sessionFactory.getCurrentSession();
-			users = session.createNativeQuery("select * from sale_merch where  :dayFrom <= day and day <= :dayto", SaleMerch.class)
+			users = session.createNativeQuery("select * from sale_merch where  username=:username and :dayFrom <= day and day <= :dayto", SaleMerch.class)
 					.setParameter("dayFrom", df.parse(dayFrom))
 					.setParameter("dayto", df.parse(dayto))
+					.setParameter("username", username)
 					.getResultList();
 					
 

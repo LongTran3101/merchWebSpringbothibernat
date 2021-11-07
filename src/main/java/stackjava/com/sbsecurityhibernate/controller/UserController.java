@@ -47,10 +47,10 @@ public class UserController {
 	public String checkSaleMerch( HttpSession session, Model model, HttpServletRequest request) {
 		String daySeach=request.getParameter("daySearch");
 		String daySearchTo=request.getParameter("daySearchTo");
-		
+		User user= (User) session.getAttribute("user");
     	if(daySeach!=null && daySeach!="")
     	{
-    		List<SaleMerch> lst=userDAO.getAllSaleMerch(daySeach, daySearchTo);
+    		List<SaleMerch> lst=userDAO.getAllSaleMerch(daySeach, daySearchTo,user.getUsername());
     		model.addAttribute("lst", lst);
             return "dashboard/checkSaleMerch";
     	}
