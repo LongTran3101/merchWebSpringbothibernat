@@ -47,7 +47,8 @@ public class UserController {
 	public String checkSaleMerch( HttpSession session, Model model, HttpServletRequest request) {
 		String daySeach=request.getParameter("daySearch");
 		String daySearchTo=request.getParameter("daySearchTo");
-		
+		model.addAttribute("daySeach", daySeach);
+    	model.addAttribute("daySearchTo", daySearchTo);
     	if(daySeach!=null && daySeach!="")
     	{
     		List<SaleMerch> lst=userDAO.getAllSaleMerch(daySeach, daySearchTo);
