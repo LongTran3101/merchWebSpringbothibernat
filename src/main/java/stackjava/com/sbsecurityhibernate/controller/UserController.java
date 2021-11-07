@@ -136,6 +136,39 @@ public class UserController {
     	
     }
     
+    @RequestMapping("/checkSaleAllAcc")
+    @ResponseBody
+    public String checkSaleAllAcc( HttpSession session, Model model, HttpServletRequest request) {
+    	try {
+    		User user= (User) session.getAttribute("user");		
+    		List<AccountMerch> lst=userDAO.getAllUser(user.getUsername());
+    		for (AccountMerch merch : lst) {
+    			ObjectMapper objectMapper = new ObjectMapper();
+        		String req = objectMapper.writeValueAsString(merch);
+        		CallAPi callApi=new CallAPi();
+        		try {
+        			String rep =callApi.callAPIPost("http://"+merch.getIp()+":8080/checksalemerchtest", req);
+            		
+    			} catch (Exception e) {
+    				continue;
+    			}
+			}
+
+    		
+
+    		
+    		
+		} catch (Exception e) {
+			e.printStackTrace();
+			return"01";
+			
+		}
+    	return"00";
+    	    
+    	
+    }
+    
+    
     
     @ResponseBody
     @RequestMapping(value = "/saveCheckSale", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

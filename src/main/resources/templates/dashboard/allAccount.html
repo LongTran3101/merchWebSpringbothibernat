@@ -76,6 +76,13 @@
                   Thêm mới acc
                 </button>
 		</div>
+		
+		<div class="col-md-4"></div>
+		<div class="col-md-2">
+		<button type="button" class="btn btn-block btn-primary btn-sm checkSaleAll " >
+                  Check all acc
+                </button>
+		</div>
 			
 		</div>
     <div class="form-control">
@@ -229,6 +236,33 @@
 	          });
 			 
 		 });
+		 
+		 
+		 $('.checkSaleAll').click(function() {
+			 var id = $(this).attr("data-id");
+			 $.ajax({
+	              url: base_url + 'user/checkSaleAllAcc',
+	              data:{},
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+            		  {
+            		  alert("Thành công!");
+            		  }else  if(rs=='02') {
+            			  alert("Kiểm tra tool vps chưa bật !");
+            		  }
+            		  else   {
+            			  alert("Thất bại vui lòng kiểm tra !");
+            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 
 		 
 		 $('.saveAccount').click(function() {
 			 
