@@ -44,13 +44,14 @@
 				</li>
 				<li class="nav-item"><a class="nav-link"
 					th:href="@{/user/checkSale}">Thống kê</a></li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/admin/alluser}" >Quản lý người dùng</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/admin/alluser}">Quản lý người dùng</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
 			</ul>
 			<form class="form-inline">
 				<input class="form-control mr-sm-2" type="search"
-					placeholder="Search" aria-label="Search">
-				 <a href="#" th:href="@{/logout}">Log Out</a>
+					placeholder="Search" aria-label="Search"> <a href="#"
+					th:href="@{/logout}">Log Out</a>
 			</form>
 		</div>
 	</nav>
@@ -75,32 +76,50 @@
 		<form th:action="@{/user/checkSale}" style="width: 100%;">
 			<div class="form-row">
 				<div class="form-group col-md-4">
-					<label class="col-md-2" for="inputEmail4">Từ ngày</label> 
-					<input type="date" id="tu" th:value="${daySeach!=null ? daySeach:''}"
+					<label class="col-md-2" for="inputEmail4">Từ ngày</label> <input
+						type="date" id="tu" th:value="${daySeach!=null ? daySeach:''}"
 						name="daySearch">
 				</div>
 				<div class="form-group col-md-4">
-					<label for="inputPassword4" class="col-md-2" >Đến ngày</label> <input type="date"
-						id="birthday"  th:value="${daySearchTo!=null ? daySearchTo:''}"  name="daySearchTo">
+					<label for="inputPassword4" class="col-md-2">Đến ngày</label> <input
+						type="date" id="birthday"
+						th:value="${daySearchTo!=null ? daySearchTo:''}"
+						name="daySearchTo">
 				</div>
 			</div>
 
 			<div class="col-md-2 " style="margin: auto;">
-	
-	<button type="submit" class="btn btn-primary col-md-12">Tìm kiếm</button>
-</div>
+
+				<button type="submit" class="btn btn-primary col-md-12">Tìm
+					kiếm</button>
+			</div>
 
 
 
 
-			
+
 		</form>
 
 
 
 	</div>
 	<div class="form-control">
+		<div>
+			<h3>Tổng Sold</h3>
+		</div>
+		<div class="form-row" style="padding: 10px;">
 
+
+			<div class="row col-md-12">
+				<label class="col-md-2">Sold Today</label>
+				<div class="col-md-1 soldToday"></div>
+			</div>
+			<div class="row col-md-12">
+				<label class="col-md-2">Money Today</label>
+				<div class="col-md-1 soldMoney"></div>
+			</div>
+
+		</div>
 		<div class="card-body table-responsive p-0">
 			<table class="table table-hover">
 				<thead>
@@ -134,12 +153,12 @@
 							<td th:text="${item.name}" class="text-left"></td>
 							<td th:text="${item.tier}" class="text-left"></td>
 							<td th:text="${item.coutDesgin +'/'+item.tier}" class="text-left"></td>
-							<td th:text="${item.sale}" class="text-left"></td>
-							<td th:text="${item.money}" class="text-left"></td>
+							<td th:text="${item.sale}" class="text-left saleToday"></td>
+							<td th:text="${item.money}" class="text-left moneyToday"></td>
 							<td th:text="${item.yesterday}" class="text-left"></td>
 							<td th:text="${item.moneyyesterday}" class="text-left"></td>
-							
-							
+
+
 							<td th:text="${item.last7daySale}" class="text-left"></td>
 							<td th:text="${item.last7dayMoney}" class="text-left"></td>
 							<td th:text="${item.thismonthSale}" class="text-left"></td>
@@ -148,8 +167,8 @@
 							<td th:text="${item.previousmonthMoney}" class="text-left"></td>
 							<td th:text="${item.alltimeSale}" class="text-left"></td>
 							<td th:text="${item.alltimeMoney}" class="text-left"></td>
-							
-							
+
+
 							<td th:text="${item.ip}" class="text-left"></td>
 							<td th:text="${item.email}" class="text-left"></td>
 
@@ -181,6 +200,25 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
+	<script type="text/javascript" th:inline="javascript">
+		$(document).ready(function() {
+			var sum = 0;
+			var money = 0;
+			$('.saleToday').each(function() {
+				console.log($(this).text());
+				sum = sum + parseInt($(this).text());
+
+			});
+			$('.moneyToday').each(function() {
+				console.log($(this).text());
+				money = money + parseFloat($(this).text());
+
+			});
+			$('.soldToday').text(sum);
+			$('.soldMoney').text(money);
+			console.log(sum);
+		});
+	</script>
 
 
 </body>

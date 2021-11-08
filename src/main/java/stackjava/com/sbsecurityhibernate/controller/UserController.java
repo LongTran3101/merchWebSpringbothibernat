@@ -69,10 +69,13 @@ public class UserController {
     @ResponseBody
     public String saveAccountMerch(@ModelAttribute AccountMerch acc, HttpSession session, Model model, HttpServletRequest request) {
     	try {
+    		AccountMerch accSave=acc;
     		User user= (User) session.getAttribute("user");		
-    		acc.setUsername(user.getUsername());
-    		acc.setDay(new Date());
-    		AccountMerch accRP=userDAO.saveOrUpdate(acc);
+    		accSave.setUsername(user.getUsername());
+    		accSave.setDay(new Date());
+    		accSave.setIp(acc.getIp().trim());
+    		accSave.setPath(acc.getPath().trim());
+    		AccountMerch accRP=userDAO.saveOrUpdate(accSave);
 			if(accRP!=null && accRP.getId() != null)
 			{
 				return "00";

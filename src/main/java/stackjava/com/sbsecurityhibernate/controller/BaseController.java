@@ -1,5 +1,7 @@
 package stackjava.com.sbsecurityhibernate.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +56,24 @@ public class BaseController {
     	try {
     		ObjectMapper objectMapper = new ObjectMapper();
     		SaleMerch mech=objectMapper.readValue(req, SaleMerch.class);
-    		mech.setDay(new Date());
+    		 Calendar now = Calendar.getInstance();
+    	        now.set(Calendar.HOUR, 0);
+    	        now.set(Calendar.MINUTE, 0);
+    	        now.set(Calendar.SECOND, 0);
+    	        now.set(Calendar.HOUR_OF_DAY, 0);
+    		mech.setDay(now.getTime());
+    		try {
+    			try {
+    				userDAO.deleteSaleMerch(mech.getUsername(), mech.getName(), now.getTime());
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+    			
+    			
+    			//userDAO.saveOrUpdate(mech);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
     		SaleMerch rp=userDAO.saveOrUpdate(mech);
     		if(rp!=null && rp.getId()!=null)
     		{

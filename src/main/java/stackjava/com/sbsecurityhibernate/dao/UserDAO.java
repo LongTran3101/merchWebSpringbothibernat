@@ -3,6 +3,7 @@ package stackjava.com.sbsecurityhibernate.dao;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -66,7 +67,7 @@ public class UserDAO {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			List<SaleMerch> users = new ArrayList<SaleMerch>();
 			Session session = this.sessionFactory.getCurrentSession();
-			users = session.createNativeQuery("select * from sale_merch where  username=:username and :dayFrom <= day and day <= :dayto", SaleMerch.class)
+			users = session.createNativeQuery("select * from sale_merch where  username=:username and :dayFrom <= day and day <= :dayto order by sale desc", SaleMerch.class)
 					.setParameter("dayFrom", df.parse(dayFrom))
 					.setParameter("dayto", df.parse(dayto))
 					.setParameter("username", username)
@@ -147,6 +148,23 @@ public class UserDAO {
 		return out;
 	}
 	
+	
+	
+	public boolean deleteSaleMerch (String username,String accname,Date day)
+	{
+		
+		try {
+			Session session = this.sessionFactory.getCurrentSession();
+			session.createNativeQuery("DELETE FROM sale_merch WHERE  username=:username and :day = day and name=:name")
+			.setParameter("username", username)
+			.setParameter("day", day)
+			.setParameter("name", accname).executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	public boolean deleteuser (int id)
 	{
