@@ -1,8 +1,10 @@
 package stackjava.com.sbsecurityhibernate.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import stackjava.com.sbsecurityhibernate.dao.UserDAO;
+import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
 
 @Controller
@@ -62,6 +65,12 @@ public class BaseController {
     	        now.set(Calendar.SECOND, 0);
     	        now.set(Calendar.HOUR_OF_DAY, 0);
     		mech.setDay(now.getTime());
+    		List<ImageMerch> LstimageMerch=new  ArrayList<>();
+    		LstimageMerch=mech.getLstimageMerch();
+    		if(LstimageMerch!=null && !LstimageMerch.isEmpty())
+    		{
+    			userDAO.saveOrUpdate(LstimageMerch);
+    		}
     		try {
     			try {
     				userDAO.deleteSaleMerch(mech.getUsername(), mech.getName(), now.getTime());

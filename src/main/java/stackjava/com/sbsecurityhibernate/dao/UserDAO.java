@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
+import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
 import stackjava.com.sbsecurityhibernate.entities.User;
 
@@ -62,6 +63,8 @@ public class UserDAO {
 	}
 	
 	
+	
+	
 	public List<SaleMerch> getAllSaleMerch(String dayFrom,String dayto,String username ) {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,6 +90,29 @@ public class UserDAO {
 	
 	
 	
+	
+	
+	public Boolean saveOrUpdate(List<ImageMerch> image)
+	{Session session = this.sessionFactory.getCurrentSession();
+		
+		
+	
+		try {
+
+			if(image!=null && !image.isEmpty())
+			{
+				for (ImageMerch imageMerch : image) {
+					imageMerch.setDay(new Date());
+					 session.merge(imageMerch);
+						session.flush();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	
 	public AccountMerch saveOrUpdate(AccountMerch acc)
 	{
