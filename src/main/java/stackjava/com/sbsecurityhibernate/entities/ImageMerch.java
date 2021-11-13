@@ -28,6 +28,9 @@ public class ImageMerch {
 	@Column(name = "day")
 	@Temporal(TemporalType.DATE)
 	private Date day;
+	
+	@Column(name = "acc")
+	private String acc;
 
 	public String getName() {
 		return name;
@@ -59,5 +62,13 @@ public class ImageMerch {
 
 	public void setDay(Date day) {
 		this.day = day;
+	}
+
+	public String getAcc() {
+		return acc;
+	}
+
+	public void setAcc(String acc) {
+		this.acc = acc;
 	}
 }

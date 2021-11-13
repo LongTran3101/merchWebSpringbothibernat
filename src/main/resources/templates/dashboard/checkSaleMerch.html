@@ -10,7 +10,7 @@
 <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
 
 <title>Navbar Template for Bootstrap</title>
-
+ <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/4.0/examples/navbars/">
 
@@ -150,10 +150,15 @@
 
 							<td th:text="${k.index + 1}" class="text-right"
 								style="width: 5%;">1</td>
-							<td th:text="${item.name}" class="text-left"></td>
+							<td th:text="${item.name}" class="text-left nameAcc">
+							
+							</td>
 							<td th:text="${item.tier}" class="text-left"></td>
 							<td th:text="${item.coutDesgin +'/'+item.tier}" class="text-left"></td>
-							<td th:text="${item.sale}" class="text-left saleToday"></td>
+							<td  class="text-left saleToday">
+							<input type="hidden" class="idSaleMerch" th:value="${item.id}">
+								<a href="javascript:void()" th:text="${item.sale}" class="showDS" > </a>
+							</td>
 							<td th:text="${item.money}" class="text-left moneyToday"></td>
 							<td th:text="${item.yesterday}" class="text-left"></td>
 							<td th:text="${item.moneyyesterday}" class="text-left"></td>
@@ -182,16 +187,34 @@
 	</div>
 
 
-
-
+<div class="modal fade" id="channelEdit" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">SALE</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body channelEditBody">
+            
+             
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default closetModal" data-dismiss="modal">Close</button>
+             
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
 
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
+	
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -201,6 +224,7 @@
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<script type="text/javascript" th:inline="javascript">
+	var base_url = [[@{/}]];
 		$(document).ready(function() {
 			var sum = 0;
 			var money = 0;
@@ -218,6 +242,30 @@
 			$('.soldMoney').text(money);
 			console.log(sum);
 		});
+		
+		
+		
+		 $('.showDS').click(function() {
+			 var id= $(this).parents('tr').find('.idSaleMerch').val();
+			 console.log(id)
+			 $.ajax({
+	              url: base_url + 'user/showDS',
+	              data:{id:id},
+	              async: false,
+	              success: function(rs) {
+	            	  $('.channelEditBody').html(rs);
+	              	//	  treeTable2(".tree-table");
+	                  	  $('#channelEdit').modal('show');
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 
+		 
 	</script>
 
 

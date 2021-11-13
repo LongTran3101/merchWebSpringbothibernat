@@ -55,8 +55,9 @@ public class Admin {
     	    
     	
     }
-	
-	
+	 
+	 
+	 
 	 @ResponseBody
 	@RequestMapping("/adduser")
 	public String adduser(@ModelAttribute User acc,HttpSession session,HttpServletRequest request,Model model) {
@@ -76,6 +77,27 @@ public class Admin {
 				
 				return "00";
 			}
+			//List<User> lst=userDAO.getAllUserActive();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return"01";
+	}
+	
+	 @ResponseBody
+	@RequestMapping("/addRole")
+	public String addRole(@ModelAttribute User acc,HttpSession session,HttpServletRequest request,Model model) {
+		try {
+			String id=request.getParameter("id");
+			
+				
+				userDAO.insertusersroles(Integer.parseInt(id),2);
+				
+				
+				
+				return "00";
+			
 			//List<User> lst=userDAO.getAllUserActive();
 			
 		} catch (Exception e) {

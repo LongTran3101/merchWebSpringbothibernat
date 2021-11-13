@@ -106,6 +106,11 @@
 														<button type="button" th:attr="data-id=${item.id}"
 															class="btn btn-block btn-primary btn-sm deleteButton">DELETE</button>
 													</td>
+													<td>
+														<button type="button" th:attr="data-id=${item.id}"
+															class="btn btn-block btn-primary btn-sm ganRole">Gán quyền user</button>
+													</td>
+													
 
 												</tr>
 											</th:block>
@@ -168,6 +173,31 @@
 			 var id = $(this).attr("data-id"); 
 			 $.ajax({
 	              url: base_url + 'admin/delete',
+	              data:{id:id},
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+	            		  {
+	            		  setTimeout(function(){ alert("Thành công!"); }, 1500);
+	            		  
+	            		  
+	            		  }else{
+	            			  alert("Thất bại vui lòng kiểm tra !");
+	            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 
+		 
+		 $('.ganRole').click(function() {
+			 var id = $(this).attr("data-id"); 
+			 $.ajax({
+	              url: base_url + 'admin/addRole',
 	              data:{id:id},
 	              async: false,
 	              success: function(rs) {

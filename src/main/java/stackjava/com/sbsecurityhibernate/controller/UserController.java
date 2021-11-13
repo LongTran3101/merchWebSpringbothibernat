@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import stackjava.com.sbsecurityhibernate.dao.CallAPi;
 import stackjava.com.sbsecurityhibernate.dao.UserDAO;
 import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
+import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
 import stackjava.com.sbsecurityhibernate.entities.User;
 
@@ -141,6 +142,30 @@ public class UserController {
     	    
     	
     }
+    
+    
+    
+    @RequestMapping("/showDS")
+    public String showDS( HttpSession session, Model model, HttpServletRequest request) {
+    	try {
+    		String id=request.getParameter("id");
+    		
+
+    		SaleMerch merch=userDAO.getSaleMerchByID(Integer.parseInt(id));
+    		List<ImageMerch> lst=userDAO.getImageMerchFromSaleMerch(merch);
+    		model.addAttribute("lst", lst);
+    		
+    		
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+    	return"dashboard/fmDS :: channelEdit";
+    	    
+    	
+    }
+    
+    
     
     @RequestMapping("/checkSaleAllAcc")
     @ResponseBody

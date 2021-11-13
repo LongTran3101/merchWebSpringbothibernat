@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import stackjava.com.sbsecurityhibernate.dao.UserDAO;
 import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
+import stackjava.com.sbsecurityhibernate.entities.User;
 
 @Controller
 public class BaseController {
@@ -115,6 +117,26 @@ public class BaseController {
 	public String api() {
 		return "api";
 	}
+	
+	@ResponseBody
+	@RequestMapping("/signup")
+	public String signup(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
+		String name =request.getParameter("name");
+		String email =request.getParameter("email");
+		String pass =request.getParameter("pass");
+		
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		User acc=new User();
+		acc.setPassword(bCryptPasswordEncoder.encode(pass));
+		acc.setUsername(name);
+		acc.setEnabled(1);
+		userDAO.saveOrUpdateUser(acc);
+		
+		return "00";
+	}
+	
+	
 
 	@RequestMapping("/403")
 	public String accessDenied() {

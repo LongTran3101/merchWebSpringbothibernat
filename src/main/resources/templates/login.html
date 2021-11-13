@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title></title>
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 	<style type="text/css">
 		
 
@@ -271,10 +272,10 @@ footer a {
 				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 			</div>
 			<span>or use your email for registration</span>
-			<input type="text" placeholder="Name" />
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<button>Sign Up</button>
+			<input type="text" placeholder="Name" class="nameSigup" />
+			<input type="email" placeholder="Email" class="emailSigup" />
+			<input type="password" placeholder="Password"  class="passSigup"  />
+			<button class="btnSignUp">Sign Up</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
@@ -317,6 +318,48 @@ footer a {
 		<a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
 	</p>
 </footer>
+
+
+<script type="text/javascript" th:inline="javascript">
+	var base_url = [[@{/}]];
+		
+		 $('.btnSignUp').click(function() {
+			 
+			 var name=$('.nameSigup').val();
+			 var email=$('.emailSigup').val();
+			 var pass=$('.passSigup').val();
+			 $.ajax({
+	              url: base_url + 'signup',
+	              data:{
+	            	  name:name,
+	            	  email:email,
+	            	  pass:pass
+	            	  
+	            	  },
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+            		  {
+            		  setTimeout(function(){ alert("Thành công!"); }, 1500);
+            		  
+            		  
+            		  }else{
+            			  alert("Thất bại vui lòng kiểm tra !");
+            		  }
+            	 
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 
+		 
+	</script>
+
+
 <script type="text/javascript">
 	
 const signUpButton = document.getElementById('signUp');

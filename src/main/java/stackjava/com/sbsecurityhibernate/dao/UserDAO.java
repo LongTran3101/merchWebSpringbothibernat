@@ -43,6 +43,25 @@ public class UserDAO {
 		
 
 	}
+	public List<ImageMerch> getImageMerchFromSaleMerch(SaleMerch mech)
+	{
+		
+		try {
+			List<ImageMerch> lst=new ArrayList<>();
+			Session session = this.sessionFactory.getCurrentSession();
+			lst = session.createNativeQuery("select * from image_merch where acc=:acc and day =:day", ImageMerch.class)
+					.setParameter("acc", mech.getName())
+					.setParameter("day", mech.getDay())
+					.getResultList();
+					
+
+				return lst;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
 	
 	public List<User> getAllUserActive( ) {
 		try {
@@ -160,6 +179,9 @@ public class UserDAO {
 	
 	
 	
+	
+	
+	
 	public AccountMerch getAccountMerchByID(int id)
 	{
 		Session session = this.sessionFactory.getCurrentSession();
@@ -173,6 +195,35 @@ public class UserDAO {
 		}
 		return out;
 	}
+	
+	public SaleMerch getSaleMerchByID(int id)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		SaleMerch out = new SaleMerch();
+		try {
+
+			out = (SaleMerch) session.get(SaleMerch.class, id);
+			session.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
+	public User getUserByID(int id)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		User out = new User();
+		try {
+
+			out = (User) session.get(User.class, id);
+			session.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
 	
 	
 	
@@ -242,8 +293,10 @@ public class UserDAO {
 		try {
 			List<User> users = new ArrayList<User>();
 			Session session = this.sessionFactory.getCurrentSession();
-			users = session.createNativeQuery("select * from users where username=:user ", User.class)
-					.setParameter("user", username).getResultList();
+			users = session.createNativeQuery("select * from users where username=:user and enabled=:enabled ", User.class)
+					.setParameter("user", username)
+					.setParameter("enabled", 1)
+					.getResultList();
 					
 
 			if (users.size() > 0) {

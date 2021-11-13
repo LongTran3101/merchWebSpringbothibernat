@@ -1,0 +1,32 @@
+<div 
+	th:fragment="channelEdit">
+	
+		<div class="card-body table-responsive p-0">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>STT</th>
+						<th>TITLE</th>
+						<th>LINK</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:if="${lst != null}">
+						<tr data-toggle="tooltip" th:each="item, k : ${lst}">
+
+							<td th:text="${k.index + 1}" class="text-right"
+								style="width: 5%;">1</td>
+							
+							<td th:text="${item.name}" class="text-left"></td>
+							<td  class="text-left">
+							<a th:href="${item.url}" th:text="${item.url}" target="_blank"></a>
+							</td>
+
+
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+	</div>
