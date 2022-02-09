@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import stackjava.com.sbsecurityhibernate.dao.UserDAO;
+import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
 import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
 import stackjava.com.sbsecurityhibernate.entities.User;
@@ -90,6 +91,29 @@ public class BaseController {
     		{
     			 return "00";
     		}
+			
+    		//model.addAttribute("lst", lst);
+           
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return"01";
+    	    
+    	
+    }
+	
+	
+	@ResponseBody
+    @RequestMapping(value = "/getallaccfromip", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	private String getAllAcc( HttpServletRequest request, HttpServletResponse resp) {
+    
+    	try {
+    		String ip=request.getRemoteAddr();
+    		ObjectMapper objectMapper = new ObjectMapper();
+    		
+    			List<AccountMerch> lstacc =userDAO.getAccountMerchByip(ip);
+    			String req = objectMapper.writeValueAsString(lstacc);
+    			return req;
 			
     		//model.addAttribute("lst", lst);
            

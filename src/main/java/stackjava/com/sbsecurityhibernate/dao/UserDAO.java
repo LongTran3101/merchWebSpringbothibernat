@@ -178,7 +178,17 @@ public class UserDAO {
 	
 	
 	
-	
+	public List<AccountMerch> getAccountMerchByip(String ip)
+	{
+		List<AccountMerch> users = new ArrayList<AccountMerch>();
+		Session session = this.sessionFactory.getCurrentSession();
+		users = session.createNativeQuery("select * from account_merch where  ip=:ip", AccountMerch.class)
+				.setParameter("ip", ip)
+				.getResultList();
+				
+
+			return users;
+	}
 	
 	
 	
