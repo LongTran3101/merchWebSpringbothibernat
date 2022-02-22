@@ -48,7 +48,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 		User user=userDAO.loadUserByUsername(userName);
 		
 		request.getSession().setAttribute("user", user);
-		String targetUrl = "/user/allAcc";
+		String targetUrl = "/user/checkSale";
 		handle(request, response, authentication,1l, targetUrl);
 	
 		
