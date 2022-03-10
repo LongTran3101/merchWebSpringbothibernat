@@ -99,7 +99,16 @@ public class SaleMerch implements Serializable {
     private int previousmonthSale ;
     private double alltimeMoney;
     private int alltimeSale;
-    @Transient
+    private String status ;
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Transient
     private List<ImageMerch> LstimageMerch;
 
 
