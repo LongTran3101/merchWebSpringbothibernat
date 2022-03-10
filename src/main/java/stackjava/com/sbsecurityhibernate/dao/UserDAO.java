@@ -49,7 +49,7 @@ public class UserDAO {
 		try {
 			List<ImageMerch> lst=new ArrayList<>();
 			Session session = this.sessionFactory.getCurrentSession();
-			lst = session.createNativeQuery("select * from image_merch where acc=:acc and day =:day", ImageMerch.class)
+			lst = session.createNativeQuery("select DISTINCT * from image_merch where acc=:acc and day =:day", ImageMerch.class)
 					.setParameter("acc", mech.getName())
 					.setParameter("day", mech.getDay())
 					.getResultList();

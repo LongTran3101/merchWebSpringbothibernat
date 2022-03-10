@@ -158,9 +158,9 @@
 
 							<td th:text="${k.index + 1}" class="text-right"
 								style="width: 5%;">1</td>
-							<td th:text="${item.status=='0' ? 'Error':'Success'}" th:class="${item.status=='0' ? 'error' : 'success' } " class="text-left nameAcc">
-							<td th:text="${item.name}" class="text-left nameAcc">
 							
+							<td th:text="${item.name}" class="text-left nameAcc">
+							<td th:text="${item.status=='0' ? 'Error':'Success'}" th:class="${item.status=='0' ? 'error' : 'success' } " class="text-left nameAcc">
 							</td>
 							<td th:text="${item.tier}" class="text-left"></td>
 							<td th:text="${item.coutDesgin +'/'+item.tier}" class="text-left"></td>
