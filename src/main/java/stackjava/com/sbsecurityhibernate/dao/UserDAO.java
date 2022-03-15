@@ -60,7 +60,7 @@ public class UserDAO {
 				for (Object[] objects : rs) {
 					ImageMerch a=new ImageMerch();
 					a.setName(String.valueOf(objects[0]));
-					a.setUrl(String.valueOf(objects[0]));
+					a.setUrl(String.valueOf(objects[1]));
 					lst.add(a);
 				}
 			}
