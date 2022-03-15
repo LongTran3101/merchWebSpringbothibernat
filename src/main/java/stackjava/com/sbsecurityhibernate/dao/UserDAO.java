@@ -49,10 +49,21 @@ public class UserDAO {
 		try {
 			List<ImageMerch> lst=new ArrayList<>();
 			Session session = this.sessionFactory.getCurrentSession();
-			lst = session.createNativeQuery("select DISTINCT * from image_merch where acc=:acc and day =:day", ImageMerch.class)
+			List<Object[]> rs=new ArrayList<Object[]>();
+			
+			rs = session.createNativeQuery("select DISTINCT name,url from image_merch where acc=:acc and day =:day")
 					.setParameter("acc", mech.getName())
 					.setParameter("day", mech.getDay())
 					.getResultList();
+			if(!rs.isEmpty())
+			{
+				for (Object[] objects : rs) {
+					ImageMerch a=new ImageMerch();
+					a.setName(String.valueOf(objects[0]));
+					a.setUrl(String.valueOf(objects[0]));
+					lst.add(a);
+				}
+			}
 					
 
 				return lst;
