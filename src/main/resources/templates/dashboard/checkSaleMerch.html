@@ -82,17 +82,13 @@
 	<div class="row" style="padding-left: 15px;">
 		<form th:action="@{/user/checkSale}" style="width: 100%;">
 			<div class="form-row">
+			<div class="form-group col-md-2"></div>
 				<div class="form-group col-md-4">
-					<label class="col-md-2" for="inputEmail4">Từ ngày</label> <input
+					<label class="col-md-3" for="inputEmail4">DATE SEARCH</label> <input
 						type="date" id="tu" th:value="${daySeach!=null ? daySeach:''}"
 						name="daySearch">
 				</div>
-				<div class="form-group col-md-4">
-					<label for="inputPassword4" class="col-md-2">Đến ngày</label> <input
-						type="date" id="birthday"
-						th:value="${daySearchTo!=null ? daySearchTo:''}"
-						name="daySearchTo">
-				</div>
+				
 			</div>
 
 			<div class="col-md-2 " style="margin: auto;">
@@ -111,20 +107,63 @@
 
 	</div>
 	<div class="form-control">
-		<div>
-			<h3>Tổng Sold</h3>
-		</div>
+		
 		<div class="form-row" style="padding: 10px;">
+			<table class="table table-hover" style="text-align: center;width: 50%;margin: auto;">
+				<thead>
+					<tr>
+						
+						<th>Sale</th>
+						<th>Money</th>
+						<th>Sale yesterday</th>
+						<th>Money Yesterday</th>
+						<th>Sale Last 7 Days</th>
+						<th>Money Last 7 Days</th>
+						<th>Sale This Month</th>
+						<th>Money This Month</th>
+						<th>Sale Previous Month</th>
+						<th>Money Previous Month</th>
+						<th>Sale All Time</th>
+						<th>Money All Time</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+						<tr data-toggle="tooltip" >
+							
+							
+							<td id="soldToday"></td>
+							<td id="soldMoney"></td>
+							<td id="soldyesterday"></td>
+							<td id="soldyesterdaymoney"></td>
+							<td id="sold7day"></td>
+							<td id="soldtmoney"></td>
+							<td id="soldthismonth"></td>
+							<td id="soldthismonthmoney"></td>
+							<td id="soldpreviousmonth"></td>
+							<td id="soldpreviousmonthmoney"></td>
+							<td id="soldalltime"></td>
+							<td id="soldalltimemoney"></td>
+							
+							
+							
+							
+							
 
 
-			<div class="row col-md-12">
+						</tr>
+					
+				</tbody>
+			</table>
+
+			<!-- <div class="row col-md-12">
 				<label class="col-md-2">Sold Today</label>
 				<div class="col-md-1 soldToday"></div>
 			</div>
 			<div class="row col-md-12">
 				<label class="col-md-2">Money Today</label>
 				<div class="col-md-1 soldMoney"></div>
-			</div>
+			</div> -->
 
 		</div>
 		<div class="card-body table-responsive p-0">
@@ -169,18 +208,19 @@
 								<a href="javascript:void()" th:text="${item.sale}" class="showDS" > </a>
 							</td>
 							<td th:text="${item.money}" class="text-left moneyToday"></td>
-							<td th:text="${item.yesterday}" class="text-left"></td>
-							<td th:text="${item.moneyyesterday}" class="text-left"></td>
+						
+							<td th:text="${item.yesterday}" class="text-left soldyesterday"></td>
+							<td th:text="${item.moneyyesterday}" class="text-left soldyesterdaymoney"></td>
 
 
-							<td th:text="${item.last7daySale}" class="text-left"></td>
-							<td th:text="${item.last7dayMoney}" class="text-left"></td>
-							<td th:text="${item.thismonthSale}" class="text-left"></td>
-							<td th:text="${item.thismonthMoney}" class="text-left"></td>
-							<td th:text="${item.previousmonthSale}" class="text-left"></td>
-							<td th:text="${item.previousmonthMoney}" class="text-left"></td>
-							<td th:text="${item.alltimeSale}" class="text-left"></td>
-							<td th:text="${item.alltimeMoney}" class="text-left"></td>
+							<td th:text="${item.last7daySale}" class="text-left sold7day"></td>
+							<td th:text="${item.last7dayMoney}" class="text-left soldtmoney"></td>
+							<td th:text="${item.thismonthSale}" class="text-left soldthismonth"></td>
+							<td th:text="${item.thismonthMoney}" class="text-left soldthismonthmoney"></td>
+							<td th:text="${item.previousmonthSale}" class="text-left soldpreviousmonth"></td>
+							<td th:text="${item.previousmonthMoney}" class="text-left soldpreviousmonthmoney"></td>
+							<td th:text="${item.alltimeSale}" class="text-left soldalltime"></td>
+							<td th:text="${item.alltimeMoney}" class="text-left soldalltimemoney"></td>
 
 
 							<td th:text="${item.ip}" class="text-left"></td>
@@ -234,6 +274,9 @@
 		crossorigin="anonymous"></script>
 	<script type="text/javascript" th:inline="javascript">
 	var base_url = [[@{/}]];
+		function roundToTwo(num) {    
+		    return +(Math.round(num + "e+2")  + "e-2");
+		}
 		$(document).ready(function() {
 			var sum = 0;
 			var money = 0;
@@ -247,9 +290,93 @@
 				money = money + parseFloat($(this).text());
 
 			});
-			$('.soldToday').text(sum);
-			$('.soldMoney').text(money);
+			$('#soldToday').text(roundToTwo(sum));
+			$('#soldMoney').text(roundToTwo(money));
 			console.log(sum);
+			
+			
+			
+			var sum = 0;
+			var money = 0;
+			$('.soldyesterday').each(function() {
+				console.log($(this).text());
+				sum = sum + parseInt($(this).text());
+
+			});
+			$('.soldyesterdaymoney').each(function() {
+				console.log($(this).text());
+				money = money + parseFloat($(this).text());
+
+			});
+			$('#soldyesterday').text(sum);
+			$('#soldyesterdaymoney').text(roundToTwo(money));
+			console.log(sum);
+			
+			
+			var sum = 0;
+			var money = 0;
+			$('.sold7day').each(function() {
+				console.log($(this).text());
+				sum = sum + parseInt($(this).text());
+
+			});
+			$('.soldtmoney').each(function() {
+				console.log($(this).text());
+				money = money + parseFloat($(this).text());
+
+			});
+			$('#sold7day').text(sum);
+			$('#soldtmoney').text(roundToTwo(money));
+			console.log(sum);
+			
+			var sum = 0;
+			var money = 0;
+			$('.soldthismonth').each(function() {
+				console.log($(this).text());
+				sum = sum + parseInt($(this).text());
+
+			});
+			$('.soldthismonthmoney').each(function() {
+				console.log($(this).text());
+				money = money + parseFloat($(this).text());
+
+			});
+			$('#soldthismonth').text(sum);
+			$('#soldthismonthmoney').text(roundToTwo(money));
+			console.log(sum);
+			var sum = 0;
+			var money = 0;
+			$('.soldpreviousmonth').each(function() {
+				console.log($(this).text());
+				sum = sum + parseInt($(this).text());
+
+			});
+			$('.soldpreviousmonthmoney').each(function() {
+				console.log($(this).text());
+				money = money + parseFloat($(this).text());
+
+			});
+			$('#soldpreviousmonth').text(sum);
+			$('#soldpreviousmonthmoney').text(roundToTwo(money));
+			console.log(sum);
+			var sum = 0;
+			var money = 0;
+			$('.soldalltime').each(function() {
+				console.log($(this).text());
+				sum = sum + parseInt($(this).text());
+
+			});
+			$('.soldalltimemoney').each(function() {
+				console.log($(this).text());
+				money = money + parseFloat($(this).text());
+
+			});
+			$('#soldalltime').text(sum);
+			$('#soldalltimemoney').text(roundToTwo(money));
+			console.log(sum);
+			
+			
+			
 		});
 		
 		
