@@ -16,6 +16,7 @@ import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
 import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
 import stackjava.com.sbsecurityhibernate.entities.User;
+import stackjava.com.sbsecurityhibernate.entities.uploadFile;
 
 @Repository(value = "userDAO")
 @Transactional(rollbackFor = Exception.class)
@@ -29,7 +30,7 @@ public class UserDAO {
 		try {
 			List<AccountMerch> users = new ArrayList<AccountMerch>();
 			Session session = this.sessionFactory.getCurrentSession();
-			users = session.createNativeQuery("select * from account_merch where username=:user", AccountMerch.class)
+			users = session.createNativeQuery("select * from account_merch where username=:user order by ip ASC", AccountMerch.class)
 					.setParameter("user", username)
 					.getResultList();
 					
@@ -117,6 +118,50 @@ public class UserDAO {
 
 	}
 	
+	public List<uploadFile> getAllUploadFile(String dayFrom,String dayto,String username ) {
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			List<uploadFile> users = new ArrayList<uploadFile>();
+			Session session = this.sessionFactory.getCurrentSession();
+			users = session.createNativeQuery("select * from upload_file where  username=:username and :dayFrom <= day and day <= :dayto order by   ip ASC ", uploadFile.class)
+					.setParameter("dayFrom", df.parse(dayFrom))
+					.setParameter("dayto", df.parse(dayto))
+					.setParameter("username", username)
+					.getResultList();
+					
+
+				return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+
+	}
+	
+	public List<uploadFile> getAllUploadFileFromlistID(List<Integer> ids ) {
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			List<uploadFile> users = new ArrayList<uploadFile>();
+			Session session = this.sessionFactory.getCurrentSession();
+			session.createNativeQuery("update upload_file set status='1'  where  id in :ids ").setParameter("ids", ids).executeUpdate();
+			users = session.createNativeQuery("select * from upload_file where  id in :ids order by   ip ASC,nameAccount ASC ", uploadFile.class)
+					.setParameter("ids", ids)
+					
+					.getResultList();
+					
+
+				return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+
+	}
+	
 	
 	
 	
@@ -134,6 +179,28 @@ public class UserDAO {
 				for (ImageMerch imageMerch : image) {
 					imageMerch.setDay(new Date());
 					 session.merge(imageMerch);
+						session.flush();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	public Boolean saveOrUpdateUploadFile(List<uploadFile> image)
+	{Session session = this.sessionFactory.getCurrentSession();
+		
+		
+	
+		try {
+
+			if(image!=null && !image.isEmpty())
+			{
+				for (uploadFile uploadFile : image) {
+					uploadFile.setDay(new Date());
+					 session.merge(uploadFile);
 						session.flush();
 				}
 			}
@@ -165,6 +232,19 @@ public class UserDAO {
 		try {
 
 			out = (SaleMerch) session.merge(acc);
+			session.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	public uploadFile saveOrUpdateuploadFile(uploadFile acc)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		uploadFile out = new uploadFile();
+		try {
+
+			out = (uploadFile) session.merge(acc);
 			session.flush();
 		} catch (Exception e) {
 			e.printStackTrace();

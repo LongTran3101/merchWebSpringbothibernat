@@ -45,5 +45,29 @@ public class CallAPi {
 		return EntityUtils.toString(entity, "UTF-8");
 
 	}
+	
+	public String callAPIPostNotReport(String completeUrl, String body)  {
+		try {
+			CloseableHttpClient   client = HttpClientBuilder.create().build();
+			RequestConfig config = RequestConfig.custom().setConnectTimeout(4000)
+					.setConnectionRequestTimeout(4000).setSocketTimeout(4000).build();
+			HttpPost httppost = new HttpPost(completeUrl);
+			
+				httppost.setHeader(HTTP.CONTENT_TYPE, "application/json;charset=UTF-8");
+				httppost.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + FINALTOKEN);
+				httppost.setConfig(config);
+				StringEntity stringEntity = new StringEntity(body, "UTF-8");
+				httppost.getRequestLine();
+				httppost.setEntity(stringEntity);
+				client.execute(httppost);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return"01";
+		}
+		
+		
+		return "00";
+
+	}
 
 }

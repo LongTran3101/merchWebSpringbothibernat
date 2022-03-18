@@ -1,29 +1,39 @@
 package stackjava.com.sbsecurityhibernate.controller;
 
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import stackjava.com.sbsecurityhibernate.dao.UserDAO;
@@ -31,11 +41,15 @@ import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
 import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
 import stackjava.com.sbsecurityhibernate.entities.User;
+import stackjava.com.sbsecurityhibernate.entities.uploadFile;
 
 @Controller
 public class BaseController {
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private ServletContext servletContext;
+
 	@RequestMapping(value = { "/", "/login" })
 	public String login(@RequestParam(required = false) String message, final Model model) {
 		if (message != null && !message.isEmpty()) {
@@ -104,6 +118,60 @@ public class BaseController {
 	
 	
 	@ResponseBody
+    @RequestMapping(value = "/saveImageUpLoad", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	private String saveImageUpload( @RequestBody String req,HttpServletRequest request, HttpServletResponse resp) {
+    
+    	try {
+    		ObjectMapper objectMapper = new ObjectMapper();
+			/*
+			 * List<uploadFile> mechlst = objectMapper.readValue(req, new
+			 * TypeReference<List<uploadFile>>() { });
+			 */
+    		uploadFile mech=objectMapper.readValue(req, uploadFile.class);
+    		userDAO.saveOrUpdateuploadFile(mech);
+			
+    		//model.addAttribute("lst", lst);
+           
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return"01";
+    	    
+    	
+    }
+	
+	
+	@GetMapping("/download2")
+	public ResponseEntity<ByteArrayResource> downloadFile2( @RequestParam String username,@RequestParam String imagename) {
+		try {
+			MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, "solo levelling.jpg");
+			// System.out.println("fileName: " + fileName);
+			// System.out.println("mediaType: " + mediaType);
+			 String home = System.getProperty("user.home");
+	          //File file = new File(home+"/Downloads/" + fileName + ".txt"); 
+	          //FileOutputStream fos = new FileOutputStream(home+"/Downloads/" +fileName);
+			Path path = Paths.get(
+					home+"/Downloads/"+username+"/"+imagename);
+			byte[] data = Files.readAllBytes(path);
+			ByteArrayResource resource = new ByteArrayResource(data);
+
+			return ResponseEntity.ok()
+					// Content-Disposition
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + path.getFileName().toString())
+					// Content-Type
+					.contentType(mediaType) //
+					// Content-Lengh
+					.contentLength(data.length) //
+					.body(resource);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+
+	}
+	
+	
+	@ResponseBody
     @RequestMapping(value = "/getallaccfromip", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	private String getAllAcc( HttpServletRequest request, HttpServletResponse resp) {
     
@@ -124,6 +192,31 @@ public class BaseController {
     	    
     	
     }
+	
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value = "/upload", consumes =
+	 * MediaType.APPLICATION_JSON_VALUE, produces =
+	 * MediaType.APPLICATION_JSON_VALUE) private String Upload( @RequestBody String
+	 * req,HttpServletRequest request, HttpServletResponse resp) {
+	 * 
+	 * try {
+	 * 
+	 * 
+	 * ObjectMapper objectMapper = new ObjectMapper(); uploadFile
+	 * mech=objectMapper.readValue(req, uploadFile.class);
+	 * System.out.println(mech.getName());
+	 * 
+	 * return "ok";
+	 * 
+	 * //model.addAttribute("lst", lst);
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } return"01";
+	 * 
+	 * 
+	 * }
+	 */
 	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

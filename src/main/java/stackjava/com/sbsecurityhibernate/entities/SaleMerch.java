@@ -44,6 +44,8 @@ public class SaleMerch implements Serializable {
     @Basic(optional = false)
     @Column(name = "ip")
     private String ip;
+    private String used;
+    private String limitslot;
     @Basic(optional = false)
     @Column(name = "day")
     @Temporal(TemporalType.DATE)
@@ -318,5 +320,22 @@ public class SaleMerch implements Serializable {
     public String toString() {
         return "crawlinsta.AccountMerch[ id=" + id + " ]";
     }
-    
+
+	public String getUsed() {
+		return used;
+	}
+
+	public void setUsed(String used) {
+		this.used = used;
+	}
+
+	public String getLimitslot() {
+		return limitslot;
+	}
+
+	public void setLimitslot(String limitslot) {
+		this.limitslot = limitslot;
+	}
+
+	
 }
