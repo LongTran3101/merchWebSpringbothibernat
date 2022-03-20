@@ -93,6 +93,16 @@
 						type="date" id="tu" th:value="${daySeach!=null ? daySeach:''}"
 						name="daySearch">
 				</div>
+			<label class="col-md-1" for="inputEmail4">STATUS</label> 
+				<div class="form-group col-md-4">
+					<select name="status" style="width: 100%"> 
+					<option value=""> ALL</option>
+					<option value="0"> New</option>
+					<option value="1"> Uploading</option>
+					<option value="2"> Success</option>
+					<option value="5"> Error</option>
+					</select>
+				</div>
 
 			</div>
 			<div class="row">
@@ -323,6 +333,18 @@
 		});
 		
 		
+		
+		 $('.checkAll').click(function() {
+			 if ($('.checkAll').is(':checked')) {
+				 
+				 $("input[name='checkItem']").attr('checked',true);
+			 }else{
+				 $("input[name='checkItem']").attr('checked',false);
+			 }
+			 
+			
+			 
+		 });
 		
 		 $('.showDS').click(function() {
 			 var id= $(this).parents('tr').find('.idSaleMerch').val();

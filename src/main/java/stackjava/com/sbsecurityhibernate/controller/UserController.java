@@ -179,14 +179,16 @@ public class UserController {
 	@GetMapping("/imageupload")
 	public String imageupload(HttpSession session, Model model, HttpServletRequest request) {
 		String daySeach = request.getParameter("daySearch");
+		String status = request.getParameter("status");
 		// String daySearchTo=request.getParameter("daySearchTo");
 		User user = (User) session.getAttribute("user");
 
 		model.addAttribute("daySeach", daySeach);
+		model.addAttribute("status", status);
 		// model.addAttribute("daySearchTo", daySearchTo);
 		if (daySeach != null && daySeach != "") {
 
-			List<uploadFile> lst = userDAO.getAllUploadFile(daySeach, daySeach, user.getUsername());
+			List<uploadFile> lst = userDAO.getAllUploadFileSearch(daySeach, daySeach, user.getUsername(),status);
 			model.addAttribute("lst", lst);
 			return "dashboard/imageupload";
 		}

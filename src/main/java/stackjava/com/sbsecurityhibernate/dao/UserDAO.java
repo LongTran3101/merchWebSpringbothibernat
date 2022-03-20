@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,6 +132,50 @@ public class UserDAO {
 					.getResultList();
 					
 
+				return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+
+	}
+	public List<uploadFile> getAllUploadFileSearch(String dayFrom,String dayto,String username,String status ) {
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			List<uploadFile> users = new ArrayList<uploadFile>();
+			String query="select * from upload_file where  username=:username and :dayFrom <= day and day <= :dayto ";
+			if(status!=null && !status.isEmpty())
+			{
+				if(status.equalsIgnoreCase("5"))
+				{
+					query = query +" and status in ('5','6')";
+				}else {
+					query = query +" and status=:status";
+				}
+				
+			}
+			
+			query = query +" order by   ip ASC";
+			Session session = this.sessionFactory.getCurrentSession();
+			Query query2 = session.createNativeQuery(query, uploadFile.class)
+					.setParameter("dayFrom", df.parse(dayFrom))
+					.setParameter("dayto", df.parse(dayto))
+					.setParameter("username", username);
+					
+					
+			if(status!=null && !status.isEmpty())
+			{
+				if(status.equalsIgnoreCase("5"))
+				{
+					query = query +" status in ('5','6')";
+				}else {
+					query2.setParameter("status", status);
+				}
+				
+			}
+			users=query2.getResultList();
 				return users;
 		} catch (Exception e) {
 			e.printStackTrace();
