@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -120,6 +124,45 @@ public class UserController {
 		return "01";
 
 	}
+	@RequestMapping("/updateImage")
+	@ResponseBody
+	public String updateImage(HttpSession session, Model model, HttpServletRequest request) {
+		try {
+			
+			String id = request.getParameter("id");
+			String brand = request.getParameter("brand");
+			String bullet1 = request.getParameter("bullet1");
+			String bullet2 = request.getParameter("bullet2");
+			String title = request.getParameter("title");
+			String idAccount = request.getParameter("idAccount");
+			AccountMerch merch = userDAO.getAccountMerchByID(Integer.parseInt(idAccount));
+			uploadFile file=userDAO.getuploadFileID(Integer.parseInt(id));
+			file.setIdAccount(merch.getId());
+			file.setBrand(brand);
+			file.setTitle(title);
+			file.setDes1(bullet1);
+			file.setDes2(bullet2);
+			file.setIp(merch.getIp());
+			// dto.setNameAccount(merch.getName());
+			file.setProfile(merch.getPath());
+			file.setNameAccount(merch.getName());
+
+			//file.setDay(new Date());
+			//file.setStatus("0");
+			//file.setUsername(user.getUsername());
+			//file.setName(fileName);
+			file.setNameuser("1");
+			 userDAO.saveOrUpdateuploadFile(file);
+			
+				return "00";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "01";
+
+	}
+	
 
 	@RequestMapping("/checkSaleById")
 	@ResponseBody
@@ -168,6 +211,44 @@ public class UserController {
 
 	}
 
+	@GetMapping("/uploadMultifile")
+	public String uploadMultifile(HttpSession session, HttpServletRequest request, Model model) {
+		User user = (User) session.getAttribute("user");
+		List<AccountMerch> lst = userDAO.getAllUser(user.getUsername());
+		model.addAttribute("lst", lst);
+		return "dashboard/uploadMuti";
+	}
+	@PostMapping("/saveMultifile")
+	public String saveMutifile(@ModelAttribute uploadFile dto, @RequestParam("image") MultipartFile[] multipartFile,
+			HttpSession session, RedirectAttributes ra,
+			HttpServletRequest request) {
+		try {
+			User user = (User) session.getAttribute("user");
+			String home = System.getProperty("user.home");
+            // read and write the file to the local folder
+            Arrays.asList(multipartFile).stream().forEach(file -> {
+            	
+            	String uploadDir = home + "/Downloads/" + user.getUsername() + "/";
+				try {
+					saveFile(uploadDir, file.getOriginalFilename(), file);
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
+		
+               
+            });
+
+            MessageHelper.addSuccessAttribute(ra, "Thanh cong");
+		
+
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return "redirect:/user/upload";
+	}
+	
 	@GetMapping("/upload")
 	public String saveUser(HttpSession session, HttpServletRequest request, Model model) {
 		User user = (User) session.getAttribute("user");
@@ -182,7 +263,8 @@ public class UserController {
 		String status = request.getParameter("status");
 		// String daySearchTo=request.getParameter("daySearchTo");
 		User user = (User) session.getAttribute("user");
-
+		List<AccountMerch> lstacc = userDAO.getAllUser(user.getUsername());
+		model.addAttribute("lstacc", lstacc);
 		model.addAttribute("daySeach", daySeach);
 		model.addAttribute("status", status);
 		// model.addAttribute("daySearchTo", daySearchTo);
@@ -196,10 +278,42 @@ public class UserController {
 		model.addAttribute("lst", null);
 		return "dashboard/imageupload";
 	}
+	@ResponseBody
+	@PostMapping("/deleteimageupload")
+	public String deleteimageupload(@RequestParam String checkItem, HttpSession session, Model model,
+			HttpServletRequest request,RedirectAttributes ra) {
+		System.out.println(checkItem);
+		User user = (User) session.getAttribute("user");
+		try {
+			List<String> convertedCountriesList = Stream.of(checkItem.split(",", -1)).collect(Collectors.toList());
+			List<Integer> ids = new ArrayList<Integer>();
+			for (String string : convertedCountriesList) {
+				ids.add(Integer.parseInt(string));
+			}
+
+			 userDAO.deleteUploadFileFromlistID(ids);
+			
+			// lst.add(dtonew);
+			  //MessageHelper.addSuccessAttribute(ra, "Thanh cong");
+		} catch (Exception e) {
+			return "02";
+		}
+
+		String daySeach = request.getParameter("daySearch");
+		if (daySeach != null && daySeach != "") {
+
+			List<uploadFile> lst = userDAO.getAllUploadFile(daySeach, daySeach, user.getUsername());
+			model.addAttribute("lst", lst);
+			return "dashboard/imageupload";
+		}
+		model.addAttribute("daySeach", daySeach);
+		model.addAttribute("lst", null);
+		return "dashboard/imageupload";
+	}
 
 	@PostMapping("/imageupload")
 	public String imageuploadpost(@RequestParam String checkItem, HttpSession session, Model model,
-			HttpServletRequest request) {
+			HttpServletRequest request,RedirectAttributes ra) {
 		System.out.println(checkItem);
 		User user = (User) session.getAttribute("user");
 		try {
@@ -240,7 +354,7 @@ public class UserController {
 
 			}
 			// lst.add(dtonew);
-
+			  MessageHelper.addSuccessAttribute(ra, "Thanh cong");
 		} catch (Exception e) {
 			return "02";
 		}
@@ -259,71 +373,88 @@ public class UserController {
 
 	@PostMapping("/save")
 	public String saveUser(@ModelAttribute uploadFile dto, @RequestParam("image") MultipartFile multipartFile,
-			HttpSession session, RedirectAttributes ra) {
+			HttpSession session, RedirectAttributes ra,
+			HttpServletRequest request) {
 		try {
-			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			System.out.println();
-			User user = (User) session.getAttribute("user");
-			// User savedUser = repo.save(user);
-			String home = System.getProperty("user.home");
-			AccountMerch merch = userDAO.getAccountMerchByID(dto.getIdAccount());
-			dto.setIp(merch.getIp());
-			// dto.setNameAccount(merch.getName());
-			dto.setProfile(merch.getPath());
-			Calendar now = Calendar.getInstance();
-			now.set(Calendar.HOUR, 0);
-			now.set(Calendar.MINUTE, 0);
-			now.set(Calendar.SECOND, 0);
-			now.set(Calendar.HOUR_OF_DAY, 0);
-			dto.setNameAccount(merch.getName());
-
-			dto.setDay(new Date());
-			dto.setStatus("0");
-			dto.setUsername(user.getUsername());
-			dto.setName(fileName);
-			uploadFile dtonew = userDAO.saveOrUpdateuploadFile(dto);
-			// File file = new File(home+"/Downloads/" + fileName + ".txt");
-			// FileOutputStream fos = new FileOutputStream(home+"/Downloads/" +fileName);
-			String uploadDir = home + "/Downloads/" + user.getUsername() + "/";
-			try {
-				saveFile(uploadDir, fileName, multipartFile);
-			}catch (Exception e) {
-				// TODO: handle exception
-			}
 			
+			String typeUpload = request.getParameter("typeUpload");
+			if(typeUpload!=null && typeUpload.equalsIgnoreCase("1"))
+			{
+				String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+				System.out.println();
+				User user = (User) session.getAttribute("user");
+				// User savedUser = repo.save(user);
+				String home = System.getProperty("user.home");
+				AccountMerch merch = userDAO.getAccountMerchByID(dto.getIdAccount());
+				dto.setIp(merch.getIp());
+				// dto.setNameAccount(merch.getName());
+				dto.setProfile(merch.getPath());
+				
+				dto.setNameAccount(merch.getName());
 
-			// AccountMerch merch = userDAO.getAccountMerchByID(Integer.parseInt(id));
+				dto.setDay(new Date());
+				dto.setStatus("0");
+				dto.setUsername(user.getUsername());
+				dto.setName(fileName);
+				dto.setNameuser("1");
+				uploadFile dtonew = userDAO.saveOrUpdateuploadFile(dto);
+				// File file = new File(home+"/Downloads/" + fileName + ".txt");
+				// FileOutputStream fos = new FileOutputStream(home+"/Downloads/" +fileName);
+				String uploadDir = home + "/Downloads/" + user.getUsername() + "/";
+				try {
+					saveFile(uploadDir, fileName, multipartFile);
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
+		
+				MessageHelper.addSuccessAttribute(ra, "Thanh cong");
+			}else {
+				
+				//String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+				System.out.println();
+				User user = (User) session.getAttribute("user");
+				// User savedUser = repo.save(user);
+				//String home = System.getProperty("user.home");
+				AccountMerch merch = userDAO.getAccountMerchByID(dto.getIdAccount());
+				//List<uploadFile> tempStudentList = new ArrayList<uploadFile>();
+			    XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+			    XSSFSheet worksheet = workbook.getSheetAt(0);
+			    
+			    for(int i=1;i<worksheet.getPhysicalNumberOfRows() ;i++) {
+			    	try {
+			    		uploadFile upload = new uploadFile();
+				    	upload=dto;
+				    	
+				        XSSFRow row = worksheet.getRow(i);
+				        upload.setIp(merch.getIp());
+						// dto.setNameAccount(merch.getName());
+				        upload.setProfile(merch.getPath());
+						Calendar now = Calendar.getInstance();
+						now.set(Calendar.HOUR, 0);
+						now.set(Calendar.MINUTE, 0);
+						now.set(Calendar.SECOND, 0);
+						now.set(Calendar.HOUR_OF_DAY, 0);
+						upload.setNameAccount(merch.getName());
 
-//			ObjectMapper objectMapper = new ObjectMapper();
-//
-//			String req = objectMapper.writeValueAsString(dtonew);
-//			CallAPi callApi = new CallAPi();
-//			try {
-//				String rep = callApi.callAPIPost("http://" + dtonew.getIp() + ":8080/uploadMerch", req);
-//				// model.addAttribute("lst", lst);
-//				if (rep != null && rep.equalsIgnoreCase("00")) {
-//					return "00";
-//				}
-//			} catch (Exception e) {
-//				MessageHelper.addErrorAttribute(ra, "Đã có lỗi xảy ra!");
-//				e.printStackTrace();
-//				return "redirect:/user/upload";
-//				// return "02";
-//			}
-			MessageHelper.addSuccessAttribute(ra, "Thanh cong");
-//			try {
-//				List<uploadFile> lst = new ArrayList<uploadFile>();
-//				lst.add(dtonew);
-//				String reqlst = objectMapper.writeValueAsString(lst);
-//				String reul = callApi.callAPIPostNotReport("http://" + dtonew.getIp() + ":8080/uploadMerchMulti", reqlst);
-//				// model.addAttribute("lst", lst);
-//				if (reul != null && reul.equalsIgnoreCase("00")) {
-//					return "00";
-//				}
-//
-//			} catch (Exception e) {
-//				return "02";
-//			}
+						upload.setDay(new Date());
+						upload.setStatus("0");
+						upload.setUsername(user.getUsername());
+						upload.setName(row.getCell(0).getStringCellValue());
+						upload.setTitle(row.getCell(1).getStringCellValue());
+						upload.setBrand(row.getCell(2).getStringCellValue());
+						upload.setDes1(row.getCell(3).getStringCellValue());
+						upload.setDes2(row.getCell(4).getStringCellValue());
+						dto.setNameuser("2");
+						userDAO.saveOrUpdateuploadFile(dto);
+						MessageHelper.addSuccessAttribute(ra, "Thanh cong");
+					} catch (Exception e) {
+						continue;
+					}
+			    	
+			    }
+			}
+		
+
 
 		} catch (Exception e) {
 			// TODO: handle exception

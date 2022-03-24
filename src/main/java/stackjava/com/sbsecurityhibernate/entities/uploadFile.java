@@ -32,7 +32,7 @@ public class uploadFile {
 	private String ip;
 	private Date day;
 	private String nameAccount;
-	  
+	private String nameuser;
 	
 	public String getPrice() {
 		return price;
@@ -133,6 +133,12 @@ public class uploadFile {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public String getNameuser() {
+		return nameuser;
+	}
+	public void setNameuser(String nameuser) {
+		this.nameuser = nameuser;
 	}
 
 	    

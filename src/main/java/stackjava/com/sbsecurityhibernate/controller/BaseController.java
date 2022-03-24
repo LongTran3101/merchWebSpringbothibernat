@@ -142,16 +142,18 @@ public class BaseController {
 	
 	
 	@GetMapping("/download2")
-	public ResponseEntity<ByteArrayResource> downloadFile2( @RequestParam String username,@RequestParam String imagename) {
+	public ResponseEntity<ByteArrayResource> downloadFile2( @RequestParam int imageid) {
 		try {
 			MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, "solo levelling.jpg");
 			// System.out.println("fileName: " + fileName);
 			// System.out.println("mediaType: " + mediaType);
+			uploadFile up=userDAO.getFileUploadByid(imageid);
+			
 			 String home = System.getProperty("user.home");
 	          //File file = new File(home+"/Downloads/" + fileName + ".txt"); 
 	          //FileOutputStream fos = new FileOutputStream(home+"/Downloads/" +fileName);
 			Path path = Paths.get(
-					home+"/Downloads/"+username+"/"+imagename);
+					home+"/Downloads/"+up.getUsername()+"/"+up.getName());
 			byte[] data = Files.readAllBytes(path);
 			ByteArrayResource resource = new ByteArrayResource(data);
 

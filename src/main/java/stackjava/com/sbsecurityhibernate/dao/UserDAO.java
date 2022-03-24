@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,6 +209,22 @@ public class UserDAO {
 
 	}
 	
+	public boolean deleteUploadFileFromlistID(List<Integer> ids ) {
+		try {
+			
+			Session session = this.sessionFactory.getCurrentSession();
+			session.createNativeQuery("delete FROM upload_file  where  id in :ids ").setParameter("ids", ids).executeUpdate();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+		
+		
+
+	}
+	
+	
 	
 	
 	
@@ -270,6 +287,7 @@ public class UserDAO {
 		}
 		return out;
 	}
+	
 	
 	public SaleMerch saveOrUpdate(SaleMerch acc)
 	{
@@ -336,6 +354,34 @@ public class UserDAO {
 		try {
 
 			out = (AccountMerch) session.get(AccountMerch.class, id);
+			session.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
+	public uploadFile getuploadFileID(int id)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		uploadFile out = new uploadFile();
+		try {
+
+			out = (uploadFile) session.get(uploadFile.class, id);
+			session.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
+	public uploadFile getFileUploadByid(int id)
+	{
+		Session session = this.sessionFactory.getCurrentSession();
+		uploadFile out = new uploadFile();
+		try {
+
+			out = (uploadFile) session.get(uploadFile.class, id);
 			session.flush();
 		} catch (Exception e) {
 			e.printStackTrace();

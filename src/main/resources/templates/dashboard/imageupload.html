@@ -84,29 +84,34 @@
 
 
 	</div>
+
 	<div class="row" style="padding-left: 15px;">
 		<form th:action="@{/user/imageupload}" style="width: 100%;">
 			<div class="form-row">
 				<div class="form-group col-md-2"></div>
 				<div class="form-group col-md-4">
 					<label class="col-md-3" for="inputEmail4">DATE SEARCH</label> <input
-						type="date" id="tu" th:value="${daySeach!=null ? daySeach:''}"
-						name="daySearch">
+						required="required" type="date" id="tu"
+						th:value="${daySeach!=null ? daySeach:''}" name="daySearch">
 				</div>
-			<label class="col-md-1" for="inputEmail4">STATUS</label> 
+				<label class="col-md-1" for="inputEmail4">STATUS</label>
 				<div class="form-group col-md-4">
-					<select name="status" style="width: 100%"> 
-					<option value=""> ALL</option>
-					<option value="0"> New</option>
-					<option value="1"> Uploading</option>
-					<option value="2"> Success</option>
-					<option value="5"> Error</option>
+					<select name="status" style="width: 100%">
+						<option value="">ALL</option>
+						<option value="0" th:selected="${daySeach!=null && status=='0'}">
+							New</option>
+						<option value="1" th:selected="${daySeach!=null && status=='1'}">
+							Uploading</option>
+						<option value="2" th:selected="${daySeach!=null && status=='2'}">
+							Success</option>
+						<option value="5" th:selected="${daySeach!=null && status=='5'}">
+							Error</option>
 					</select>
 				</div>
 
 			</div>
 			<div class="row">
-				<div class="col-md-4 "></div>
+				<div class="col-md-3 "></div>
 				<div class="col-md-2 ">
 
 					<button type="submit" class="btn btn-primary col-md-12">Tìm
@@ -117,6 +122,11 @@
 
 					<button type="button" onclick="upload()"
 						class="btn btn-primary col-md-12">Upload</button>
+				</div>
+				<div class="col-md-2 ">
+
+					<button type="button" onclick="deleteImage()"
+						class="btn btn-primary col-md-12">Delete</button>
 				</div>
 			</div>
 
@@ -145,8 +155,8 @@
 							<th>Des1</th>
 							<th>Des2</th>
 							<th>price</th>
-							<th>ip</th>
 
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -172,8 +182,10 @@
 								<td th:text="${item.des1}" class="text-left nameAcc"></td>
 								<td th:text="${item.des2}" class="text-left nameAcc"></td>
 								<td th:text="${item.price}" class="text-left nameAcc"></td>
-								<td th:text="${item.ip}" class="text-left nameAcc"></td>
 
+								<td>
+									<button type="button" th:attr="data-id=${item.id},data-title=${item.title} ,data-brand=${item.brand} ,data-des1=${item.des1} ,data-des2=${item.des2},data-idAccount=${item.idAccount}" class="btn btn-primary  EditImage">Edit</button>
+								</td>
 
 
 							</tr>
@@ -186,22 +198,61 @@
 	</div>
 
 
-	<div class="modal fade" id="channelEdit" style="display: none;"
+	<div class="modal fade" id="modal-default" style="display: none;"
 		aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
+		<div class="modal-dialog">
+			<div class="modal-content" style="margin-left: -40px; width: 750px;">
 				<div class="modal-header">
-					<h4 class="modal-title">SALE</h4>
+					<h4 class="modal-title">Edit</h4>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<div class="modal-body channelEditBody"></div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" id="fromAdd">
+						<div class="row">
+							<input type="hidden" name="idImage" id="idImage">
+							
+							<label class="col-md-2" >ACC
+								MERCH </label>
+							<div class="col-md-10">
+								<select required="required" class=" form-control ccy"
+									tabindex="1" name="idAccount" data-class="">
+									<option th:each="item:${lstacc}" th:text="${item.name} "
+										th:value="${item.id}"></option>
+								</select>
+							</div>
+
+							<label class="col-md-2">Title</label>
+							<div class="col-md-10">
+								<textarea class="titleEdit" style="width: 100%;" rows="" name="title"
+								cols=""></textarea>
+							</div>
+							<label class="col-md-2">Brand</label>
+							<div class="col-md-10">
+								<textarea class="brandEdit" style="width: 100%;" name="brand" rows=""
+								cols=""></textarea>
+							</div>
+							<label class="col-md-2">Bullet 1</label>
+							<div class="col-md-10">
+								<textarea style="width: 100%; height: 150px;" class="bullet1Edit"
+								name="des1" rows="" cols=""></textarea>
+							</div>
+							<label class="col-md-2">Bullet 1</label>
+							<div class="col-md-10">
+								<textarea style="width: 100%; height: 150px;" class="bullet2Edit"
+								name="des2" rows="" cols=""></textarea>
+							</div>
+						</div>
+					</form>
+
+				</div>
 				<div class="modal-footer justify-content-between">
 					<button type="button" class="btn btn-default closetModal"
 						data-dismiss="modal">Close</button>
-
+					<button type="button" class="btn btn-primary saveAccount">Save
+						changes</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -230,6 +281,30 @@
 		function upload(){
 			$('#formTable').submit();
 		}
+		
+		 function deleteImage(){
+				
+		        	//$("#btn-submit-add").attr("disabled", true);
+		        	var frm = $('#formTable');    
+		        	console.log('asasas '+frm);
+		        	$.ajax({
+		        		type: frm.attr('method'),
+		        		 url: base_url+'user/deleteimageupload',
+		                data: frm.serialize(),
+		                success: function (data) {
+		                	  alert('Thanh cong');
+		                	//$('#channelAdd').modal('hide');
+		                	setTimeout(function(){
+		                		location.reload();
+		            		}, 1000);
+		                },
+		                error: function (data) {
+		                	 alert('Loi');
+		                }
+		            });
+		        
+			}
+		
 		$(document).ready(function() {
 			var sum = 0;
 			var money = 0;
@@ -345,7 +420,58 @@
 			
 			 
 		 });
-		
+		 $('.saveAccount').click(function() {
+			 var id = $('#idImage').val();
+			 var idAccount = $('.ccy').val();
+			 var title = $('.titleEdit').val();
+			 var brand = $('.brandEdit').val();
+			 var bullet1 = $('.bullet1Edit').val();
+			 var bullet2 = $('.bullet2Edit').val();
+			 
+			 $.ajax({
+	              url: base_url + 'user/updateImage',
+	              data:{
+	            	  id:id,
+	            	  brand:brand,
+	            	  bullet1:bullet1,
+	            	  bullet2:bullet2,
+	            	  title:title,
+	            	  idAccount:idAccount
+	              },
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+	            		  {
+	            		  alert("Thành công!");
+	            		  //location.reload();
+	            		  }else  if(rs=='02') {
+	            			  alert("Loi");
+	            		  }
+	            		  else   {
+	            			  alert("Loi");
+	            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 
+		 
+		 $('.EditImage').click(function() {
+			
+			 $('#idImage').val( $( this ).attr( "data-id" ));
+			 $('.titleEdit').text( $( this ).attr( "data-title" ));
+			 $('.brandEdit').text( $( this ).attr( "data-brand" ));
+			 $('.bullet1Edit').text( $( this ).attr( "data-des1" ));
+			 $('.bullet2Edit').text( $( this ).attr( "data-des2" ));
+			 $(".ccy").val($( this ).attr( "data-idAccount" )).trigger('change');
+			 $('#modal-default').modal('show');
+			 
+		 });
+		 
 		 $('.showDS').click(function() {
 			 var id= $(this).parents('tr').find('.idSaleMerch').val();
 			 console.log(id)
@@ -365,6 +491,14 @@
 	          });
 			 
 		 });
+		 $(function() {
+		        var message = [[${message}]];
+		        var message2 = message.message;
+		        console.log(message);
+		        if (message2 != null) {
+		          alert(message2)
+		        }
+		      });
 		 
 		 
 	</script>
