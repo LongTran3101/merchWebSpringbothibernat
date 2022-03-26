@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -74,6 +75,7 @@ public class BaseController {
 	private String test( @RequestBody String req,HttpServletRequest request, HttpServletResponse resp) {
     
     	try {
+    		DateFormat  formatter = new SimpleDateFormat("HH:mm");
     		ObjectMapper objectMapper = new ObjectMapper();
     		SaleMerch mech=objectMapper.readValue(req, SaleMerch.class);
     		 Calendar now = Calendar.getInstance();
@@ -82,6 +84,8 @@ public class BaseController {
     	        now.set(Calendar.SECOND, 0);
     	        now.set(Calendar.HOUR_OF_DAY, 0);
     		mech.setDay(now.getTime());
+    		mech.setIp(formatter.format(new Date()));
+    		 //System.out.println(formatter.format(new Date()));
     		List<ImageMerch> LstimageMerch=new  ArrayList<>();
     		LstimageMerch=mech.getLstimageMerch();
     		if(LstimageMerch!=null && !LstimageMerch.isEmpty())

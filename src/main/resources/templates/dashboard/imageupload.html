@@ -19,6 +19,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/css/tom-select.css" rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <style>
@@ -29,6 +30,7 @@
 .success {
 	background: #28a745;
 }
+
 </style>
 </head>
 
@@ -197,8 +199,8 @@
 
 	</div>
 
-
-	<div class="modal fade" id="modal-default" style="display: none;"
+ 
+	<div class="modal fade" id="modal-default" tabindex="-1" style="display: none;overflow:hidden;"
 		aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content" style="margin-left: -40px; width: 750px;">
@@ -216,8 +218,8 @@
 							
 							<label class="col-md-2" >ACC
 								MERCH </label>
-							<div class="col-md-10">
-								<select required="required" class=" form-control ccy"
+							<div class="col-md-10" id="#select">
+								<select required="required" class=" form-control ccy "
 									tabindex="1" name="idAccount" data-class="">
 									<option th:each="item:${lstacc}" th:text="${item.name} "
 										th:value="${item.id}"></option>
@@ -273,6 +275,10 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
+			<script
+		src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+		
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/js/tom-select.complete.min.js"></script>
 	<script type="text/javascript" th:inline="javascript">
 	var base_url = [[@{/}]];
 		function roundToTwo(num) {    
@@ -304,104 +310,15 @@
 		            });
 		        
 			}
-		
+		 
 		$(document).ready(function() {
-			var sum = 0;
-			var money = 0;
-			$('.saleToday').each(function() {
-				console.log($(this).text());
-				sum = sum + parseInt($(this).text());
-
+			new TomSelect(".ccy",{
+				create: true,
+				sortField: {
+					field: "text",
+					direction: "asc"
+				}
 			});
-			$('.moneyToday').each(function() {
-				console.log($(this).text());
-				money = money + parseFloat($(this).text());
-
-			});
-			$('#soldToday').text(roundToTwo(sum));
-			$('#soldMoney').text(roundToTwo(money));
-			console.log(sum);
-			
-			
-			
-			var sum = 0;
-			var money = 0;
-			$('.soldyesterday').each(function() {
-				console.log($(this).text());
-				sum = sum + parseInt($(this).text());
-
-			});
-			$('.soldyesterdaymoney').each(function() {
-				console.log($(this).text());
-				money = money + parseFloat($(this).text());
-
-			});
-			$('#soldyesterday').text(sum);
-			$('#soldyesterdaymoney').text(roundToTwo(money));
-			console.log(sum);
-			
-			
-			var sum = 0;
-			var money = 0;
-			$('.sold7day').each(function() {
-				console.log($(this).text());
-				sum = sum + parseInt($(this).text());
-
-			});
-			$('.soldtmoney').each(function() {
-				console.log($(this).text());
-				money = money + parseFloat($(this).text());
-
-			});
-			$('#sold7day').text(sum);
-			$('#soldtmoney').text(roundToTwo(money));
-			console.log(sum);
-			
-			var sum = 0;
-			var money = 0;
-			$('.soldthismonth').each(function() {
-				console.log($(this).text());
-				sum = sum + parseInt($(this).text());
-
-			});
-			$('.soldthismonthmoney').each(function() {
-				console.log($(this).text());
-				money = money + parseFloat($(this).text());
-
-			});
-			$('#soldthismonth').text(sum);
-			$('#soldthismonthmoney').text(roundToTwo(money));
-			console.log(sum);
-			var sum = 0;
-			var money = 0;
-			$('.soldpreviousmonth').each(function() {
-				console.log($(this).text());
-				sum = sum + parseInt($(this).text());
-
-			});
-			$('.soldpreviousmonthmoney').each(function() {
-				console.log($(this).text());
-				money = money + parseFloat($(this).text());
-
-			});
-			$('#soldpreviousmonth').text(sum);
-			$('#soldpreviousmonthmoney').text(roundToTwo(money));
-			console.log(sum);
-			var sum = 0;
-			var money = 0;
-			$('.soldalltime').each(function() {
-				console.log($(this).text());
-				sum = sum + parseInt($(this).text());
-
-			});
-			$('.soldalltimemoney').each(function() {
-				console.log($(this).text());
-				money = money + parseFloat($(this).text());
-
-			});
-			$('#soldalltime').text(sum);
-			$('#soldalltimemoney').text(roundToTwo(money));
-			console.log(sum);
 			
 			
 			
@@ -443,7 +360,8 @@
 	            	  if(rs=='00')
 	            		  {
 	            		  alert("Thành công!");
-	            		  //location.reload();
+	            		  //$('#modal-default').modal('hide');
+	            		  location.reload();
 	            		  }else  if(rs=='02') {
 	            			  alert("Loi");
 	            		  }
@@ -467,7 +385,7 @@
 			 $('.brandEdit').text( $( this ).attr( "data-brand" ));
 			 $('.bullet1Edit').text( $( this ).attr( "data-des1" ));
 			 $('.bullet2Edit').text( $( this ).attr( "data-des2" ));
-			 $(".ccy").val($( this ).attr( "data-idAccount" )).trigger('change');
+			 $(".ccy").val($( this ).attr( "data-idAccount" ));
 			 $('#modal-default').modal('show');
 			 
 		 });

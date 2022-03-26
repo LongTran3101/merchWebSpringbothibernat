@@ -179,10 +179,12 @@
 					<tr>
 						<th>STT</th>
 						<th>Name</th>
+						<th>time update</th>
 						<th>Status</th>
 						<th>upload</th>
 						<th>Tier</th>
 						<th>Design</th>
+						<th>Design RJ</th>
 						<th>Sale</th>
 						<th>Money</th>
 						<th>Sale yesterday</th>
@@ -195,8 +197,7 @@
 						<th>Money Previous Month</th>
 						<th>Sale All Time</th>
 						<th>Money All Time</th>
-						<th>ip</th>
-						<th>email</th>
+						
 					</tr>
 				</thead>
 				<tbody>
@@ -207,12 +208,14 @@
 								style="width: 5%;">1</td>
 
 							<td th:text="${item.name}" class="text-left nameAcc">
+							<td th:text="${item.ip}" class="text-left"></td>
 							<td th:text="${item.status=='0' ? 'Error':'Success'}"
 								th:class="${item.status=='0' ? 'error' : 'success' } "
 								class="text-left nameAcc"></td>
 								<td th:text="${item.used +'/'+ item.limitslot}" class="text-left"></td>
 							<td th:text="${item.tier}" class="text-left"></td>
 							<td th:text="${item.coutDesgin +'/'+item.tier}" th:class="${!#strings.equals(item.tier, #strings.toString(item.coutDesgin)) ? 'text-left success' : 'text-left' } " ></td>
+							<td th:text="${item.param1}" class="text-left"></td>
 							<td class="text-left saleToday"><input type="hidden"
 								class="idSaleMerch" th:value="${item.id}"> <a
 								href="javascript:void()" th:text="${item.sale}" class="showDS">
@@ -239,8 +242,8 @@
 								class="text-left soldalltimemoney"></td>
 
 
-							<td th:text="${item.ip}" class="text-left"></td>
-							<td th:text="${item.email}" class="text-left"></td>
+							
+							
 
 
 						</tr>
