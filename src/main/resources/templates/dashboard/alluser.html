@@ -75,6 +75,9 @@
 		<button type="button" class="btn btn-block btn-primary btn-sm " data-toggle="modal" data-target="#modal-default">
                   Thêm mới acc
                 </button>
+                <button type="button" class="btn btn-block btn-primary btn-sm clearData " >
+                  Xoa ao da upload
+                </button>
 		</div>
 		
 		
@@ -173,6 +176,31 @@
 			 var id = $(this).attr("data-id"); 
 			 $.ajax({
 	              url: base_url + 'admin/delete',
+	              data:{id:id},
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+	            		  {
+	            		  setTimeout(function(){ alert("Thành công!"); }, 1500);
+	            		  
+	            		  
+	            		  }else{
+	            			  alert("Thất bại vui lòng kiểm tra !");
+	            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 
+		 
+		 $('.clearData').click(function() {
+			 var id = $(this).attr("data-id"); 
+			 $.ajax({
+	              url: base_url + 'admin/clearData',
 	              data:{id:id},
 	              async: false,
 	              success: function(rs) {

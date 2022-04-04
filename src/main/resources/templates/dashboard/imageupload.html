@@ -7,9 +7,8 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
-
-<title>Navbar Template for Bootstrap</title>
+<link rel="shortcut icon" type="image/x-icon" href="https://lh3.googleusercontent.com/fife/AAWUweVZg3sMC6axFZRXBvxTkrmlJ2zcZW0SMBRIZUpjd83Nqxh_67uKKpC3wO0Fjti6TnCc6ykMq3eZP2UlWn7Q8JjDE_bDm4_iP91Va90REd3Tc3v6OPt7ocbVeWxL7UeQip4gI7J60jvfhAmCpFw3JMEUHXFcSDBQcYDISxa_A2CeJ5bjDQZX04VibP-P6Mv1jzjhbpxDvgd4nu13Xw3BvA5PUPfDBWhLl0Pae_hToik4PpwtU5bTgoP9X6foF28YPZ-gr1SwZaLTJbv-DUkwBY1zYQDm78LgcHgUb58OMeJAKFxsqReCVhxzyqGctBgctjYxbkmyA04QKSxn18Ou_bYixc7qfrMvmO3v3kQvwbY-RvDaN2N4KVX2fcvq20WO65HYvNu2oMlpFBD_4hYkbuD1ORSffeJ1showhKMMCq6om9QdZSViNe_rRBgYI_Y4FeHjLG4nX_MHk_Xqlt5TcTMwtjxaoe0C33MGiFD8klzjiehyidsAMF_SXLY8VXNjhhEmWXFgRL56-krhtRQxP62G_c8XRqsk3kg0HKNaN9lAlJwurDVksJz_Sd7DUtBjY9ZM83lALAJXUHnRhU38cCUU8zLFwO9bePt0rzM-zbPpT-Epc-iQ8KxlrttRnfnDraGgOzY8TTJt8B_uZjeuoIR7WXmVgQwBstLoH5Ke1JfhyJQLmJgFYRPIpFzwahMdm7O0xvmPE6EyrdqlssYSdWB2jCsgEURT8zSWDesLLMq7ow-EN8jw9PHk3YGolS4rX3VXc6pRXf8-N4GImjvbJiXeVpOIvVAS0M-DxKrAlzAxKxqcGOwu8wrBFHCLX_YdzMEd7h-js1lyA5WWhUf_zP0IRwP4pNFoDZFrBqHIImsPEtBcE6gPhaUPBvS-sNLqvhv7qkY6ClbC5npcpIG_5peyX-GzWvP_xtZJwUClvY2xJHJ0FoB-X9AQ_AwnluZdTtALFltl=w1920-h937" />
+<title>Merch Manager By Long Tran</title>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/4.0/examples/navbars/">
@@ -20,7 +19,7 @@
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 	<link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/css/tom-select.css" rel="stylesheet">
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
 <!-- Custom styles for this template -->
 <style>
 .error {
@@ -145,7 +144,7 @@
 		<form th:action="@{/user/imageupload}" method="post" id="formTable"
 			style="width: 100%;">
 			<div class="card-body table-responsive p-0">
-				<table class="table table-hover">
+				<table class="table table-hover" id="tableSale">
 					<thead>
 						<tr>
 							<th><input type="checkbox" class="checkAll"></th>
@@ -277,7 +276,7 @@
 		crossorigin="anonymous"></script>
 			<script
 		src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-		
+		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/js/tom-select.complete.min.js"></script>
 	<script type="text/javascript" th:inline="javascript">
 	var base_url = [[@{/}]];
@@ -389,7 +388,15 @@
 			 $('#modal-default').modal('show');
 			 
 		 });
-		 
+		 $(document).ready(function() {
+			    $('#tableSale').dataTable({
+			        'aLengthMenu':[25, 50, 75, 1000],
+			        'iDisplayLength': 1000,
+			        "scrollX": false,
+			        "scrollY": "800px",
+			        fixedHeader: true
+			    });
+			} );
 		 $('.showDS').click(function() {
 			 var id= $(this).parents('tr').find('.idSaleMerch').val();
 			 console.log(id)

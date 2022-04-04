@@ -124,6 +124,36 @@ public class UserController {
 		return "01";
 
 	}
+	
+	
+	
+	@RequestMapping("/updateAccountMerch")
+	@ResponseBody
+	public String updateAccountMerch(HttpSession session, Model model, HttpServletRequest request) {
+		try {
+			
+			String id = request.getParameter("id");
+			String name = request.getParameter("name");
+			String email = request.getParameter("email");
+			String ip = request.getParameter("ip");
+			String path = request.getParameter("path");
+			
+			AccountMerch merch = userDAO.getAccountMerchByID(Integer.parseInt(id));
+			merch.setName(name);
+			merch.setEmail(email);
+			merch.setIp(ip);
+			merch.setPath(path);
+			userDAO.saveOrUpdate(merch);
+			
+				return "00";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "01";
+
+	}
+	
 	@RequestMapping("/updateImage")
 	@ResponseBody
 	public String updateImage(HttpSession session, Model model, HttpServletRequest request) {

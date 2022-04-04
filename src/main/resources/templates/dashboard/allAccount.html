@@ -8,9 +8,8 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
-
-<title>Navbar Template for Bootstrap</title>
+<link rel="shortcut icon" type="image/x-icon" href="https://lh3.googleusercontent.com/fife/AAWUweVZg3sMC6axFZRXBvxTkrmlJ2zcZW0SMBRIZUpjd83Nqxh_67uKKpC3wO0Fjti6TnCc6ykMq3eZP2UlWn7Q8JjDE_bDm4_iP91Va90REd3Tc3v6OPt7ocbVeWxL7UeQip4gI7J60jvfhAmCpFw3JMEUHXFcSDBQcYDISxa_A2CeJ5bjDQZX04VibP-P6Mv1jzjhbpxDvgd4nu13Xw3BvA5PUPfDBWhLl0Pae_hToik4PpwtU5bTgoP9X6foF28YPZ-gr1SwZaLTJbv-DUkwBY1zYQDm78LgcHgUb58OMeJAKFxsqReCVhxzyqGctBgctjYxbkmyA04QKSxn18Ou_bYixc7qfrMvmO3v3kQvwbY-RvDaN2N4KVX2fcvq20WO65HYvNu2oMlpFBD_4hYkbuD1ORSffeJ1showhKMMCq6om9QdZSViNe_rRBgYI_Y4FeHjLG4nX_MHk_Xqlt5TcTMwtjxaoe0C33MGiFD8klzjiehyidsAMF_SXLY8VXNjhhEmWXFgRL56-krhtRQxP62G_c8XRqsk3kg0HKNaN9lAlJwurDVksJz_Sd7DUtBjY9ZM83lALAJXUHnRhU38cCUU8zLFwO9bePt0rzM-zbPpT-Epc-iQ8KxlrttRnfnDraGgOzY8TTJt8B_uZjeuoIR7WXmVgQwBstLoH5Ke1JfhyJQLmJgFYRPIpFzwahMdm7O0xvmPE6EyrdqlssYSdWB2jCsgEURT8zSWDesLLMq7ow-EN8jw9PHk3YGolS4rX3VXc6pRXf8-N4GImjvbJiXeVpOIvVAS0M-DxKrAlzAxKxqcGOwu8wrBFHCLX_YdzMEd7h-js1lyA5WWhUf_zP0IRwP4pNFoDZFrBqHIImsPEtBcE6gPhaUPBvS-sNLqvhv7qkY6ClbC5npcpIG_5peyX-GzWvP_xtZJwUClvY2xJHJ0FoB-X9AQ_AwnluZdTtALFltl=w1920-h937" />
+<title>Merch Manager By Long Tran</title>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/4.0/examples/navbars/">
@@ -20,7 +19,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
 <!-- Custom styles for this template -->
 
 </head>
@@ -97,18 +96,19 @@
 
 		<div class="col-md-12">
 			<div class="card-body table-responsive p-0">
-				<table class="table table-hover">
+				<table class="table tableSale" style="overflow: hidden;" cellspacing="0" id="tableSale">
 					<thead>
 						<tr>
 							<th>STT</th>
 							<th>name</th>
-							<th>Sale</th>
-							<th>Money</th>
+							
+							
 							<th>ip</th>
 							<th>path</th>
 							<th>email</th>
 							<th>checkSale</th>
 							<th>DELETE</th>
+							<th>EDIT</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -118,8 +118,8 @@
 								<td th:text="${k.index + 1}" class="text-right"
 									style="width: 5%;">1</td>
 								<td th:text="${item.name}" class="text-left"></td>
-								<td th:text="${item.sale}" class="text-left"></td>
-								<td th:text="${item.money}" class="text-left"></td>
+								
+								
 								<td th:text="${item.ip}" class="text-left"></td>
 								<td th:text="${item.path}" class="text-left"></td>
 								<td th:text="${item.email}" class="text-left"></td>
@@ -127,6 +127,10 @@
 									<button type="button" th:attr="data-id=${item.id}"
 										class="btn btn-block btn-primary btn-sm checkSaleButton">check
 										sale</button>
+								</td>
+								<td>
+									<button type="button" th:attr="data-id=${item.id},data-name=${item.id},data-name=${item.name},data-ip=${item.ip},data-path=${item.path},data-email=${item.email}"
+										class="btn btn-block btn-primary btn-sm editButton">Edit</button>
 								</td>
 								<td>
 									<button type="button" th:attr="data-id=${item.id}"
@@ -192,6 +196,58 @@
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
+	
+	
+	<div class="modal fade" id="modal-default-edit" style="display: none;"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Sửa Acc</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" id="fromAdd">
+						<div class="row">
+						<input type="hidden" name="idImage" id="idImage">
+							<label class="col-md-2">Name</label>
+							<div class="col-md-10">
+								<input class="form-control nameEdit" name="name" type="text"
+									required="required">
+							</div>
+							<label class="col-md-2">Email</label>
+							<div class="col-md-10">
+								<input class="form-control emailEdit" type="text" name="email"
+									required="required">
+							</div>
+							<label class="col-md-2">IP</label>
+							<div class="col-md-10">
+								<input class="form-control ipEdit" type="text" name="ip"
+									required="required">
+							</div>
+							<label class="col-md-2">PATH</label>
+							<div class="col-md-10">
+								<input class="form-control pathEdit" type="text" name="path"
+									required="required">
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default closetModal"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary saveAccountEdit">Save
+						changes</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
 
 
 
@@ -204,13 +260,26 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
 		crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
+		
 
 	<script type="text/javascript" th:inline="javascript">
 		var base_url = [[@{/}]];
+		
+		
+			 $(document).ready(function() {
+				    $('.tableSale').dataTable({
+				        'aLengthMenu':[25, 50, 75, 1000],
+				        'iDisplayLength': 1000,
+				        "scrollX": false,
+				        "scrollY": "800px",
+				        fixedHeader: true
+				    });
+				} );
 		 $('.deleteButton').click(function() {
 			 var id = $(this).attr("data-id"); 
 			 $.ajax({
@@ -234,6 +303,54 @@
 	          });
 			 
 		 });
+		 $('.saveAccountEdit').click(function() {
+			 var id = $('#idImage').val();
+			 var name = $('.nameEdit').val();
+			 var email = $('.emailEdit').val();
+			 var ip = $('.ipEdit').val();
+			 var path = $('.pathEdit').val();
+			 
+			 $.ajax({
+	              url: base_url + 'user/updateAccountMerch',
+	              data:{
+	            	  id:id,
+	            	  name:name,
+	            	  email:email,
+	            	  ip:ip,
+	            	  path:path
+	              },
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+	            		  {
+	            		  alert("Thành công!");
+	            		  //$('#modal-default').modal('hide');
+	            		  //location.reload();
+	            		  }else  if(rs=='02') {
+	            			  alert("Loi");
+	            		  }
+	            		  else   {
+	            			  alert("Loi");
+	            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 $('.editButton').click(function() {
+				
+			 $('#idImage').val( $( this ).attr( "data-id" ));
+			 $('.nameEdit').val( $( this ).attr( "data-name" ));
+			 $('.emailEdit').val( $( this ).attr( "data-email" ));
+			 $('.ipEdit').val( $( this ).attr( "data-ip" ));
+			 $('.pathEdit').val( $( this ).attr( "data-path" ));
+			 $('#modal-default-edit').modal('show');
+			 
+		 });
+		 
 		 $('.checkSaleButton').click(function() {
 			 var id = $(this).attr("data-id");
 			 $.ajax({
@@ -286,7 +403,7 @@
 			 
 		 });
 		 
-		 
+		
 		 $('.saveAccount').click(function() {
 			 
 			

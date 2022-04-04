@@ -1,5 +1,9 @@
 package stackjava.com.sbsecurityhibernate.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +21,7 @@ import stackjava.com.sbsecurityhibernate.dao.UserDAO;
 import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
 import stackjava.com.sbsecurityhibernate.entities.User;
 import stackjava.com.sbsecurityhibernate.entities.UsersRoles;
+import stackjava.com.sbsecurityhibernate.entities.uploadFile;
 
 @RequestMapping("/admin")
 @Controller
@@ -105,4 +110,32 @@ public class Admin {
 		}
 		return"01";
 	}
+	 @ResponseBody
+		@RequestMapping("/clearData")
+		public String clearData(HttpSession session,HttpServletRequest request,Model model) {
+			try {
+				String home = System.getProperty("user.home");
+				List<uploadFile> getAllUploadFileClear=userDAO.getAllUploadFileClear();
+				List<Integer> ids = new ArrayList<Integer>();
+				
+				if(!getAllUploadFileClear.isEmpty()) {
+					for (uploadFile uploadFile : getAllUploadFileClear) {
+						String uploadDir = home + "/Downloads/" + uploadFile.getUsername() + "/"+uploadFile.getName();
+						Path uploadPath = Paths.get(uploadDir);
+						 Files.deleteIfExists(uploadPath);
+						 ids.add(uploadFile.getId());
+					}
+				} 
+				userDAO.UpdateClearUploadFileFromlistID(ids);
+					
+					
+					return "00";
+				
+				//List<User> lst=userDAO.getAllUserActive();
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return"01";
+		}
 }

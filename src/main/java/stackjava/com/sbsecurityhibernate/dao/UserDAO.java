@@ -142,6 +142,27 @@ public class UserDAO {
 		
 
 	}
+	
+	public List<uploadFile> getAllUploadFileClear() {
+		try {
+			
+			List<uploadFile> users = new ArrayList<uploadFile>();
+			Session session = this.sessionFactory.getCurrentSession();
+			users = session.createNativeQuery("select * from upload_file where  status ='2' and clearDate is null", uploadFile.class)
+					
+					.getResultList();
+					
+
+				return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+
+	}
+	
 	public List<uploadFile> getAllUploadFileSearch(String dayFrom,String dayto,String username,String status ) {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -177,6 +198,26 @@ public class UserDAO {
 				
 			}
 			users=query2.getResultList();
+				return users;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+
+	}
+	
+	public List<uploadFile> UpdateClearUploadFileFromlistID(List<Integer> ids ) {
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			List<uploadFile> users = new ArrayList<uploadFile>();
+			Session session = this.sessionFactory.getCurrentSession();
+			session.createNativeQuery("update upload_file set clearDate=1  where  id in :ids ").setParameter("ids", ids).executeUpdate();
+			
+					
+					
+
 				return users;
 		} catch (Exception e) {
 			e.printStackTrace();
