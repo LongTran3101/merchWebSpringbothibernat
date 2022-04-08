@@ -163,7 +163,7 @@ public class UserDAO {
 
 	}
 	
-	public List<uploadFile> getAllUploadFileSearch(String dayFrom,String dayto,String username,String status ) {
+	public List<uploadFile> getAllUploadFileSearch(String dayFrom,String dayto,String username,String status,String idAccount ) {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			List<uploadFile> users = new ArrayList<uploadFile>();
@@ -178,6 +178,14 @@ public class UserDAO {
 				}
 				
 			}
+			if(idAccount!=null && !idAccount.isEmpty())
+			{
+				
+					query = query +" and idAccount=:idAccount";
+				
+				
+			}
+			
 			
 			query = query +" order by   ip ASC";
 			Session session = this.sessionFactory.getCurrentSession();
@@ -185,6 +193,14 @@ public class UserDAO {
 					.setParameter("dayFrom", df.parse(dayFrom))
 					.setParameter("dayto", df.parse(dayto))
 					.setParameter("username", username);
+			if(idAccount!=null && !idAccount.isEmpty())
+			{
+				
+				query2.setParameter("idAccount", idAccount);
+				
+				
+			}
+			
 					
 					
 			if(status!=null && !status.isEmpty())

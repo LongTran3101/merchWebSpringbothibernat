@@ -88,15 +88,19 @@
 
 	<div class="row" style="padding-left: 15px;">
 		<form th:action="@{/user/imageupload}" style="width: 100%;">
-			<div class="form-row">
-				<div class="form-group col-md-2"></div>
+			<div class="row">
+				
 				<div class="form-group col-md-4">
-					<label class="col-md-3" for="inputEmail4">DATE SEARCH</label> <input
+					<label class="col-md-6" for="inputEmail4">DATE SEARCH</label> 
+					<input
 						required="required" type="date" id="tu"
 						th:value="${daySeach!=null ? daySeach:''}" name="daySearch">
+					
+					
+					
 				</div>
 				<label class="col-md-1" for="inputEmail4">STATUS</label>
-				<div class="form-group col-md-4">
+				<div class="form-group col-md-2">
 					<select name="status" style="width: 100%">
 						<option value="">ALL</option>
 						<option value="0" th:selected="${daySeach!=null && status=='0'}">
@@ -109,8 +113,19 @@
 							Error</option>
 					</select>
 				</div>
+				<label class="col-md-1" for="inputEmail4">ACC</label>
+				<div class="form-group col-md-3">
+				<select  class=" form-control ccySearch select2" style="    margin-top: -13px;"
+								tabindex="1" name="idAccountSearch" data-class="">
+								<option value="">Tat ca</option>
+								<option th:each="item:${lstacc}" th:selected="${daySeach!=null && idAccountSearch==item.id}" th:text="${item.name} "
+									th:value="${item.id}"></option>
+							</select>
+					 
+				</div>
 
 			</div>
+			
 			<div class="row">
 				<div class="col-md-3 "></div>
 				<div class="col-md-2 ">
@@ -218,7 +233,7 @@
 							<label class="col-md-2" >ACC
 								MERCH </label>
 							<div class="col-md-10" id="#select">
-								<select required="required" class=" form-control ccy "
+								<select required="required" class=" form-control ccy " style="width: 100%;"
 									tabindex="1" name="idAccount" data-class="">
 									<option th:each="item:${lstacc}" th:text="${item.name} "
 										th:value="${item.id}"></option>
@@ -278,6 +293,12 @@
 		src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/js/tom-select.complete.min.js"></script>
+<link
+		href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css"
+		rel="stylesheet" />
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+	
 	<script type="text/javascript" th:inline="javascript">
 	var base_url = [[@{/}]];
 		function roundToTwo(num) {    
@@ -311,13 +332,27 @@
 			}
 		 
 		$(document).ready(function() {
-			new TomSelect(".ccy",{
+			/* new TomSelect(".ccySearch",{
 				create: true,
 				sortField: {
 					field: "text",
 					direction: "asc"
 				}
 			});
+			 */
+			 
+			 
+			
+			/* new TomSelect(".ccy",{
+				create: true,
+				sortField: {
+					field: "text",
+					direction: "asc"
+				}
+			}); */
+			 $('.ccy').select2();
+			$('.ccySearch').select2();
+			
 			
 			
 			

@@ -291,16 +291,19 @@ public class UserController {
 	public String imageupload(HttpSession session, Model model, HttpServletRequest request) {
 		String daySeach = request.getParameter("daySearch");
 		String status = request.getParameter("status");
+		String idAccountSearch = request.getParameter("idAccountSearch");
+		
 		// String daySearchTo=request.getParameter("daySearchTo");
 		User user = (User) session.getAttribute("user");
 		List<AccountMerch> lstacc = userDAO.getAllUser(user.getUsername());
 		model.addAttribute("lstacc", lstacc);
 		model.addAttribute("daySeach", daySeach);
 		model.addAttribute("status", status);
+		model.addAttribute("idAccountSearch", idAccountSearch);
 		// model.addAttribute("daySearchTo", daySearchTo);
 		if (daySeach != null && daySeach != "") {
 
-			List<uploadFile> lst = userDAO.getAllUploadFileSearch(daySeach, daySeach, user.getUsername(),status);
+			List<uploadFile> lst = userDAO.getAllUploadFileSearch(daySeach, daySeach, user.getUsername(),status,idAccountSearch);
 			model.addAttribute("lst", lst);
 			return "dashboard/imageupload";
 		}
