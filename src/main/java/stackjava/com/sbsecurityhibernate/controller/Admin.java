@@ -43,7 +43,7 @@ public class Admin {
 	
 	
 	
-	 @RequestMapping("/delete")
+	@RequestMapping("/delete")
     @ResponseBody
     public String deleteAccountMerch( HttpSession session, Model model, HttpServletRequest request) {
     	try {

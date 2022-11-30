@@ -2,6 +2,7 @@ package stackjava.com.sbsecurityhibernate.entities;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
@@ -29,6 +32,8 @@ public class User implements java.io.Serializable {
 	private String username;
 	private String password;
 	private Integer enabled;
+	@Temporal(TemporalType.DATE)
+	private Date daycreat;
 	private Set<UsersRoles> usersRoleses = new HashSet<UsersRoles>(0);
 
 	public User() {
@@ -97,6 +102,14 @@ public class User implements java.io.Serializable {
 			authorities.add(new SimpleGrantedAuthority(usersRoles.getRole().getName()));
 		}
 		return authorities;
+	}
+
+	public Date getDaycreat() {
+		return daycreat;
+	}
+
+	public void setDaycreat(Date daycreat) {
+		this.daycreat = daycreat;
 	}
 
 }
