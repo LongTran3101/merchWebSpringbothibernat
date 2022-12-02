@@ -37,7 +37,7 @@ public class UpLoadController {
 		boolean check = true;
 		for (int i = 0; i < adressAR.length; i++) {
 
-			if (!dressSubmid.toLowerCase().contains(adressAR[i].toLowerCase())) {
+			if (!dressSubmid.toLowerCase().contains(adressAR[i].toLowerCase())) { 
 				check = false;
 			} else {
 				check = true;
