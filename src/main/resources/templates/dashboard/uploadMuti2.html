@@ -1,0 +1,697 @@
+﻿
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+<title>Navbar Template for Bootstrap</title>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/4.0/examples/navbars/">
+
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<!-- Custom styles for this template -->
+<style>
+.error {
+	background-color: yellow;
+}
+
+.success {
+	background: #28a745;
+}
+</style>
+</head>
+
+<body>
+
+
+
+	<nav class="navbar navbar-expand-lg navbar-light"
+		style="background-color: #e3f2fd;">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarColor03" aria-controls="navbarColor03"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarColor03">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/user/allAcc}">All Account <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/user/checkSale}">Thống kê</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/user/imageupload}">Quan Ly upload</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/user/upload}">Upload</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/admin/alluser}">Quản lý người dùng</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+			</ul>
+			<form class="form-inline">
+				<input class="form-control mr-sm-2" type="search"
+					placeholder="Search" aria-label="Search"> <a href="#"
+					th:href="@{/logout}">Log Out</a>
+			</form>
+		</div>
+	</nav>
+
+
+
+	<div class="form-row" style="padding-left: 15px;">
+
+
+		<div class="col-sm-2">
+			<section>
+				<h3>
+					<small>Upload </small>
+				</h3>
+
+			</section>
+		</div>
+
+
+	</div>
+
+	<div style="padding-top: 50px;">
+		<form th:action="@{/user/saveMultifile}" method="post"
+			enctype="multipart/form-data">
+
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row" style="height: 50px;">
+						<div class="col-md-3"></div>
+						
+						<div class="col-md-3">
+						
+							<input class="form-check-input typeUpload" type="radio" style="width: 15px; height: 15px;"
+								name="typeUpload" value="1" id="aole" checked> <label
+								class="form-check-label" for="aole">Up load ao </label>
+						
+						</div>
+						<div class="col-md-3">
+						
+							<input class="form-check-input typeUpload" type="radio" style="width: 15px; height: 15px;"
+								name="typeUpload" value="2" id="flexRadioDefault2" >
+							<label class="form-check-label" for="flexRadioDefault2">Up load file </label>
+						</div>
+						
+						
+					</div>
+					<div class="row">
+						<label class="col-md-3" style="text-align: right;">ACC
+							MERCH </label>
+						<div class="col-md-9">
+							<select required="required" class=" form-control ccy"
+								tabindex="1" name="idAccount" data-class="">
+								<option th:each="item:${lst}" th:text="${item.name} "
+									th:value="${item.id}"></option>
+							</select>
+						</div>
+
+					</div>
+					<div class="row">
+						<label class="col-md-3" style="text-align: right;">UPLOAD
+							IMAGE </label>
+						<div class="col-md-9">
+							<input multiple type="file" name="image" required="required" onchange="readURL(this);"
+								accept="image/png,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3"></div>
+						<label class="col-md-1" for="vehicle1"> Men</label>
+						<div class="col-md-1">
+							<input type="checkbox" checked="checked" id="men"
+								name="typeTshirt" value="1">
+						</div>
+						<label class="col-md-1" for="vehicle1"> Women</label>
+						<div class="col-md-1">
+							<input type="checkbox" checked="checked" id="men" name=typeTshirt
+								value="2">
+						</div>
+						<label class="col-md-1" for="vehicle1"> Kid</label>
+						<div class="col-md-1">
+							<input type="checkbox" id="men" name="typeTshirt" value="3">
+						</div>
+
+						<label class="col-md-1" for="vehicle1"> Price</label>
+						<div class="col-md-1">
+							<input type="text" id="price" name="price" style="width: 103px;"
+								value="13.99">
+						</div>
+
+
+
+					</div>
+
+					<div class="row">
+						<label class="col-md-3" style="text-align: right;">Title </label>
+						<div class="col-md-9">
+							<textarea class="title" style="width: 100%;" rows="" name="title"
+								cols=""></textarea>
+							<span class="titledes"
+								style="color: red; display: none;
+	/* margin-top: -4px; */ padding-top: -6px;">Feature
+								bullet 1 max 256</span>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<label class="col-md-3" style="text-align: right;">Brand </label>
+						<div class="col-md-9">
+							<textarea class="brand" style="width: 100%;" name="brand" rows=""
+								cols=""></textarea>
+							<span class="branddes"
+								style="color: red; display: none;
+	/* margin-top: -4px; */ padding-top: -6px;">Feature
+								bullet 1 max 256</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<label class="col-md-3" style="text-align: right;">Feature
+							bullet 1 </label>
+						<div class="col-md-9">
+							<textarea style="width: 100%; height: 150px;" class="bullet1"
+								name="des1" rows="" cols=""></textarea>
+							<span class="bullet1des1"
+								style="color: red; display: none;
+	/* margin-top: -4px; */ padding-top: -6px;">Feature
+								bullet 1 max 256</span>
+						</div>
+					</div>
+					<div class="row">
+						<label class="col-md-3" style="text-align: right;">Feature
+							bullet 2 </label>
+						<div class="col-md-9">
+							<textarea style="width: 100%; height: 150px;" class="bullet2"
+								name="des2" rows="" cols=""></textarea>
+							<span class="bullet1des2"
+								style="color: red; display: none;
+	/* margin-top: -4px; */ padding-top: -6px;">Feature
+								bullet 1 max 256</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6"></div>
+						<button type="submit" class="btn btn-primary col-md-3">Upload</button>
+					</div>
+				</div>
+				<div class="col-md-1">
+
+
+					<div _ngcontent-c21=""
+						class="color-group-container all-marketplace-dimension-container pt-base p-small d-block">
+						<!---->
+						<div _ngcontent-c21="" class="form-label mb-3 ng-star-inserted"
+							ngatranslatedtext="">All</div>
+						<!---->
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #3f3e3c;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#3f3e3c value="1"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #8fb8db;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#8fb8db value="2"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #000000;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#000000 value="3"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #6e0a25;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#6e0a25 value="4"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #e3e7e8;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" value="5" td-color=#e3e7e8
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #006136;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#006136 value="6"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #f0e87b;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#f0e87b value="7"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #15232b;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#15232b value="8"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #4a4f26;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#4a4f26 value="9"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #ff5c39;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#ff5c39 value="10"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #f8a3bc;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#f8a3bc value="11"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #514883;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#514883 value="12"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #b71112;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#b71112 value="13"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #1b4087;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#1b4087 value="14"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #ffffff;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#ffffff value="15"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+
+
+					</div>
+
+
+
+				</div>
+
+
+				<div class="col-md-1">
+
+
+					<div _ngcontent-c21=""
+						class="color-group-container all-marketplace-dimension-container pt-base p-small d-block">
+						<!---->
+						<div _ngcontent-c21="" class="form-label mb-3 ng-star-inserted"
+							ngatranslatedtext="">Not in JAPAN</div>
+						<!---->
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #31261d;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#31261d value="16"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #424848;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#424848 value="17"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #5e9444;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#5e9444 value="18"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #5d618f;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" td-color=#5d618f value="19"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #cfd1d1;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#cfd1d1 value="20"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #818189;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="mau" class="mau" td-color=#818189 value="21"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+
+
+
+
+
+
+					</div>
+
+
+
+				</div>
+
+				<div class="col-md-4">
+					<div>
+						<img id="blah" src="#" alt="your image" />
+					</div>
+
+					<div>
+						<span class="maudes"
+							style="color: red; display: none; font-size: xx-large;
+	/* margin-top: -4px; */ padding-top: -6px;">Feature
+							bullet 1 max 256</span>
+					</div>
+				</div>
+
+
+			</div>
+
+
+
+		</form>
+	</div>
+
+
+
+
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	<link
+		href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css"
+		rel="stylesheet" />
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+	var base_url = [[@{/}]];
+		function roundToTwo(num) {    
+		    return +(Math.round(num + "e+2")  + "e-2");
+		}
+		var color = '';
+		function submitft(){
+			var count = $(".title").val().length;
+			if(count>60){
+				$('.titledes').text('Max 60 -'+count-60);
+			}
+		}
+
+		function hexc(colorval) {
+		  var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+		  delete(parts[0]);
+		  for (var i = 1; i <= 3; ++i) {
+		    parts[i] = parseInt(parts[i]).toString(16);
+		    if (parts[i].length == 1) parts[i] = '0' + parts[i];
+		  }
+		  color = '#' + parts.join('');
+		}
+		 function readURL(input) {
+	            if (input.files && input.files[0]) {
+	                var reader = new FileReader();
+
+	                reader.onload = function (e) {
+	                    $('#blah')
+	                        .attr('src', e.target.result)
+	                        .width(300)
+	                        .height(400);
+	                };
+
+	                reader.readAsDataURL(input.files[0]);
+	            }
+	        }
+		 $(document).ready(function() {
+			 $( ".mau" ).change(function() {
+				
+				 var x = $( this ).attr( "td-color" );
+				 
+				 $('#blah').css('background-color',x );
+				});
+
+ 				$( ".title" ).change(function() {
+				 $(".title").val($(".title").val().trim());
+				
+				});
+			 $( ".title" ).keyup(function() {
+				
+				 var count = $(".title").val().length;
+				 var err=count-60;
+				 console.log(count);
+					if(count>60){
+						$('.titledes').text("Max 60 -"+err);
+						$('.titledes').show();
+					}else{
+						$('.titledes').hide();
+					}
+				});
+				$( ".brand" ).change(function() {
+				 $(".brand").val($(".brand").val().trim());
+				
+				});
+			 $( ".brand" ).keyup(function() {
+				
+				 var count = $(".brand").val().length;
+				 var err=count-50;
+				 console.log(count);
+					if(count>50){
+						$('.branddes').text("Max 50 -"+err);
+						$('.branddes').show();
+					}else{
+						$('.branddes').hide();
+					}
+				});
+			 $( ".bullet1" ).change(function() {
+				 $(".bullet1").val($(".bullet1").val().trim());
+				
+				});
+			 $( ".bullet1" ).keyup(function() {
+				
+				 var count = $(".bullet1").val().length;
+				 var err=count-256;
+				 console.log(count);
+					if(count>256){
+						$('.bullet1des1').text("Max 256 -"+err);
+						$('.bullet1des1').show();
+					}else{
+						$('.bullet1des1').hide();
+					}
+				});
+
+ 				$( ".bullet2" ).change(function() {
+				 $(".bullet2" ).val($(".bullet2").val().trim());
+				
+				});
+			 $( ".bullet2" ).keyup(function() {
+				 
+				 var count = $(".bullet2").val().length;
+				 var err=count-256;
+				 console.log(count);
+					if(count>256){
+						$('.bullet1des2').text("Max 256 -"+err);
+						$('.bullet1des2').show();
+					}else{
+						$('.bullet1des2').hide();
+					}
+					
+				});
+
+			 
+			 $( ".typeUpload" ).change(function() {
+				 console.log("1");
+				 var type=$("input[name='typeUpload']:checked").val();
+				 console.log(type);
+				 if(type=='2')
+					 {
+					 console.log("1");
+					 	$('.title').hide();
+					 	$('.brand').hide();
+					 	$('.bullet1').hide();
+					 	$('.bullet2').hide();
+					 }else{
+						 $('.title').show();
+						 	$('.brand').show();
+						 	$('.bullet1').show();
+						 	$('.bullet2').show();
+					 }
+				 
+			 });
+			 $( ".mau" ).change(function() {
+					
+				 var checked_boxes = $('input.mau:checked').length;
+				 var err=checked_boxes-10;
+				 if(checked_boxes>10)
+					 {
+					 $('.maudes').text("Max 10 color -"+err);
+					 $('.maudes').show();
+					 	
+					 }else{
+						 $('.maudes').hide();
+					 }
+	
+				});
+			 
+			 $('.ccy').select2();
+		 });
+		 $(function() {
+		        var message = [[${message}]];
+		        var message2 = message.message;
+		        console.log(message);
+		        if (message2 != null) {
+		          alert(message2)
+		        }
+		      });
+		
+		
+		
+		
+		 
+		 
+	</script>
+
+
+</body>
+</html>

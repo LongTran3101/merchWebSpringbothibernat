@@ -7,9 +7,9 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
-
-<title>Navbar Template for Bootstrap</title>
+<link rel="shortcut icon" type="image/x-icon"
+	href="https://lh3.googleusercontent.com/fife/AAWUweVZg3sMC6axFZRXBvxTkrmlJ2zcZW0SMBRIZUpjd83Nqxh_67uKKpC3wO0Fjti6TnCc6ykMq3eZP2UlWn7Q8JjDE_bDm4_iP91Va90REd3Tc3v6OPt7ocbVeWxL7UeQip4gI7J60jvfhAmCpFw3JMEUHXFcSDBQcYDISxa_A2CeJ5bjDQZX04VibP-P6Mv1jzjhbpxDvgd4nu13Xw3BvA5PUPfDBWhLl0Pae_hToik4PpwtU5bTgoP9X6foF28YPZ-gr1SwZaLTJbv-DUkwBY1zYQDm78LgcHgUb58OMeJAKFxsqReCVhxzyqGctBgctjYxbkmyA04QKSxn18Ou_bYixc7qfrMvmO3v3kQvwbY-RvDaN2N4KVX2fcvq20WO65HYvNu2oMlpFBD_4hYkbuD1ORSffeJ1showhKMMCq6om9QdZSViNe_rRBgYI_Y4FeHjLG4nX_MHk_Xqlt5TcTMwtjxaoe0C33MGiFD8klzjiehyidsAMF_SXLY8VXNjhhEmWXFgRL56-krhtRQxP62G_c8XRqsk3kg0HKNaN9lAlJwurDVksJz_Sd7DUtBjY9ZM83lALAJXUHnRhU38cCUU8zLFwO9bePt0rzM-zbPpT-Epc-iQ8KxlrttRnfnDraGgOzY8TTJt8B_uZjeuoIR7WXmVgQwBstLoH5Ke1JfhyJQLmJgFYRPIpFzwahMdm7O0xvmPE6EyrdqlssYSdWB2jCsgEURT8zSWDesLLMq7ow-EN8jw9PHk3YGolS4rX3VXc6pRXf8-N4GImjvbJiXeVpOIvVAS0M-DxKrAlzAxKxqcGOwu8wrBFHCLX_YdzMEd7h-js1lyA5WWhUf_zP0IRwP4pNFoDZFrBqHIImsPEtBcE6gPhaUPBvS-sNLqvhv7qkY6ClbC5npcpIG_5peyX-GzWvP_xtZJwUClvY2xJHJ0FoB-X9AQ_AwnluZdTtALFltl=w1920-h937" />
+<title>Merch Manager By Long Tran</title>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/4.0/examples/navbars/">
@@ -19,7 +19,8 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
-
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
 <!-- Custom styles for this template -->
 <style>
 .error {
@@ -84,32 +85,91 @@
 
 
 	</div>
+	<div aria-live="polite" id="notification" aria-atomic="true"
+		style="position: relative; display: none; right: 1000px;">
+		<div id="notificationSuccess" class="toast"
+			style="position: absolute; top: 0; right: 0; background: #6fd36f; width: 200px;">
+			<div class="toast-header" style="padding-left: 5px;">
 
+				<strong class="mr-auto">Thông báo</strong>
+				<!-- <small>11 mins ago</small> -->
+				<button type="button" class="ml-2 mb-1 close notificationClose"
+					data-dismiss="toast" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body" style="padding-left: 5px;">Upload thành
+				công!</div>
+		</div>
+	</div>
 	<div style="padding-top: 50px;">
-		<form th:action="@{/user/saveMultifile}" method="post"
+		<form th:action="@{/user/save}" method="post"
 			enctype="multipart/form-data">
+			
+				<div class="row">
+				<div class="col-md-2">
+						<div class="col-md-3"></div>
+						<h4 style="margin-left: 65px;">Chọn loại áo</h4>
+				</div>
+				<div class="col-md-2">
+				<select class=" form-control ccySearch select2" multiple="multiple"
+						id="TypeShirtUpLoad" style="margin-top: -13px;" tabindex="1"
+						name="TypeShirtUpLoad" data-class="">
+						
+						<option value="1" selected="selected">Standard t-shirt</option>
+						<option value="2">Premium t-shirt</option>
+						<option value="3">V-neck t-shirt</option>
+						<option value="4">Tank top</option>
+						<option value="5">Long sleeve t-shirt</option>
+						<option value="6">Raglan</option>
+						<option value="7">Sweatshirt</option>
+						<option value="8">Pullover hoodie</option>
+						<option value="9">Zip hoodie</option>
+					</select>
+				</div>
+					
 
+				</div>
+			
+			<div class="row t-shirt">
 
-			<div class="row">
 				<div class="col-md-6">
+					<div class="col-md-6">
+						<div class="col-md-2"></div>
+						<h3 style="margin-left: 50px;">Standard t-shirt</h3>
+					</div>
 					<div class="row" style="height: 50px;">
 						<div class="col-md-3"></div>
-						
+
 						<div class="col-md-3">
-						
-							<input class="form-check-input typeUpload" type="radio" style="width: 15px; height: 15px;"
-								name="typeUpload" value="1" id="aole" checked> <label
-								class="form-check-label" for="aole">Up load ao </label>
-						
+
+							<input class="form-check-input typeUpload" type="radio"
+								style="width: 15px; height: 15px;" name="typeUpload" value="1"
+								id="aole" checked> <label class="form-check-label"
+								for="aole">Up load ao </label>
+
 						</div>
-						<div class="col-md-3">
-						
-							<input class="form-check-input typeUpload" type="radio" style="width: 15px; height: 15px;"
-								name="typeUpload" value="2" id="flexRadioDefault2" >
-							<label class="form-check-label" for="flexRadioDefault2">Up load file </label>
+						<div class="col-md-2">
+
+							<input class="form-check-input typeUpload" type="radio"
+								style="width: 15px; height: 15px;" name="typeUpload" value="2"
+								id="flexRadioDefault2"> <label class="form-check-label"
+								for="flexRadioDefault2">Up load file </label>
 						</div>
-						
-						
+
+						<div class="col-md-2">
+
+							<button type="button" id="mauden" class="btn btn-primary mauao">Black
+								Tshirt</button>
+						</div>
+
+						<div class="col-md-2">
+
+							<button type="button" id="mautrang" class="btn btn-primary mauao">White
+								Tshirt</button>
+						</div>
+
+
 					</div>
 					<div class="row">
 						<label class="col-md-3" style="text-align: right;">ACC
@@ -127,7 +187,8 @@
 						<label class="col-md-3" style="text-align: right;">UPLOAD
 							IMAGE </label>
 						<div class="col-md-9">
-							<input multiple type="file" name="image" required="required" onchange="readURL(this);"
+							<input type="file" name="image" required="required"
+								onchange="readURL(this);"
 								accept="image/png,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
 						</div>
 					</div>
@@ -140,18 +201,18 @@
 						</div>
 						<label class="col-md-1" for="vehicle1"> Women</label>
 						<div class="col-md-1">
-							<input type="checkbox" checked="checked" id="men" name=typeTshirt
-								value="2">
+							<input type="checkbox" checked="checked" id="women"
+								name=typeTshirt value="2">
 						</div>
 						<label class="col-md-1" for="vehicle1"> Kid</label>
 						<div class="col-md-1">
-							<input type="checkbox" id="men" name="typeTshirt" value="3">
+							<input type="checkbox" id="kid" name="typeTshirt" value="3">
 						</div>
 
 						<label class="col-md-1" for="vehicle1"> Price</label>
 						<div class="col-md-1">
 							<input type="text" id="price" name="price" style="width: 103px;"
-								value="13.99">
+								value="13.07">
 						</div>
 
 
@@ -208,10 +269,7 @@
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="col-md-6"></div>
-						<button type="submit" class="btn btn-primary col-md-3">Upload</button>
-					</div>
+
 				</div>
 				<div class="col-md-1">
 
@@ -228,7 +286,7 @@
 								style="width: 40px; height: 40px; background: #3f3e3c;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#3f3e3c value="1"
+								<input name="mau" class="mau  mau1" td-color=#3f3e3c value="1"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -239,7 +297,7 @@
 								style="width: 40px; height: 40px; background: #8fb8db;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#8fb8db value="2"
+								<input name="mau" class="mau mau2" td-color=#8fb8db value="2"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -250,7 +308,7 @@
 								style="width: 40px; height: 40px; background: #000000;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#000000 value="3"
+								<input name="mau" class="mau mau3" td-color=#000000 value="3"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -261,7 +319,7 @@
 								style="width: 40px; height: 40px; background: #6e0a25;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#6e0a25 value="4"
+								<input name="mau" class="mau mau4" td-color=#6e0a25 value="4"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -272,7 +330,7 @@
 								style="width: 40px; height: 40px; background: #e3e7e8;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" value="5" td-color=#e3e7e8
+								<input name="mau" class="mau mau5" value="5" td-color=#e3e7e8
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -283,7 +341,7 @@
 								style="width: 40px; height: 40px; background: #006136;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#006136 value="6"
+								<input name="mau" class="mau mau6" td-color=#006136 value="6"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -294,7 +352,7 @@
 								style="width: 40px; height: 40px; background: #f0e87b;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#f0e87b value="7"
+								<input name="mau" class="mau mau7" td-color=#f0e87b value="7"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -305,7 +363,7 @@
 								style="width: 40px; height: 40px; background: #15232b;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#15232b value="8"
+								<input name="mau" class="mau mau8" td-color=#15232b value="8"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -316,7 +374,7 @@
 								style="width: 40px; height: 40px; background: #4a4f26;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#4a4f26 value="9"
+								<input name="mau" class="mau mau9" td-color=#4a4f26 value="9"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -327,7 +385,7 @@
 								style="width: 40px; height: 40px; background: #ff5c39;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#ff5c39 value="10"
+								<input name="mau" class="mau mau10" td-color=#ff5c39 value="10"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -338,7 +396,7 @@
 								style="width: 40px; height: 40px; background: #f8a3bc;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#f8a3bc value="11"
+								<input name="mau" class="mau mau11" td-color=#f8a3bc value="11"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -350,7 +408,7 @@
 								style="width: 40px; height: 40px; background: #514883;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#514883 value="12"
+								<input name="mau" class="mau mau12" td-color=#514883 value="12"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -361,7 +419,7 @@
 								style="width: 40px; height: 40px; background: #b71112;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#b71112 value="13"
+								<input name="mau" class="mau mau13" td-color=#b71112 value="13"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -372,7 +430,7 @@
 								style="width: 40px; height: 40px; background: #1b4087;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#1b4087 value="14"
+								<input name="mau" class="mau mau14" td-color=#1b4087 value="14"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -384,7 +442,7 @@
 								style="width: 40px; height: 40px; background: #ffffff;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#ffffff value="15"
+								<input name="mau" class="mau mau15" td-color=#ffffff value="15"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -413,7 +471,7 @@
 								style="width: 40px; height: 40px; background: #31261d;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#31261d value="16"
+								<input name="mau" class="mau mau16" td-color=#31261d value="16"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -424,7 +482,7 @@
 								style="width: 40px; height: 40px; background: #424848;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#424848 value="17"
+								<input name="mau" class="mau mau17" td-color=#424848 value="17"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -435,7 +493,7 @@
 								style="width: 40px; height: 40px; background: #5e9444;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#5e9444 value="18"
+								<input name="mau" class="mau mau18" td-color=#5e9444 value="18"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -446,7 +504,7 @@
 								style="width: 40px; height: 40px; background: #5d618f;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" td-color=#5d618f value="19"
+								<input class="mau mau19" name="mau" td-color=#5d618f value="19"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -457,7 +515,7 @@
 								style="width: 40px; height: 40px; background: #cfd1d1;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#cfd1d1 value="20"
+								<input name="mau" class="mau mau20" td-color=#cfd1d1 value="20"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -468,7 +526,7 @@
 								style="width: 40px; height: 40px; background: #818189;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mau" class="mau" td-color=#818189 value="21"
+								<input name="mau" class="mau mau21" td-color=#818189 value="21"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>
@@ -503,6 +561,369 @@
 
 
 
+
+
+			<!-- --  Premium t-shirt -->
+
+			<div class="row preShirt">
+				<div class="col-md-6">
+					<div class="col-md-6">
+						<div class="col-md-2"></div>
+						<h3 style="margin-left: 50px;">Premium t-shirt</h3>
+					</div>
+
+
+					<div class="row" style="height: 50px;">
+						<div class="col-md-3"></div>
+						<div class="col-md-2">
+							<button type="button" id="maudenPre"
+								class="btn btn-primary mauao">Black Tshirt</button>
+						</div>
+
+						<div class="col-md-2">
+
+							<button type="button" id="mautrangPre"
+								class="btn btn-primary mauao">White Tshirt</button>
+						</div>
+
+
+					</div>
+
+
+					<div class="row">
+						<div class="col-md-3"></div>
+						<label class="col-md-1" for="vehicle1"> Men</label>
+						<div class="col-md-1">
+							<input type="checkbox" checked="checked" id="men"
+								name="typeTshirtPre" value="1">
+						</div>
+						<label class="col-md-1" for="vehicle1"> Women</label>
+						<div class="col-md-1">
+							<input type="checkbox" checked="checked" id="women"
+								name="typeTshirtPre" value="2">
+						</div>
+						<label class="col-md-1" for="vehicle1"> Kid</label>
+						<div class="col-md-1">
+							<input type="checkbox" id="kid" name="typeTshirtPre" value="3">
+						</div>
+
+						<label class="col-md-1" for="vehicle1"> Price</label>
+						<div class="col-md-1">
+							<input type="text" id="price" name="pricePre"
+								style="width: 103px;" value="19.99">
+						</div>
+
+
+
+					</div>
+
+
+				</div>
+				<div class="col-md-1">
+
+
+					<div _ngcontent-c21=""
+						class="color-group-container all-marketplace-dimension-container pt-base p-small d-block">
+						<!---->
+						<div _ngcontent-c21="" class="form-label mb-3 ng-star-inserted"
+							ngatranslatedtext="">All</div>
+						<!---->
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #3f3e3c;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre  mau1Pre" td-color=#3f3e3c
+									value="1"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #8fb8db;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau2Pre" td-color=#8fb8db value="2"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #000000;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau3Pre" td-color=#000000 value="3"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #6e0a25;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau4Pre" td-color=#6e0a25 value="4"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #e3e7e8;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau5Pre" value="5" td-color=#e3e7e8
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #006136;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau6Pre" td-color=#006136 value="6"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #f0e87b;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau7Pre" td-color=#f0e87b value="7"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #15232b;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau8Pre" td-color=#15232b value="8"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #514883;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau12" td-color=#514883 value="12"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #b71112;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau13" td-color=#b71112 value="13"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #1b4087;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau14" td-color=#1b4087 value="14"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #ffffff;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau15" td-color=#ffffff value="15"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+
+
+
+
+
+					</div>
+
+
+
+				</div>
+
+
+				<div class="col-md-1">
+
+
+					<div _ngcontent-c21=""
+						class="color-group-container all-marketplace-dimension-container pt-base p-small d-block">
+						<!---->
+						<div _ngcontent-c21="" class="form-label mb-3 ng-star-inserted"
+							ngatranslatedtext=""></div>
+						<!---->
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #4a4f26;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau9Pre" td-color=#4a4f26 value="9"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #ff5c39;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau10Pre" td-color=#ff5c39
+									value="10"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #f8a3bc;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau11Pre" td-color=#f8a3bc
+									value="11"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+
+
+
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #31261d;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau16Pre" td-color=#31261d
+									value="16"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #424848;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau17Pre" td-color=#424848
+									value="17"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #5e9444;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau18Pre" td-color=#5e9444
+									value="18"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #5d618f;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input class="maupre mau19Pre" name="maupre" td-color=#5d618f value="19"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #cfd1d1;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau20Pre" td-color=#cfd1d1
+									value="20"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						<div _ngcontent-c21=""
+							class="color-checkbox-container mr-small mb-small ng-star-inserted">
+							<div _ngcontent-c21="" st_nghost-c25=""
+								style="width: 40px; height: 40px; background: #818189;"
+								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
+								tabindex="0">
+								<input name="maupre" class="maupre mau21Pre" td-color=#818189
+									value="21"
+									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
+									type="checkbox" id="">
+							</div>
+						</div>
+						
+						<div class="col-md-4">
+					
+					<div>
+						<span class="maudespre"
+							style="color: red; display: none; font-size: xx-large;
+	/* margin-top: -4px; */ padding-top: -6px;">Feature
+							bullet 1 max 256</span>
+					</div>
+				</div>
+
+
+
+
+
+
+					</div>
+
+
+
+				</div>
+
+
+
+
+			</div>
+
+
+			<div class="container">
+				<div class="col-md-6"></div>
+				<button type="submit" class="btn btn-primary col-md-3 submitUpload">Upload</button>
+			</div>
 		</form>
 	</div>
 
@@ -551,6 +972,7 @@
 		  color = '#' + parts.join('');
 		}
 		 function readURL(input) {
+			
 	            if (input.files && input.files[0]) {
 	                var reader = new FileReader();
 
@@ -563,6 +985,7 @@
 
 	                reader.readAsDataURL(input.files[0]);
 	            }
+	            $('#notification').hide();
 	        }
 		 $(document).ready(function() {
 			 $( ".mau" ).change(function() {
@@ -570,9 +993,11 @@
 				 var x = $( this ).attr( "td-color" );
 				 
 				 $('#blah').css('background-color',x );
+				 $('#notification').hide();
 				});
 
  				$( ".title" ).change(function() {
+ 					$('#notification').hide();
 				 $(".title").val($(".title").val().trim());
 				
 				});
@@ -638,7 +1063,76 @@
 					}
 					
 				});
-
+			 
+			 
+			 $( ".notificationClose" ).click(function() {
+				 $('#notification').hide();
+				 
+			 });
+			 $( "#mauden" ).click(function() {
+				 $('.mau').prop('checked', false);
+				 $('.mau1').click();
+				
+				 $('.mau4').click();
+				 $('.mau6').click();
+				 $('.mau8').click();
+				 $('.mau9').click();
+				 $('.mau12').click();
+				 $('.mau13').click();
+				 $('.mau14').click();
+				 $('.mau16').click();
+				 $('.mau3').click();
+				
+				 
+			 });
+			 $( "#mautrang" ).click(function() {
+				 $('.mau').prop('checked', false);
+				 $('.mau2').click();
+				 $('.mau5').click();
+				 //$('.mau6').click();
+				 $('.mau7').click();
+				 $('.mau11').click();
+				 $('.mau10').click();
+				 $('.mau16').click();
+				 $('.mau20').click();
+				 $('.mau21').click();
+				 $('.mau15').click();
+				
+				 
+			 });
+			 
+			 $( "#maudenPre" ).click(function() {
+				 $('.mauPre').prop('checked', false);
+				 $('.mau1Pre').click();
+				
+				 $('.mau4Pre').click();
+				 $('.mau6Pre').click();
+				 $('.mau8Pre').click();
+				 $('.mau9Pre').click();
+				 $('.mau12Pre').click();
+				 $('.mau13Pre').click();
+				 $('.mau14Pre').click();
+				 $('.mau16Pre').click();
+				 $('.mau3Pre').click();
+				
+				 
+			 });
+			 $( "#mautrangPre" ).click(function() {
+				 $('.mauPre').prop('checked', false);
+				 $('.mau2Pre').click();
+				 $('.mau5Pre').click();
+				 //$('.mau6').click();
+				 $('.mau7Pre').click();
+				 $('.mau11Pre').click();
+				 $('.mau10Pre').click();
+				 $('.mau16Pre').click();
+				 $('.mau20Pre').click();
+				 $('.mau21Pre').click();
+				 $('.mau15Pre').click();
+				
+				 
+			 });
+			 
 			 
 			 $( ".typeUpload" ).change(function() {
 				 console.log("1");
@@ -673,15 +1167,53 @@
 					 }
 	
 				});
+			 $( ".maupre" ).change(function() {
+					
+				 var checked_boxes = $('input.maupre:checked').length;
+				 var err=checked_boxes-10;
+				 if(checked_boxes>10)
+					 {
+					 $('.maudespre').text("Max 10 color -"+err);
+					 $('.maudespre').show();
+					 	
+					 }else{
+						 $('.maudespre').hide();
+					 }
+	
+				});
 			 
+			 $( "#TypeShirtUpLoad" ).change(function() {
+					
+				 var TypeShirtUpLoad = $('#TypeShirtUpLoad').val();
+				 if (TypeShirtUpLoad.toString().includes('1')) {
+					 $('.t-shirt').show();
+				 }else{
+					 $('.t-shirt').hide();
+				 }
+				 if (TypeShirtUpLoad.toString().includes('2')) {
+					 $('.preShirt').show();
+				 }else{
+					 $('.preShirt').hide();
+				 }
+				
+	
+				});
+			 
+			 
+			 
+			 $('.preShirt').hide();
+			 //$('.t-shirt').hide();
 			 $('.ccy').select2();
+			 $('#TypeShirtUpLoad').select2();
+			 
+			 
 		 });
 		 $(function() {
 		        var message = [[${message}]];
 		        var message2 = message.message;
 		        console.log(message);
 		        if (message2 != null) {
-		          alert(message2)
+		        	 $('#notification').show();
 		        }
 		      });
 		
