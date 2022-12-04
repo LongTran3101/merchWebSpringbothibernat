@@ -284,7 +284,7 @@ public class UserController {
 		User user = (User) session.getAttribute("user");
 		List<AccountMerch> lst = userDAO.getAllUser(user.getUsername());
 		model.addAttribute("lst", lst);
-		return "dashboard/upload.html";
+		return "dashboard/uploadMuti";
 	}
 
 	@GetMapping("/imageupload")
