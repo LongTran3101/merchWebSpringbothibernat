@@ -47,6 +47,15 @@ public class uploadFile {
 	private String priceTank;
 
 	private String mauTank;
+	private String mauLong;
+
+	private String priceLong;
+	private String priceRaglan;
+	private String mauSweat;
+
+	private String priceSweat;
+	
+	
 
 	public String getPrice() {
 		return price;
@@ -247,6 +256,46 @@ public class uploadFile {
 
 	public void setMauTank(String mauTank) {
 		this.mauTank = mauTank;
+	}
+
+	public String getMauLong() {
+		return mauLong;
+	}
+
+	public void setMauLong(String mauLong) {
+		this.mauLong = mauLong;
+	}
+
+	public String getPriceLong() {
+		return priceLong;
+	}
+
+	public void setPriceLong(String priceLong) {
+		this.priceLong = priceLong;
+	}
+
+	public String getPriceRaglan() {
+		return priceRaglan;
+	}
+
+	public void setPriceRaglan(String priceRaglan) {
+		this.priceRaglan = priceRaglan;
+	}
+
+	public String getMauSweat() {
+		return mauSweat;
+	}
+
+	public void setMauSweat(String mauSweat) {
+		this.mauSweat = mauSweat;
+	}
+
+	public String getPriceSweat() {
+		return priceSweat;
+	}
+
+	public void setPriceSweat(String priceSweat) {
+		this.priceSweat = priceSweat;
 	}
 
 }
