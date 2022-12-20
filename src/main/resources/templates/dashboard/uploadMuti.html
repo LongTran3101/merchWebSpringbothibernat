@@ -2451,21 +2451,82 @@
 			 
 			 
 			 $( ".typeUpload" ).change(function() {
-				 console.log("1");
+				 
+				 
+				 
 				 var type=$("input[name='typeUpload']:checked").val();
-				 console.log(type);
 				 if(type=='2')
 					 {
-					 console.log("1");
-					 	$('.title').hide();
+						$('.title').hide();
 					 	$('.brand').hide();
 					 	$('.bullet1').hide();
 					 	$('.bullet2').hide();
+						 $('.t-shirt').hide();
+						 $('.preShirt').hide();
+						 $('.VneckShirt').hide();
+						 $('.TankShirt').hide();
+						 $('.LongShirt').hide();
+						 $('.RaglanShirt').hide();
+						 $('.SweatShirt').hide();
+						 $('.PulloverShirt').hide();
+						 $('.ZipShirt').hide();
+					
 					 }else{
 						 $('.title').show();
 						 	$('.brand').show();
 						 	$('.bullet1').show();
 						 	$('.bullet2').show();
+						 var TypeShirtUpLoad = $('#TypeShirtUpLoad').val();
+						 if (TypeShirtUpLoad.toString().includes('1')) {
+							 $('.t-shirt').show();
+						 }else{
+							 $('.t-shirt').hide();
+						 }
+						 if (TypeShirtUpLoad.toString().includes('2')) {
+							 $('.preShirt').show();
+						 }else{
+							 $('.preShirt').hide();
+						 }
+						 if (TypeShirtUpLoad.toString().includes('3')) {
+							 $('.VneckShirt').show();
+						 }else{
+							 $('.VneckShirt').hide();
+						 }
+						 if (TypeShirtUpLoad.toString().includes('4')) {
+							 $('.TankShirt').show();
+						 }else{
+							 $('.TankShirt').hide();
+						 }
+						 
+						 if (TypeShirtUpLoad.toString().includes('5')) {
+							 $('.LongShirt').show();
+						 }else{
+							 $('.LongShirt').hide();
+						 }
+						 
+						 if (TypeShirtUpLoad.toString().includes('6')) {
+							 $('.RaglanShirt').show();
+						 }else{
+							 $('.RaglanShirt').hide();
+						 }
+						 if (TypeShirtUpLoad.toString().includes('7')) {
+							 $('.SweatShirt').show();
+						 }else{
+							 $('.SweatShirt').hide();
+						 }
+						 
+						 if (TypeShirtUpLoad.toString().includes('8')) {
+							 $('.PulloverShirt').show();
+						 }else{
+							 $('.PulloverShirt').hide();
+						 }
+						 
+						 if (TypeShirtUpLoad.toString().includes('9')) {
+							 $('.ZipShirt').show();
+						 }else{
+							 $('.ZipShirt').hide();
+						 }
+						 
 					 }
 				 
 			 });

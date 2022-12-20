@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.format.CellFormatType;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -477,10 +480,44 @@ public class UserController {
 						upload.setBrand(row.getCell(2).getStringCellValue());
 						upload.setDes1(row.getCell(3).getStringCellValue());
 						upload.setDes2(row.getCell(4).getStringCellValue());
+						upload.setTypeShirtUpLoad(row.getCell(5).getStringCellValue());
+						
+						
+						upload.setTypeTshirt(row.getCell(6).getStringCellValue());
+						upload.setMau(row.getCell(7).getStringCellValue());
+						upload.setPrice(getDataCell(row.getCell(8)));
+						
+						upload.setTypeTshirtPre(row.getCell(9).getStringCellValue());
+						upload.setMaupre(row.getCell(10).getStringCellValue());
+						upload.setPricePre(getDataCell(row.getCell(11)));
+						
+						upload.setMauVneck(row.getCell(12).getStringCellValue());
+						upload.setPriceVneck(getDataCell(row.getCell(13)));
+						
+						upload.setMauTank(row.getCell(14).getStringCellValue());
+						upload.setPriceTank(getDataCell(row.getCell(15)));
+						upload.setMauLong(row.getCell(16).getStringCellValue());
+						upload.setPriceLong(getDataCell(row.getCell(17)));
+						
+						
+						upload.setPriceRaglan(getDataCell(row.getCell(18)));
+						
+						upload.setMauSweat(row.getCell(19).getStringCellValue());
+						upload.setPriceSweat(getDataCell(row.getCell(20)));
+						
+						upload.setMauPullover(row.getCell(21).getStringCellValue());
+						upload.setPricePullover(getDataCell(row.getCell(22)));
+						
+						upload.setMauZip(row.getCell(23).getStringCellValue());
+						upload.setPriceZip(getDataCell(row.getCell(24)));
+						
+						
+						
 						dto.setNameuser("2");
 						userDAO.saveOrUpdateuploadFile(dto);
 						MessageHelper.addSuccessAttribute(ra, "Thanh cong");
 					} catch (Exception e) {
+						e.printStackTrace();
 						continue;
 					}
 			    	
@@ -494,6 +531,24 @@ public class UserController {
 		}
 
 		return "redirect:/user/upload";
+	}
+	public static String getDataCell(Cell cell)
+	{
+		String value = "";
+		try {
+			if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				  value = String.valueOf(cell.getNumericCellValue());
+			} else {
+				      value = cell.getStringCellValue();
+			}
+		}
+		 catch (Exception e) {
+			// TODO: handle exception
+		}
+		return value;
+		
+		
+	
 	}
 
 	public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) {
