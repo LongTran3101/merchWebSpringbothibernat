@@ -480,35 +480,35 @@ public class UserController {
 						upload.setBrand(row.getCell(2).getStringCellValue());
 						upload.setDes1(row.getCell(3).getStringCellValue());
 						upload.setDes2(row.getCell(4).getStringCellValue());
-						upload.setTypeShirtUpLoad(row.getCell(5).getStringCellValue());
+						upload.setTypeShirtUpLoad(getDataCell(row.getCell(5)) );
 						
 						
-						upload.setTypeTshirt(row.getCell(6).getStringCellValue());
-						upload.setMau(row.getCell(7).getStringCellValue());
+						upload.setTypeTshirt(getDataCell(row.getCell(6)));
+						upload.setMau(getDataCell(row.getCell(7)));
 						upload.setPrice(getDataCell(row.getCell(8)));
 						
-						upload.setTypeTshirtPre(row.getCell(9).getStringCellValue());
-						upload.setMaupre(row.getCell(10).getStringCellValue());
+						upload.setTypeTshirtPre(getDataCell(row.getCell(9)));
+						upload.setMaupre(getDataCell(row.getCell(10)));
 						upload.setPricePre(getDataCell(row.getCell(11)));
 						
-						upload.setMauVneck(row.getCell(12).getStringCellValue());
+						upload.setMauVneck(getDataCell(row.getCell(12)));
 						upload.setPriceVneck(getDataCell(row.getCell(13)));
 						
-						upload.setMauTank(row.getCell(14).getStringCellValue());
+						upload.setMauTank(getDataCell(row.getCell(14)));
 						upload.setPriceTank(getDataCell(row.getCell(15)));
-						upload.setMauLong(row.getCell(16).getStringCellValue());
+						upload.setMauLong(getDataCell(row.getCell(16)));
 						upload.setPriceLong(getDataCell(row.getCell(17)));
 						
 						
 						upload.setPriceRaglan(getDataCell(row.getCell(18)));
 						
-						upload.setMauSweat(row.getCell(19).getStringCellValue());
+						upload.setMauSweat(getDataCell(row.getCell(19)));
 						upload.setPriceSweat(getDataCell(row.getCell(20)));
 						
-						upload.setMauPullover(row.getCell(21).getStringCellValue());
+						upload.setMauPullover(getDataCell(row.getCell(21)));
 						upload.setPricePullover(getDataCell(row.getCell(22)));
 						
-						upload.setMauZip(row.getCell(23).getStringCellValue());
+						upload.setMauZip(getDataCell(row.getCell(23)));
 						upload.setPriceZip(getDataCell(row.getCell(24)));
 						
 						
@@ -532,6 +532,7 @@ public class UserController {
 
 		return "redirect:/user/upload";
 	}
+	
 	public static String getDataCell(Cell cell)
 	{
 		String value = "";
