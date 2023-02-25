@@ -25,7 +25,7 @@ import stackjava.com.sbsecurityhibernate.config.Image;
 import stackjava.com.sbsecurityhibernate.config.subMitClass;
 
 @RestController
-@RequestMapping("/restApiNew")
+@RequestMapping("/restApi")
 public class UpLoadController {
 
 	@RequestMapping(value = "/upload", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
