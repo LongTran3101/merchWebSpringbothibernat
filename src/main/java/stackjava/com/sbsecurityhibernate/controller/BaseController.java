@@ -1,12 +1,17 @@
 package stackjava.com.sbsecurityhibernate.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,12 +38,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import stackjava.com.sbsecurityhibernate.dao.UserDAO;
 import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
+import stackjava.com.sbsecurityhibernate.entities.Image;
 import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
 import stackjava.com.sbsecurityhibernate.entities.User;
@@ -143,6 +151,41 @@ public class BaseController {
     	    
     	
     }
+	@ResponseBody
+	@PostMapping("/uploadMultifileExcel")
+	public String uploadMultifileExcel ( @RequestBody String req,HttpServletRequest request, HttpServletResponse resp) {
+		try {
+			
+			
+			String home = System.getProperty("user.home");
+			ObjectMapper objectMapper = new ObjectMapper();
+		
+    		Image mech=objectMapper.readValue(req, Image.class);
+			
+			String base64ImageString = mech.getBaseFile().replace("data:image/png;base64,", "");
+			byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64ImageString);
+			InputStream is = new ByteArrayInputStream(imageBytes);
+			String uploadDir = home + "/Downloads/" + mech.getUsernam() + "/";
+			try {
+				Path uploadPath = Paths.get(uploadDir);
+
+				if (!Files.exists(uploadPath)) {
+					Files.createDirectories(uploadPath);
+				}
+				Path filePath = uploadPath.resolve(mech.getName());
+				 Files.deleteIfExists(filePath);
+				Files.copy(is, filePath, StandardCopyOption.REPLACE_EXISTING);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "ok";
+	}
 	
 	
 	@GetMapping("/download2")
