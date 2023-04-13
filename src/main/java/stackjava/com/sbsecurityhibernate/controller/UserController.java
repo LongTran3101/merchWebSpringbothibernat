@@ -480,8 +480,8 @@ public class UserController {
 						upload.setName(row.getCell(0).getStringCellValue());
 						upload.setTitle(row.getCell(1).getStringCellValue());
 						upload.setBrand(row.getCell(2).getStringCellValue());
-						upload.setDes1(row.getCell(3).getStringCellValue());
-						upload.setDes2(row.getCell(4).getStringCellValue());
+						upload.setDes1(getDataCell(row.getCell(3)));
+						upload.setDes2(getDataCell(row.getCell(4)));
 						upload.setTypeShirtUpLoad(getDataCell(row.getCell(5)) );
 						
 						
