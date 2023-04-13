@@ -226,6 +226,7 @@ public class BaseController {
     
     	try {
     		String ip=request.getRemoteAddr();
+    		System.out.println("ip---------" + ip);
     		ObjectMapper objectMapper = new ObjectMapper();
     		
     			List<AccountMerch> lstacc =userDAO.getAccountMerchByip(ip);

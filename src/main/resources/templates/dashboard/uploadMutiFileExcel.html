@@ -1,0 +1,332 @@
+﻿
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+<title>Navbar Template for Bootstrap</title>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/4.0/examples/navbars/">
+
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<!-- Custom styles for this template -->
+<style>
+.error {
+	background-color: yellow;
+}
+
+.success {
+	background: #28a745;
+}
+</style>
+</head>
+
+<body>
+
+
+
+	<nav class="navbar navbar-expand-lg navbar-light"
+		style="background-color: #e3f2fd;">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarColor03" aria-controls="navbarColor03"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarColor03">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/user/allAcc}">All Account <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/user/checkSale}">Thống kê</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/user/imageupload}">Quan Ly upload</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/user/upload}">Upload</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/admin/alluser}">Quản lý người dùng</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+			</ul>
+			<form class="form-inline">
+				<input class="form-control mr-sm-2" type="search"
+					placeholder="Search" aria-label="Search"> <a href="#"
+					th:href="@{/logout}">Log Out</a>
+			</form>
+		</div>
+	</nav>
+
+
+
+	<div class="form-row" style="padding-left: 15px;">
+
+
+		<div class="col-sm-2">
+			<section>
+				<h3>
+					<small>Upload </small>
+				</h3>
+
+			</section>
+		</div>
+
+
+	</div>
+<div aria-live="polite" id="notification" aria-atomic="true"
+		style="position: relative; display: none; right: 1000px;">
+		<div id="notificationSuccess" class="toast"
+			style="position: absolute; top: 0; right: 0; background: #6fd36f; width: 200px;">
+			<div class="toast-header" style="padding-left: 5px;">
+
+				<strong class="mr-auto">Thông báo</strong>
+				<!-- <small>11 mins ago</small> -->
+				<button type="button" class="ml-2 mb-1 close notificationClose"
+					data-dismiss="toast" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body" style="padding-left: 5px;">Upload thành
+				công!</div>
+		</div>
+	</div>
+	<div style="padding-top: 50px;">
+		<form th:action="@{/user/uploadMultifileExcel}" method="post"
+			enctype="multipart/form-data">
+
+
+			<div class="row">
+				<div class="col-md-6">
+					
+				
+					<div class="row">
+						<label class="col-md-3" style="text-align: right;">UPLOAD IMAGE() </label>
+						<div class="col-md-9">
+							<input  type="file" name="image" required="required" onchange="readURL(this);"
+								accept="image/png,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+						</div>
+					</div>
+				
+
+
+				
+
+					<div class="row">
+						<div class="col-md-6"></div>
+						<button type="submit" class="btn btn-primary col-md-3">Upload</button>
+					</div>
+				</div>
+				
+
+
+				
+
+			
+
+			</div>
+
+
+
+		</form>
+	</div>
+
+
+
+
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	<link
+		href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css"
+		rel="stylesheet" />
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+	var base_url = [[@{/}]];
+		function roundToTwo(num) {    
+		    return +(Math.round(num + "e+2")  + "e-2");
+		}
+		var color = '';
+		function submitft(){
+			var count = $(".title").val().length;
+			if(count>60){
+				$('.titledes').text('Max 60 -'+count-60);
+			}
+		}
+
+		function hexc(colorval) {
+		  var parts = colorval.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+		  delete(parts[0]);
+		  for (var i = 1; i <= 3; ++i) {
+		    parts[i] = parseInt(parts[i]).toString(16);
+		    if (parts[i].length == 1) parts[i] = '0' + parts[i];
+		  }
+		  color = '#' + parts.join('');
+		}
+		 function readURL(input) {
+	            if (input.files && input.files[0]) {
+	                var reader = new FileReader();
+
+	                reader.onload = function (e) {
+	                    $('#blah')
+	                        .attr('src', e.target.result)
+	                        .width(300)
+	                        .height(400);
+	                };
+
+	                reader.readAsDataURL(input.files[0]);
+	            }
+	        }
+		 $(document).ready(function() {
+			 $( ".mau" ).change(function() {
+				
+				 var x = $( this ).attr( "td-color" );
+				 
+				 $('#blah').css('background-color',x );
+				});
+
+ 				$( ".title" ).change(function() {
+				 $(".title").val($(".title").val().trim());
+				
+				});
+			 $( ".title" ).keyup(function() {
+				
+				 var count = $(".title").val().length;
+				 var err=count-60;
+				 console.log(count);
+					if(count>60){
+						$('.titledes').text("Max 60 -"+err);
+						$('.titledes').show();
+					}else{
+						$('.titledes').hide();
+					}
+				});
+				$( ".brand" ).change(function() {
+				 $(".brand").val($(".brand").val().trim());
+				
+				});
+			 $( ".brand" ).keyup(function() {
+				
+				 var count = $(".brand").val().length;
+				 var err=count-50;
+				 console.log(count);
+					if(count>50){
+						$('.branddes').text("Max 50 -"+err);
+						$('.branddes').show();
+					}else{
+						$('.branddes').hide();
+					}
+				});
+			 $( ".bullet1" ).change(function() {
+				 $(".bullet1").val($(".bullet1").val().trim());
+				
+				});
+			 $( ".bullet1" ).keyup(function() {
+				
+				 var count = $(".bullet1").val().length;
+				 var err=count-256;
+				 console.log(count);
+					if(count>256){
+						$('.bullet1des1').text("Max 256 -"+err);
+						$('.bullet1des1').show();
+					}else{
+						$('.bullet1des1').hide();
+					}
+				});
+
+ 				$( ".bullet2" ).change(function() {
+				 $(".bullet2" ).val($(".bullet2").val().trim());
+				
+				});
+			 $( ".bullet2" ).keyup(function() {
+				 
+				 var count = $(".bullet2").val().length;
+				 var err=count-256;
+				 console.log(count);
+					if(count>256){
+						$('.bullet1des2').text("Max 256 -"+err);
+						$('.bullet1des2').show();
+					}else{
+						$('.bullet1des2').hide();
+					}
+					
+				});
+
+			 
+			 $( ".typeUpload" ).change(function() {
+				 console.log("1");
+				 var type=$("input[name='typeUpload']:checked").val();
+				 console.log(type);
+				 if(type=='2')
+					 {
+					 console.log("1");
+					 	$('.title').hide();
+					 	$('.brand').hide();
+					 	$('.bullet1').hide();
+					 	$('.bullet2').hide();
+					 }else{
+						 $('.title').show();
+						 	$('.brand').show();
+						 	$('.bullet1').show();
+						 	$('.bullet2').show();
+					 }
+				 
+			 });
+			 $( ".mau" ).change(function() {
+					
+				 var checked_boxes = $('input.mau:checked').length;
+				 var err=checked_boxes-10;
+				 if(checked_boxes>10)
+					 {
+					 $('.maudes').text("Max 10 color -"+err);
+					 $('.maudes').show();
+					 	
+					 }else{
+						 $('.maudes').hide();
+					 }
+	
+				});
+			 
+			 $('.ccy').select2();
+		 });
+		 $(function() {
+		        var message = [[${message}]];
+		        var message2 = message.message;
+		        console.log(message);
+		        if (message2 != null) {
+		        	 $('#notification').show();
+		        }
+		      });
+		
+		
+		
+		
+		 
+		 
+	</script>
+
+
+</body>
+</html>
