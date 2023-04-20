@@ -39,4 +39,16 @@ public class Scheduler {
 		}
 		
 	}
+	
+	@Scheduled(cron = "0 1 1 * * ?")
+	   public void deleteUploadDone() {
+		try {
+			userDAO.clearUpdateDone();
+				
+		} catch (Exception e) {
+			System.out.println("Clear update done");
+			e.printStackTrace();
+		}
+		
+	}
 }

@@ -3,6 +3,7 @@ package stackjava.com.sbsecurityhibernate.dao;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -223,7 +224,19 @@ public class UserDAO {
 		
 
 	}
-	
+	public void clearUpdateDone() {
+		 Calendar now = Calendar.getInstance();
+		 now.add(Calendar.DAY_OF_MONTH, -5);
+	        now.set(Calendar.HOUR, 0);
+	        now.set(Calendar.MINUTE, 0);
+	        now.set(Calendar.SECOND, 0);
+	        now.set(Calendar.HOUR_OF_DAY, 0);
+	        
+		Session session = this.sessionFactory.getCurrentSession();
+		session.createNativeQuery("DELETE FROM `upload_file` WHERE status='2' and day =:day ").setParameter("day", now.getTime()).executeUpdate();
+		
+				
+	}
 	public List<uploadFile> UpdateClearUploadFileFromlistID(List<Integer> ids ) {
 		try {
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
