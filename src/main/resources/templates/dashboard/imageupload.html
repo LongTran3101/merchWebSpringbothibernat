@@ -141,6 +141,13 @@
 				</div>
 				<div class="col-md-2 ">
 
+					<button type="button" 
+						class="btn btn-primary col-md-12 EditImageAll">Update Account</button>
+				</div>
+				
+				
+				<div class="col-md-2 ">
+
 					<button type="button" onclick="deleteImage()"
 						class="btn btn-primary col-md-12">Delete</button>
 				</div>
@@ -178,7 +185,7 @@
 					<tbody>
 						<th:block th:if="${lst != null}">
 							<tr data-toggle="tooltip" th:each="item, k : ${lst}">
-								<td><input type="checkbox" th:value="${item.id}"
+								<td><input type="checkbox" th:value="${item.id}" class="checkItem"
 									name="checkItem"></td>
 								<td th:text="${k.index + 1}" class="text-left"
 									style="width: 5%;">1</td>
@@ -276,6 +283,47 @@
 		<!-- /.modal-dialog -->
 	</div>
 
+	<div class="modal fade" id="modal-UpdateAll" tabindex="-1" style="display: none;overflow:hidden;"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content" style="margin-left: -40px; width: 750px;">
+				<div class="modal-header">
+					<h4 class="modal-title">Edit</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" id="fromAdd">
+						<div class="row">
+							<input type="hidden" name="idImage" id="idImage">
+							
+							<label class="col-md-2" >ACC
+								MERCH </label>
+							<div class="col-md-10" id="#select">
+								<select required="required" class=" form-control idAccountAll " style="width: 100%;"
+									tabindex="1" name="idAccount" data-class="">
+									<option th:each="item:${lstacc}" th:text="${item.name} "
+										th:value="${item.id}"></option>
+								</select>
+							</div>
+
+							
+					</form>
+
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button type="button" class="btn btn-default closetModal"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary saveAccountAll">Save
+						changes</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
@@ -371,6 +419,43 @@
 			
 			 
 		 });
+		 
+		 $('.saveAccountAll').click(function() {
+			 var yourArray=[];
+			 $("input:checkbox[name=checkItem]:checked").each(function(){
+				    yourArray.push($(this).val());
+				});
+			 var idAccount = $('.idAccountAll').val();
+			
+			 $.ajax({
+	              url: base_url + 'user/updateImageAll',
+	              data:{
+	            	 
+	            	  idAccount:idAccount,
+	            	  checkItem:yourArray
+	              },
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+	            		  {
+	            		  alert("Thành công!");
+	            		  //$('#modal-default').modal('hide');
+	            		  location.reload();
+	            		  }else  if(rs=='02') {
+	            			  alert("Loi");
+	            		  }
+	            		  else   {
+	            			  alert("Loi");
+	            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
+			 
+		 });
+		 
 		 $('.saveAccount').click(function() {
 			 var id = $('#idImage').val();
 			 var idAccount = $('.ccy').val();
@@ -411,6 +496,14 @@
 			 
 		 });
 		 
+		 
+		 
+		 $('.EditImageAll').click(function() {
+				
+			
+			 $('#modal-UpdateAll').modal('show');
+			 
+		 });
 		 
 		 $('.EditImage').click(function() {
 			

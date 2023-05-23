@@ -157,6 +157,44 @@ public class UserController {
 
 	}
 	
+	
+	
+	
+	@RequestMapping("/updateImageAll")
+	@ResponseBody
+	public String updateImageAll(HttpSession session, Model model, HttpServletRequest request,@RequestParam(value="checkItem[]") List<String> myArray) {
+		try {
+			
+			String idAccount = request.getParameter("idAccount");
+			AccountMerch merch = userDAO.getAccountMerchByID(Integer.parseInt(idAccount));
+			if(myArray!=null && !myArray.isEmpty())
+			{
+				for (String string : myArray) {
+					try {
+						uploadFile file=userDAO.getuploadFileID(Integer.parseInt(string));
+						file.setIdAccount(merch.getId());
+						file.setIp(merch.getIp());
+						file.setProfile(merch.getPath());
+						file.setNameAccount(merch.getName());
+						file.setNameuser("1");
+						 userDAO.saveOrUpdateuploadFile(file);
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					
+					
+				}
+			}
+		
+				return "00";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "01";
+
+	}
+	
 	@RequestMapping("/updateImage")
 	@ResponseBody
 	public String updateImage(HttpSession session, Model model, HttpServletRequest request) {
