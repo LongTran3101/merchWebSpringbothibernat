@@ -511,6 +511,9 @@ public class UserDAO {
 		
 		try {
 			Session session = this.sessionFactory.getCurrentSession();
+			session.createNativeQuery("DELETE FROM users_roles WHERE user= :id")
+			.setParameter("id", id).executeUpdate();
+			
 			session.createNativeQuery("DELETE FROM users WHERE id= :id")
 			.setParameter("id", id).executeUpdate();
 			return true;
