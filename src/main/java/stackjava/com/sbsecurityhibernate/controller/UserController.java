@@ -520,35 +520,35 @@ public class UserController {
 						upload.setBrand(row.getCell(2).getStringCellValue());
 						upload.setDes1(getDataCell(row.getCell(3)));
 						upload.setDes2(getDataCell(row.getCell(4)));
-						upload.setTypeShirtUpLoad(getDataCell(row.getCell(5)) );
+						upload.setTypeShirtUpLoad(getDataCellNotNumeric(row.getCell(5)) );
 						
 						
-						upload.setTypeTshirt(getDataCell(row.getCell(6)));
-						upload.setMau(getDataCell(row.getCell(7)));
+						upload.setTypeTshirt(getDataCellNotNumeric(row.getCell(6)));
+						upload.setMau(getDataCellNotNumeric(row.getCell(7)));
 						upload.setPrice(getDataCell(row.getCell(8)));
 						
-						upload.setTypeTshirtPre(getDataCell(row.getCell(9)));
-						upload.setMaupre(getDataCell(row.getCell(10)));
+						upload.setTypeTshirtPre(getDataCellNotNumeric(row.getCell(9)));
+						upload.setMaupre(getDataCellNotNumeric(row.getCell(10)));
 						upload.setPricePre(getDataCell(row.getCell(11)));
 						
-						upload.setMauVneck(getDataCell(row.getCell(12)));
+						upload.setMauVneck(getDataCellNotNumeric(row.getCell(12)));
 						upload.setPriceVneck(getDataCell(row.getCell(13)));
 						
-						upload.setMauTank(getDataCell(row.getCell(14)));
+						upload.setMauTank(getDataCellNotNumeric(row.getCell(14)));
 						upload.setPriceTank(getDataCell(row.getCell(15)));
-						upload.setMauLong(getDataCell(row.getCell(16)));
+						upload.setMauLong(getDataCellNotNumeric(row.getCell(16)));
 						upload.setPriceLong(getDataCell(row.getCell(17)));
 						
 						
 						upload.setPriceRaglan(getDataCell(row.getCell(18)));
 						
-						upload.setMauSweat(getDataCell(row.getCell(19)));
+						upload.setMauSweat(getDataCellNotNumeric(row.getCell(19)));
 						upload.setPriceSweat(getDataCell(row.getCell(20)));
 						
-						upload.setMauPullover(getDataCell(row.getCell(21)));
+						upload.setMauPullover(getDataCellNotNumeric(row.getCell(21)));
 						upload.setPricePullover(getDataCell(row.getCell(22)));
 						
-						upload.setMauZip(getDataCell(row.getCell(23)));
+						upload.setMauZip(getDataCellNotNumeric(row.getCell(23)));
 						upload.setPriceZip(getDataCell(row.getCell(24)));
 						
 						
@@ -591,6 +591,26 @@ public class UserController {
 		
 	
 	}
+	
+	public static String getDataCellNotNumeric(Cell cell)
+	{
+		String value = "";
+		try {
+			if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				  value = String.valueOf(cell.getNumericCellValue()).replaceAll(".0", "");
+			} else {
+				      value = cell.getStringCellValue();
+			}
+		}
+		 catch (Exception e) {
+			// TODO: handle exception
+		}
+		return value;
+		
+		
+	
+	}
+
 
 	public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) {
 		try {
