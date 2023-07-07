@@ -300,17 +300,19 @@ public class UserDAO {
 	
 	
 	
-	public Boolean saveOrUpdate(List<ImageMerch> image)
+	public Boolean saveOrUpdate(List<ImageMerch> image,Date saleImage)
 	{Session session = this.sessionFactory.getCurrentSession();
-		
-		
-	
 		try {
 
 			if(image!=null && !image.isEmpty())
 			{
 				for (ImageMerch imageMerch : image) {
 					imageMerch.setDay(new Date());
+					imageMerch.setDayMerch(saleImage);
+					String link=imageMerch.getUrl();
+					int x=link.lastIndexOf("/");
+					String b=link.substring(x+1);
+					imageMerch.setAsin(b);
 					 session.merge(imageMerch);
 						session.flush();
 				}
@@ -487,7 +489,22 @@ public class UserDAO {
 		return out;
 	}
 	
-	
+	public boolean deleteImage (List<ImageMerch> LstimageMerch,Date day)
+	{
+		try {
+		Session session = this.sessionFactory.getCurrentSession();
+		for (ImageMerch imageMerch : LstimageMerch) {
+			session.createNativeQuery("DELETE FROM image_merch WHERE  url=:name and dayMerch= :day  ")
+			.setParameter("name", imageMerch.getUrl())
+			.setParameter("day", day).executeUpdate();
+		}
+		
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	
 	public boolean deleteSaleMerch (String username,String accname,Date day)

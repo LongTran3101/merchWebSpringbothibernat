@@ -208,7 +208,7 @@
 						</div>
 						<label class="col-md-1" for="vehicle1"> Kid</label>
 						<div class="col-md-1">
-							<input type="checkbox" id="kid" name="typeTshirt" value="3">
+							<input type="checkbox" class="typeCheckShirtKid" id="kid" name="typeTshirt" value="3">
 						</div>
 
 						<label class="col-md-1" for="vehicle1"> Price</label>
@@ -606,7 +606,7 @@
 						</div>
 						<label class="col-md-1" for="vehicle1"> Kid</label>
 						<div class="col-md-1">
-							<input type="checkbox" id="kid" name="typeTshirtPre" value="3">
+							<input type="checkbox" class="typeCheckShirtKid" id="kidPre" name="typeTshirtPre" value="3">
 						</div>
 
 						<label class="col-md-1" for="vehicle1"> Price</label>
@@ -2249,10 +2249,20 @@
 				 $('#notification').hide();
 				 
 			 });
+			 
+			 $( "#kid" ).click(function() {
+				 if($("#kid").is(':checked'))
+					 {
+					 	 $('#kidPre').prop('checked', true);
+					 }else{
+						 $('#kidPre').prop('checked', false);
+					 }
+				
+				 
+			 });
 			 $( "#mauden" ).click(function() {
 				 $('.mau').prop('checked', false);
 				 $('.mau1').click();
-				
 				 $('.mau4').click();
 				 $('.mau6').click();
 				 $('.mau8').click();
@@ -2262,7 +2272,11 @@
 				 $('.mau14').click();
 				 $('.mau16').click();
 				 $('.mau3').click();
-				
+				 
+				 $('#maudenPre').click();
+				 $('#maudenVneck').click();
+				 $('#maudenTank').click();
+				 $('#maudenLong').click();
 				 
 			 });
 			 $( "#mautrang" ).click(function() {
@@ -2277,6 +2291,10 @@
 				 $('.mau20').click();
 				 $('.mau21').click();
 				 $('.mau15').click();
+				 $('#mautrangPre').click();
+				 $('#mautrangVneck').click();
+				 $('#mautrangTank').click();
+				 $('#mautrangLong').click();
 				
 				 
 			 });

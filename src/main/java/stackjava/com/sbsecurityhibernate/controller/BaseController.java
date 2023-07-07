@@ -86,6 +86,13 @@ public class BaseController {
     		DateFormat  formatter = new SimpleDateFormat("HH:mm");
     		ObjectMapper objectMapper = new ObjectMapper();
     		SaleMerch mech=objectMapper.readValue(req, SaleMerch.class);
+    		Date saleImage=mech.getDay();
+    		 Calendar saleImagenow = Calendar.getInstance();
+    		 saleImagenow.setTime(saleImage);
+    		 saleImagenow.set(Calendar.HOUR, 0);
+    		 saleImagenow.set(Calendar.MINUTE, 0);
+    		 saleImagenow.set(Calendar.SECOND, 0);
+    		 saleImagenow.set(Calendar.HOUR_OF_DAY, 0);
     		 Calendar now = Calendar.getInstance();
     	        now.set(Calendar.HOUR, 0);
     	        now.set(Calendar.MINUTE, 0);
@@ -98,7 +105,14 @@ public class BaseController {
     		LstimageMerch=mech.getLstimageMerch();
     		if(LstimageMerch!=null && !LstimageMerch.isEmpty())
     		{
-    			userDAO.saveOrUpdate(LstimageMerch);
+    			try {
+    				System.out.println(saleImage.toString()+" -----saleImage");
+    				//System.out.println(saleImage.get);
+    				userDAO.deleteImage(LstimageMerch, saleImagenow.getTime());
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+    			userDAO.saveOrUpdate(LstimageMerch,saleImage);
     		}
     		try {
     			try {

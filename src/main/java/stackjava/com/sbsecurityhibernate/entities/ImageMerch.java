@@ -1,5 +1,6 @@
 package stackjava.com.sbsecurityhibernate.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -28,9 +29,52 @@ public class ImageMerch {
 	@Column(name = "day")
 	@Temporal(TemporalType.DATE)
 	private Date day;
+	@Basic(optional = false)
+	@Column(name = "dayMerch")
+	@Temporal(TemporalType.DATE)
+	private Date dayMerch;
+	@Column(name = "royaltie")
+	private BigDecimal royaltie;
+	@Column(name = "sold")
+	private int sold;
 	
+	public BigDecimal getRoyaltie() {
+		return royaltie;
+	}
+
+	public void setRoyaltie(BigDecimal royaltie) {
+		this.royaltie = royaltie;
+	}
+
+	public int getSold() {
+		return sold;
+	}
+
+	public void setSold(int sold) {
+		this.sold = sold;
+	}
+
+	public Date getDayMerch() {
+		return dayMerch;
+	}
+
+	public void setDayMerch(Date dayMerch) {
+		this.dayMerch = dayMerch;
+	}
+
 	@Column(name = "acc")
 	private String acc;
+	@Column(name = "asin")
+	private String asin;
+	
+
+	public String getAsin() {
+		return asin;
+	}
+
+	public void setAsin(String asin) {
+		this.asin = asin;
+	}
 
 	public String getName() {
 		return name;
