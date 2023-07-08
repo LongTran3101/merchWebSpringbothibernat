@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
 import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
+import stackjava.com.sbsecurityhibernate.entities.Product;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
 import stackjava.com.sbsecurityhibernate.entities.User;
 import stackjava.com.sbsecurityhibernate.entities.uploadFile;
@@ -298,7 +299,24 @@ public class UserDAO {
 	
 	
 	
-	
+	public Boolean saveOrUpdateProduct(List<Product> image)
+	{Session session = this.sessionFactory.getCurrentSession();
+		try {
+
+			if(image!=null && !image.isEmpty())
+			{
+				for (Product imageMerch : image) {
+					imageMerch.setDayUpdate(new Date());
+					 session.merge(imageMerch);
+						session.flush();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	
 	public Boolean saveOrUpdate(List<ImageMerch> image,Date saleImage)
 	{Session session = this.sessionFactory.getCurrentSession();
@@ -487,6 +505,22 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		return out;
+	}
+	
+	public boolean deleteProduct (int idacc)
+	{
+		try {
+		Session session = this.sessionFactory.getCurrentSession();
+	
+			session.createNativeQuery("DELETE FROM product WHERE  acc=:idacc")
+			.setParameter("idacc", idacc).executeUpdate();
+		
+		
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public boolean deleteImage (List<ImageMerch> LstimageMerch,Date day)

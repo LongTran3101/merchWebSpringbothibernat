@@ -48,6 +48,8 @@ import stackjava.com.sbsecurityhibernate.dao.UserDAO;
 import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
 import stackjava.com.sbsecurityhibernate.entities.Image;
 import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
+import stackjava.com.sbsecurityhibernate.entities.ListPoductDTO;
+import stackjava.com.sbsecurityhibernate.entities.Product;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
 import stackjava.com.sbsecurityhibernate.entities.User;
 import stackjava.com.sbsecurityhibernate.entities.uploadFile;
@@ -141,6 +143,47 @@ public class BaseController {
     	    
     	
     }
+	
+	@ResponseBody
+    @RequestMapping(value = "/saveProduct", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	private String saveProduct( @RequestBody String req,HttpServletRequest request, HttpServletResponse resp) {
+    
+    	try {
+    		Boolean check=false;
+    		ObjectMapper objectMapper = new ObjectMapper();
+    		ListPoductDTO mech=objectMapper.readValue(req, ListPoductDTO.class);
+    		
+    		 Calendar now = Calendar.getInstance();
+    	        now.set(Calendar.HOUR, 0);
+    	        now.set(Calendar.MINUTE, 0);
+    	        now.set(Calendar.SECOND, 0);
+    	        now.set(Calendar.HOUR_OF_DAY, 0);
+    		
+    		 //System.out.println(formatter.format(new Date()));
+    		List<Product> LstimageMerch=new  ArrayList<>();
+    		LstimageMerch=mech.getList();
+    		if(LstimageMerch!=null && !LstimageMerch.isEmpty())
+    		{
+    			try {
+    				
+    				userDAO.deleteProduct(LstimageMerch.get(0).getAcc());
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+    			check=userDAO.saveOrUpdateProduct(LstimageMerch);
+    		}
+    		if(check)
+    		{
+    			 return "00";
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return"01";
+    	    
+    	
+    }
+	
 	
 	
 	@ResponseBody
