@@ -19,9 +19,29 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-<!-- Custom styles for this template -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
+<style>
+.error {
+	background-color: yellow;
+}
 
+.terminated {
+	background-color: red;
+	color: white;
+}
+
+.success {
+	background: #28a745;
+}
+
+table.dataTable th {
+	font-size: 0.7em;
+}
+
+table.dataTable td {
+	font-size: 0.7em;
+}
+</style>	
 </head>
 
 <body>
@@ -107,6 +127,7 @@
 							<th>path</th>
 							<th>email</th>
 							<th>checkSale</th>
+							<th>check Product</th>
 							<th>DELETE</th>
 							<th>EDIT</th>
 						</tr>
@@ -127,6 +148,11 @@
 									<button type="button" th:attr="data-id=${item.id}"
 										class="btn btn-block btn-primary btn-sm checkSaleButton">check
 										sale</button>
+								</td>
+								<td>
+									<button type="button" th:attr="data-id=${item.id}"
+										class="btn btn-block btn-primary btn-sm checkProductButton">check
+										Product</button>
 								</td>
 								<td>
 									<button type="button" th:attr="data-id=${item.id},data-name=${item.id},data-name=${item.name},data-ip=${item.ip},data-path=${item.path},data-email=${item.email}"
@@ -260,11 +286,12 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
 		crossorigin="anonymous"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+	
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
+	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
 		
 
 	<script type="text/javascript" th:inline="javascript">
@@ -348,6 +375,34 @@
 			 $('.ipEdit').val( $( this ).attr( "data-ip" ));
 			 $('.pathEdit').val( $( this ).attr( "data-path" ));
 			 $('#modal-default-edit').modal('show');
+			 
+		 });
+		 
+		 
+		 
+		 
+		 $('.checkProductButton').click(function() {
+			 var id = $(this).attr("data-id");
+			 $.ajax({
+	              url: base_url + 'user/checkproduct',
+	              data:{id:id},
+	              async: false,
+	              success: function(rs) {
+	            	  if(rs=='00')
+            		  {
+            		  alert("Thành công!");
+            		  }else  if(rs=='02') {
+            			  alert("Kiểm tra tool vps chưa bật !");
+            		  }
+            		  else   {
+            			  alert("Thất bại vui lòng kiểm tra !");
+            		  }
+	            	 
+	              },
+	              error: function (xhr, ajaxOptions, thrownError) {
+	            	  alert("Lỗi!");
+	            }
+	          });
 			 
 		 });
 		 

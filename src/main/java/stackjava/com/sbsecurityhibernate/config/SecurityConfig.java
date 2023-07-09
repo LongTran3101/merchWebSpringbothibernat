@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		
 		
-		http.authorizeRequests().antMatchers("/restApi","/restApi**","/api","/api**","/saveProduct","/saveProduct**","/saveCheckSale","/saveCheckSale**","/signup","/signup**","/uploadMultifileExcel","/uploadMultifileExcel**","/getallaccfromip","/getallaccfromip**").permitAll();
+		http.authorizeRequests().antMatchers("/restApi","/restApi**","/api","/api**","/updateStatusProduct","/updateStatusProduct**","/saveProduct","/saveProduct**","/saveCheckSale","/saveCheckSale**","/signup","/signup**","/uploadMultifileExcel","/uploadMultifileExcel**","/getallaccfromip","/getallaccfromip**").permitAll();
 		// Cấu hình cho Login Form.
 		http.authorizeRequests()
 		 

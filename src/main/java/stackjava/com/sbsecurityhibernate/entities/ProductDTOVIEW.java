@@ -1,5 +1,6 @@
 package stackjava.com.sbsecurityhibernate.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -18,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
 @Entity
 @Table(name = "product")
-public class Product {
+public class ProductDTOVIEW {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
@@ -42,18 +43,7 @@ public class Product {
 	private String pathProfile;
 	private String typeProduct;
 	private String price;
-	private String status;
 	private String accName;
-	@Transient
-	private String base64;
-	@Lob
-	@Column(name = "BobImage", columnDefinition = "LONGBLOB")
-	byte[] BobImage;
-
-	public byte[] getBobImage() {
-		return BobImage;
-	}
-
 	public String getAccName() {
 		return accName;
 	}
@@ -62,10 +52,46 @@ public class Product {
 		this.accName = accName;
 	}
 
+	private String status;
+	@Transient
+	private String base64;
+	private String pathFile;
+	@Lob
+	@Column(name = "BobImage", columnDefinition = "LONGBLOB")
+	byte[] BobImage;
+	private BigDecimal royaltie ;
+	private int sold;
+	public BigDecimal getRoyaltie() {
+		return royaltie;
+	}
+
+	public void setRoyaltie(BigDecimal royaltie) {
+		this.royaltie = royaltie;
+	}
+
+	public int getSold() {
+		return sold;
+	}
+
+	public void setSold(int sold) {
+		this.sold = sold;
+	}
+
+	public byte[] getBobImage() {
+		return BobImage;
+	}
+
 	public void setBobImage(byte[] bobImage) {
 		BobImage = bobImage;
 	}
 
+	public String getPathFile() {
+		return pathFile;
+	}
+
+	public void setPathFile(String pathFile) {
+		this.pathFile = pathFile;
+	}
 
 	public String getBase64() {
 		return base64;

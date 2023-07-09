@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Producer;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +47,8 @@ import stackjava.com.sbsecurityhibernate.dao.CallAPi;
 import stackjava.com.sbsecurityhibernate.dao.UserDAO;
 import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
 import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
+import stackjava.com.sbsecurityhibernate.entities.Product;
+import stackjava.com.sbsecurityhibernate.entities.ProductDTOVIEW;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
 import stackjava.com.sbsecurityhibernate.entities.User;
 import stackjava.com.sbsecurityhibernate.entities.uploadFile;
@@ -264,6 +268,39 @@ public class UserController {
 		return "01";
 
 	}
+	
+	@RequestMapping("/checkproduct")
+	@ResponseBody
+	public String checkproduct(HttpSession session, Model model, HttpServletRequest request) {
+		try {
+			String id = request.getParameter("id");
+
+			AccountMerch merch = userDAO.getAccountMerchByID(Integer.parseInt(id));
+
+			ObjectMapper objectMapper = new ObjectMapper();
+			String req = objectMapper.writeValueAsString(merch);
+			CallAPi callApi = new CallAPi();
+			try {
+				String rep = callApi.callAPIPost("http://" + merch.getIp() + ":8080/checkProduct", req);
+				// model.addAttribute("lst", lst);
+				if (rep != null && rep.equalsIgnoreCase("00")) {
+					return "00";
+				}
+			} catch (Exception e) {
+				return "02";
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "01";
+
+		}
+		return "01";
+
+	}
+	
+	
+	
 
 	@RequestMapping("/showDS")
 	public String showDS(HttpSession session, Model model, HttpServletRequest request) {
@@ -354,6 +391,38 @@ public class UserController {
 		model.addAttribute("lst", null);
 		return "dashboard/imageupload";
 	}
+	
+
+	
+	@GetMapping("/product")
+	public String product(HttpSession session, Model model, HttpServletRequest request) {
+		String daySeach = request.getParameter("daySearch");
+		String status = request.getParameter("status");
+		String idAccountSearch = request.getParameter("idAccountSearch");
+		
+		// String daySearchTo=request.getParameter("daySearchTo");
+		User user = (User) session.getAttribute("user");
+		List<AccountMerch> lstacc = userDAO.getAllUser(user.getUsername());
+		model.addAttribute("lstacc", lstacc);
+		model.addAttribute("daySeach", daySeach);
+		model.addAttribute("status", status);
+		model.addAttribute("idAccountSearch", idAccountSearch);
+		// model.addAttribute("daySearchTo", daySearchTo);
+		if (daySeach != null && daySeach != "") {
+
+			List<ProductDTOVIEW> lst = userDAO.getAllProductSearch(user.getUsername(),status,idAccountSearch);
+			for (ProductDTOVIEW product : lst) {
+				product.setBase64("data:image/png;base64,"+Base64.getEncoder().encodeToString(product.getBobImage()));
+			}
+			model.addAttribute("lst", lst);
+			return "dashboard/product";
+		}
+
+		model.addAttribute("lst", null);
+		return "dashboard/product";
+	}
+	
+	
 	@ResponseBody
 	@PostMapping("/deleteimageupload")
 	public String deleteimageupload(@RequestParam String checkItem, HttpSession session, Model model,
@@ -371,6 +440,68 @@ public class UserController {
 			
 			// lst.add(dtonew);
 			  //MessageHelper.addSuccessAttribute(ra, "Thanh cong");
+		} catch (Exception e) {
+			return "02";
+		}
+
+		String daySeach = request.getParameter("daySearch");
+		if (daySeach != null && daySeach != "") {
+
+			List<uploadFile> lst = userDAO.getAllUploadFile(daySeach, daySeach, user.getUsername());
+			model.addAttribute("lst", lst);
+			return "dashboard/imageupload";
+		}
+		model.addAttribute("daySeach", daySeach);
+		model.addAttribute("lst", null);
+		return "dashboard/imageupload";
+	}
+	
+	@PostMapping("/deleteproduct")
+	public String deleteproduct(@RequestParam String checkItem, HttpSession session, Model model,
+			HttpServletRequest request,RedirectAttributes ra) {
+		System.out.println(checkItem);
+		User user = (User) session.getAttribute("user");
+		try {
+			List<String> convertedCountriesList = Stream.of(checkItem.split(",", -1)).collect(Collectors.toList());
+			List<Integer> ids = new ArrayList<Integer>();
+			for (String string : convertedCountriesList) {
+				ids.add(Integer.parseInt(string));
+			}
+
+			List<Product> lst = userDAO.getAllProductFromlistID(ids);
+			List<String> lstIp = new ArrayList<String>();
+			ObjectMapper objectMapper = new ObjectMapper();
+			CallAPi callApi = new CallAPi();
+			for (Product uploadFile : lst) {
+				if (!lstIp.contains(uploadFile.getIp())) {
+					lstIp.add(uploadFile.getIp());
+				}
+			}
+			for (String string : lstIp) {
+				List<Product> resul = new ArrayList<Product>();
+				for (Product uploadFile : lst) {
+					if (string.equalsIgnoreCase(uploadFile.getIp())) {
+						uploadFile.setBase64(null);
+						uploadFile.setBobImage(null);
+						resul.add(uploadFile);
+					}
+				}
+				try {
+
+					String reqlst = objectMapper.writeValueAsString(resul);
+					String reul = callApi.callAPIPostNotReport("http://" + string + ":8080/deleteproduct", reqlst);
+					// model.addAttribute("lst", lst);
+					if (reul != null && reul.equalsIgnoreCase("00")) {
+						// return "00";
+					}
+				} catch (Exception e) {
+					continue;
+					// TODO: handle exception
+				}
+
+			}
+			// lst.add(dtonew);
+			  MessageHelper.addSuccessAttribute(ra, "Thanh cong");
 		} catch (Exception e) {
 			return "02";
 		}
