@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -198,9 +199,40 @@ public class UserDAO {
 
 	}
 
-	public List<ProductDTOVIEW> getAllProductSearch(String username, String status, String idAccount) {
+	public int getCountProductSearch(String username, String status, String idAccount) {
+		int count=0;
 		try {
 			
+			List<ProductDTOVIEW> users = new ArrayList<ProductDTOVIEW>();
+
+			String query = "SELECT count(*)  FROM `product` a where  a.username=:username ";
+			if (status != null && !status.isEmpty()) {
+				query = query + " and status=:status";
+			}
+			if (idAccount != null && !idAccount.isEmpty()) {
+				query = query + " and acc=:idAccount";
+			}
+			query = query + " order by   ip ASC";
+			Session session = this.sessionFactory.getCurrentSession();
+			Query query2 = session.createNativeQuery(query).setParameter("username", username);
+			if (idAccount != null && !idAccount.isEmpty()) {
+				query2.setParameter("idAccount", idAccount);
+			}
+			if (status != null && !status.isEmpty()) {
+				query2.setParameter("status", status);
+			}
+			BigInteger countBig = (BigInteger)query2.getSingleResult();
+			count =countBig.intValue();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	public List<ProductDTOVIEW> getAllProductSearch(String username, String status, String idAccount, String page) {
+		try {
+
 			List<ProductDTOVIEW> users = new ArrayList<ProductDTOVIEW>();
 
 			String query = "SELECT a.*,(select IFNULL(sum(b.sold), 0) from image_merch b where b.asin=a.asin)as sold,(select IFNULL(sum(b.royaltie), 0)  from image_merch b where b.asin=a.asin) as royaltie FROM `product` a where  a.username=:username ";
@@ -219,6 +251,15 @@ public class UserDAO {
 			if (status != null && !status.isEmpty()) {
 				query2.setParameter("status", status);
 			}
+			query2.setMaxResults(250);
+			if (page != null && !page.isEmpty()) {
+				int startPosition = Integer.parseInt(page) * 250 - 250;
+				query2.setFirstResult(startPosition);
+			} else {
+				query2.setFirstResult(0);
+				
+			}
+
 			users = query2.getResultList();
 			return users;
 		} catch (Exception e) {
@@ -327,11 +368,12 @@ public class UserDAO {
 
 			if (imageMerch != null && !imageMerch.isEmpty()) {
 				for (Product product : imageMerch) {
-					java.net.URL url = new java.net.URL(product.getUrlPreview()); 
-				    InputStream is = url.openStream();  
-				    byte[] imageBytes = org.apache.commons.io.IOUtils.toByteArray(is); 
-				    BufferedImage bImageFromConvert = ImageIO.read(new ByteArrayInputStream(imageBytes));
-				    int type = bImageFromConvert.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : bImageFromConvert.getType();
+					java.net.URL url = new java.net.URL(product.getUrlPreview());
+					InputStream is = url.openStream();
+					byte[] imageBytes = org.apache.commons.io.IOUtils.toByteArray(is);
+					BufferedImage bImageFromConvert = ImageIO.read(new ByteArrayInputStream(imageBytes));
+					int type = bImageFromConvert.getType() == 0 ? BufferedImage.TYPE_INT_ARGB
+							: bImageFromConvert.getType();
 					BufferedImage resizeImageJpg = resizeImage(bImageFromConvert, type, 80, 108);
 					ByteArrayOutputStream os = new ByteArrayOutputStream();
 					ImageIO.write(resizeImageJpg, "png", os);
@@ -340,9 +382,7 @@ public class UserDAO {
 					session.merge(product);
 					session.flush();
 				}
-				
 
-			
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -531,20 +571,19 @@ public class UserDAO {
 		}
 		return false;
 	}
-	
+
 	public boolean updateStatusProduct(String asin) {
 		try {
 			Session session = this.sessionFactory.getCurrentSession();
 
-			session.createNativeQuery("update product set status = 'delete' WHERE  asin=:asin").setParameter("asin", asin)
-					.executeUpdate();
+			session.createNativeQuery("update product set status = 'delete' WHERE  asin=:asin")
+					.setParameter("asin", asin).executeUpdate();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-
 
 	public boolean deleteImage(List<ImageMerch> LstimageMerch, Date day) {
 		try {
