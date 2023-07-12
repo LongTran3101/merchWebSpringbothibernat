@@ -51,81 +51,94 @@ table.dataTable td {
 
 
 
-	<nav class="navbar navbar-expand-lg navbar-light"
-		style="background-color: #e3f2fd;">
-		<a class="navbar-brand" href="#">Navbar</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarColor03" aria-controls="navbarColor03"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+	<div class="col-sm-12 col-md-12">
+		<nav class="navbar navbar-expand-lg navbar-light"
+			style="background-color: #e3f2fd;">
+			<a class="navbar-brand" href="#">MerchUpload</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarColor03" aria-controls="navbarColor03"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-		<div class="collapse navbar-collapse" id="navbarColor03">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link"
-					th:href="@{/user/allAcc}">All Account <span class="sr-only">(current)</span></a>
-				</li>
+			<div class="collapse navbar-collapse" id="navbarColor03">
+				<!-- <ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link"
+						th:href="@{/user/allAcc}">All Account <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/user/checkSale}">Thống kê</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/user/imageupload}">Quan Ly upload</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/user/upload}">Upload</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/admin/alluser}">Quản lý người dùng</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+				</ul> -->
+				<ul class="navbar-nav mr-auto">
 
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/user/checkSale}">Thống kê</a></li>
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/user/imageupload}">Quan Ly upload</a></li>
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/user/upload}">Upload</a></li>
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/admin/alluser}">Quản lý người dùng</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-			</ul>
-			<form class="form-inline">
-				<input class="form-control mr-sm-2" type="search"
-					placeholder="Search" aria-label="Search"> <a href="#"
-					th:href="@{/logout}">Log Out</a>
-			</form>
+					<li class="nav-item active" th:each="item, k : ${session.menuLst}"><a
+						class="nav-link" th:href="@{${item.path}}" th:text="${item.name}"></a>
+					</li>
+
+				</ul>
+
+				<form class="form-inline">
+					<input class="form-control mr-sm-2" type="search"
+						placeholder="Search" aria-label="Search"> <a href="#"
+						th:href="@{/logout}">Log Out</a>
+				</form>
+			</div>
+		</nav>
+	</div>
+
+
+	<div class="col-sm-12 col-md-12">
+		<div class="" style="padding-left: 15px;">
+
+
+			<div class="col-sm-2">
+				<section>
+					<h3 >
+						<small>Thống kê</small>
+					</h3>
+
+				</section>
+			</div>
+
+
 		</div>
-	</nav>
-
-
-
-	<div class="row" style="padding-left: 15px;">
-
-
-		<div class="col-sm-2">
-			<section>
-				<h3>
-					<small>Quản lý account</small>
-				</h3>
-
-			</section>
-		</div>
-
 
 	</div>
-	<div class="row" style="padding-left: 15px;">
-		<form th:action="@{/user/checkSale}" style="width: 100%;">
-			<div class="form-row">
-				<div class="form-group col-md-2"></div>
-				<div class="form-group col-md-4">
-					<label class="col-md-3" for="inputEmail4">DATE SEARCH</label> <input
-						type="date" id="tu" th:value="${daySeach!=null ? daySeach:''}"
-						name="daySearch">
+	<div class="col-sm-12 col-md-12">
+		<div class="" style="padding-left: 15px;">
+			<form th:action="@{/user/checkSale}" style="width: 100%;">
+				<div class="col-sm-12 col-md-12">
+					<div class="form-group col-md-2"></div>
+					<div class="form-group col-md-6">
+						<label class="col-md-3" for="inputEmail4">DATE SEARCH</label> <input
+							type="date" id="tu" th:value="${daySeach!=null ? daySeach:''}"
+							name="daySearch">
+					</div>
+
 				</div>
 
-			</div>
+				<div class="col-md-2 " style="margin: auto;">
 
-			<div class="col-md-2 " style="margin: auto;">
-
-				<button type="submit" class="btn btn-primary col-md-12">Tìm
-					kiếm</button>
-			</div>
+					<button type="submit" class="btn btn-primary col-md-12">Tìm
+						kiếm</button>
+				</div>
 
 
 
 
 
-		</form>
+			</form>
 
 
 
+		</div>
 	</div>
 	<div class="form-control">
 
@@ -230,7 +243,7 @@ table.dataTable td {
 								class="text-left nameAcc error"></td>
 							<td th:if="${item.status=='1'}" th:text="'success'"
 								class="text-left nameAcc success"></td>
-								<td th:if="${item.status=='5'}" th:text="'Terminated'"
+							<td th:if="${item.status=='5'}" th:text="'Terminated'"
 								class="text-left nameAcc terminated"></td>
 							<td th:text="${item.used +'/'+ item.limitslot}" class="text-left"></td>
 							<td th:text="${item.tier}" class="text-left"></td>

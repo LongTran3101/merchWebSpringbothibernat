@@ -37,41 +37,50 @@
 
 
 
-	<nav class="navbar navbar-expand-lg navbar-light"
-		style="background-color: #e3f2fd;">
-		<a class="navbar-brand" href="#">Navbar</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarColor03" aria-controls="navbarColor03"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+	<div class="col-sm-12 col-md-12">
+		<nav class="navbar navbar-expand-lg navbar-light"
+			style="background-color: #e3f2fd;">
+			<a class="navbar-brand" href="#">MerchUpload</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarColor03" aria-controls="navbarColor03"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-		<div class="collapse navbar-collapse" id="navbarColor03">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link"
-					th:href="@{/user/allAcc}">All Account <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/user/checkSale}">Thống kê</a></li>
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/user/imageupload}">Quan Ly upload</a></li>
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/user/upload}">Upload</a></li>
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/admin/alluser}">Quản lý người dùng</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-			</ul>
-			<form class="form-inline">
-				<input class="form-control mr-sm-2" type="search"
-					placeholder="Search" aria-label="Search"> <a href="#"
-					th:href="@{/logout}">Log Out</a>
-			</form>
-		</div>
-	</nav>
+			<div class="collapse navbar-collapse" id="navbarColor03">
+				<!-- <ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link"
+						th:href="@{/user/allAcc}">All Account <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/user/checkSale}">Thống kê</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/user/imageupload}">Quan Ly upload</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/user/upload}">Upload</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/admin/alluser}">Quản lý người dùng</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+				</ul> -->
+				<ul class="navbar-nav mr-auto">
+
+					<li class="nav-item active" th:each="item, k : ${session.menuLst}"><a
+						class="nav-link" th:href="@{${item.path}}" th:text="${item.name}"></a>
+					</li>
+
+				</ul>
+
+				<form class="form-inline">
+					<input class="form-control mr-sm-2" type="search"
+						placeholder="Search" aria-label="Search"> <a href="#"
+						th:href="@{/logout}">Log Out</a>
+				</form>
+			</div>
+		</nav>
+	</div>
 
 
-
-	<div class="form-row" style="padding-left: 15px;">
+	<div class="" style="padding-left: 15px;">
 
 
 		<div class="col-sm-2">
@@ -105,30 +114,32 @@
 	<div style="padding-top: 50px;">
 		<form th:action="@{/user/save}" method="post"
 			enctype="multipart/form-data">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-2">
+						<div class="col-md-3"></div>
+						<h4 style="margin-left: 65px;">Chọn loại áo</h4>
+					</div>
+					<div class="col-md-2">
+						<select class=" form-control ccySearch select2"
+							multiple="multiple" id="TypeShirtUpLoad"
+							style="margin-top: -13px;" tabindex="1" name="TypeShirtUpLoad"
+							data-class="">
 
-			<div class="row">
-				<div class="col-md-2">
-					<div class="col-md-3"></div>
-					<h4 style="margin-left: 65px;">Chọn loại áo</h4>
+							<option value="1" selected="selected">Standard t-shirt</option>
+							<option value="2">Premium t-shirt</option>
+							<option value="3">V-neck t-shirt</option>
+							<option value="4">Tank top</option>
+							<option value="5">Long sleeve t-shirt</option>
+							<option value="6">Raglan</option>
+							<option value="7">Sweatshirt</option>
+							<option value="8">Pullover hoodie</option>
+							<option value="9">Zip hoodie</option>
+						</select>
+					</div>
+
+
 				</div>
-				<div class="col-md-2">
-					<select class=" form-control ccySearch select2" multiple="multiple"
-						id="TypeShirtUpLoad" style="margin-top: -13px;" tabindex="1"
-						name="TypeShirtUpLoad" data-class="">
-
-						<option value="1" selected="selected">Standard t-shirt</option>
-						<option value="2">Premium t-shirt</option>
-						<option value="3">V-neck t-shirt</option>
-						<option value="4">Tank top</option>
-						<option value="5">Long sleeve t-shirt</option>
-						<option value="6">Raglan</option>
-						<option value="7">Sweatshirt</option>
-						<option value="8">Pullover hoodie</option>
-						<option value="9">Zip hoodie</option>
-					</select>
-				</div>
-
-
 			</div>
 
 
@@ -208,7 +219,8 @@
 						</div>
 						<label class="col-md-1" for="vehicle1"> Kid</label>
 						<div class="col-md-1">
-							<input type="checkbox" class="typeCheckShirtKid" id="kid" name="typeTshirt" value="3">
+							<input type="checkbox" class="typeCheckShirtKid" id="kid"
+								name="typeTshirt" value="3">
 						</div>
 
 						<label class="col-md-1" for="vehicle1"> Price</label>
@@ -606,7 +618,8 @@
 						</div>
 						<label class="col-md-1" for="vehicle1"> Kid</label>
 						<div class="col-md-1">
-							<input type="checkbox" class="typeCheckShirtKid" id="kidPre" name="typeTshirtPre" value="3">
+							<input type="checkbox" class="typeCheckShirtKid" id="kidPre"
+								name="typeTshirtPre" value="3">
 						</div>
 
 						<label class="col-md-1" for="vehicle1"> Price</label>
@@ -2039,7 +2052,8 @@
 								style="width: 40px; height: 40px; background: #006136;"
 								class="asphalt-checkbox ng-untouched ng-pristine ng-valid" id=""
 								tabindex="0">
-								<input name="mauZip" class="mauZip mau8Zip" td-color="#006136" value="8"
+								<input name="mauZip" class="mauZip mau8Zip" td-color="#006136"
+									value="8"
 									style="width: 20px; height: 20px; margin-top: 10px; margin-left: 9px;"
 									type="checkbox" id="">
 							</div>

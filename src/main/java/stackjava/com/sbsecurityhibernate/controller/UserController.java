@@ -48,6 +48,7 @@ import stackjava.com.sbsecurityhibernate.dao.CallAPi;
 import stackjava.com.sbsecurityhibernate.dao.UserDAO;
 import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
 import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
+import stackjava.com.sbsecurityhibernate.entities.ImageMerchDTO;
 import stackjava.com.sbsecurityhibernate.entities.Product;
 import stackjava.com.sbsecurityhibernate.entities.ProductDTOVIEW;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
@@ -263,6 +264,35 @@ public class UserController {
 
 	}
 
+	@RequestMapping("/checkproductAll")
+	@ResponseBody
+	public String checkproductAll(HttpSession session, Model model, HttpServletRequest request) {
+		try {
+			String id = request.getParameter("id");
+			List<String> myList = new ArrayList<String>(Arrays.asList(id.split(",")));
+			for (String string : myList) {
+
+				AccountMerch merch = userDAO.getAccountMerchByID(Integer.parseInt(string));
+				ObjectMapper objectMapper = new ObjectMapper();
+				String req = objectMapper.writeValueAsString(merch);
+				CallAPi callApi = new CallAPi();
+				try {
+					String rep = callApi.callAPIPost("http://" + merch.getIp() + ":8080/checkProduct", req);
+
+				} catch (Exception e) {
+
+				}
+			}
+
+			return "00";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "01";
+
+		}
+
+	}
+
 	@RequestMapping("/checkproduct")
 	@ResponseBody
 	public String checkproduct(HttpSession session, Model model, HttpServletRequest request) {
@@ -299,7 +329,10 @@ public class UserController {
 			String id = request.getParameter("id");
 
 			SaleMerch merch = userDAO.getSaleMerchByID(Integer.parseInt(id));
-			List<ImageMerch> lst = userDAO.getImageMerchFromSaleMerch(merch);
+			List<ImageMerchDTO> lst = userDAO.getImageMerchFromSaleMerch(merch);
+			for (ImageMerchDTO product : lst) {
+				product.setBase64("data:image/png;base64," + Base64.getEncoder().encodeToString(product.getBobImage()));
+			}
 			model.addAttribute("lst", lst);
 
 		} catch (Exception e) {
@@ -383,45 +416,41 @@ public class UserController {
 	public String product(HttpSession session, Model model, HttpServletRequest request) {
 
 		String status = request.getParameter("status");
-		String page=request.getParameter("page");
+		String page = request.getParameter("page");
 		String idAccountSearch = request.getParameter("idAccountSearch");
 		User user = (User) session.getAttribute("user");
 		List<AccountMerch> lstacc = userDAO.getAllUser(user.getUsername());
 		model.addAttribute("lstacc", lstacc);
 		model.addAttribute("status", status);
-		int totalPage= 1;
-		if(page==null|| page.isEmpty())
-		{
-			page="1";
+		int totalPage = 1;
+		if (page == null || page.isEmpty()) {
+			page = "1";
 		}
 		model.addAttribute("page", page);
 		model.addAttribute("idAccountSearch", idAccountSearch);
-		if(idAccountSearch!=null && !idAccountSearch.isEmpty())
-		{
+		List<ProductDTOVIEW> lst = new ArrayList<>();
+		if (idAccountSearch != null && !idAccountSearch.isEmpty()) {
 			model.addAttribute("idAcc", Integer.parseInt(idAccountSearch));
+			lst = userDAO.getAllProductSearch(user.getUsername(), status, idAccountSearch, page);
 		}
-
-		List<ProductDTOVIEW> lst = userDAO.getAllProductSearch(user.getUsername(), status, idAccountSearch,page);
-		if(lst!=null && !lst.isEmpty())
-		{
+		if (lst != null && !lst.isEmpty()) {
 			for (ProductDTOVIEW product : lst) {
 				product.setBase64("data:image/png;base64," + Base64.getEncoder().encodeToString(product.getBobImage()));
 			}
-			int total=userDAO.getCountProductSearch(user.getUsername(), status, idAccountSearch);
-		
+			int total = userDAO.getCountProductSearch(user.getUsername(), status, idAccountSearch);
 			int count = total / 250;
 			int phandu = total % 250;
 			if (phandu > 0) {
 				count = count + 1;
-				totalPage=count;
+				totalPage = count;
 			}
-			if ( total <= 250) {
+			if (total <= 250) {
 				totalPage = 1;
 			}
 		}
-		
+
 		model.addAttribute("totalPage", totalPage);
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			String a = objectMapper.writeValueAsString(lst);
@@ -520,14 +549,17 @@ public class UserController {
 
 		String daySeach = request.getParameter("daySearch");
 		if (daySeach != null && daySeach != "") {
-
-			List<uploadFile> lst = userDAO.getAllUploadFile(daySeach, daySeach, user.getUsername());
+			List<ProductDTOVIEW> lst = new ArrayList<>();
+			// List<uploadFile> lst = userDAO.getAllUploadFile(daySeach, daySeach,
+			// user.getUsername());
 			model.addAttribute("lst", lst);
-			return "dashboard/imageupload";
+			return "dashboard/product";
 		}
+		List<AccountMerch> lstacc = userDAO.getAllUser(user.getUsername());
+		model.addAttribute("lstacc", lstacc);
 		model.addAttribute("daySeach", daySeach);
 		model.addAttribute("lst", null);
-		return "dashboard/imageupload";
+		return "dashboard/product";
 	}
 
 	@PostMapping("/imageupload")

@@ -6,6 +6,7 @@
 				<thead>
 					<tr>
 						<th>STT</th>
+						<th>IMG</th>
 						<th>TITLE</th>
 						<th>LINK</th>
 						
@@ -14,7 +15,10 @@
 				<tbody>
 					<th:block th:if="${lst != null}">
 						<tr data-toggle="tooltip" th:each="item, k : ${lst}">
-
+							<td><img th:attr="src=${item.base64}"
+									style="border: white; background: white; widows: 200px; height: 250px;"
+									class="btn btn-primary  EditImage">
+									</td>
 							<td th:text="${k.index + 1}" class="text-right"
 								style="width: 5%;">1</td>
 							

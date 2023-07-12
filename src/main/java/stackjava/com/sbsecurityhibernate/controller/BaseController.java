@@ -1,6 +1,9 @@
 package stackjava.com.sbsecurityhibernate.controller;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -16,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -157,10 +161,30 @@ public class BaseController {
 			// System.out.println(formatter.format(new Date()));
 
 			if (lst != null && !lst.isEmpty()) {
-				userDAO.deleteProduct(lst.get(0).getAcc());
 					try {
-						check = userDAO.saveOrUpdateProduct(lst);
-						
+						int kq=userDAO.deleteProductStatusdelete(lst.get(0).getAcc());
+						 kq=userDAO.updateDayCheckProduct(lst.get(0).getAcc(), now.getTime());
+							for (Product product : lst) {
+								product.setDayUpdate(new Date());
+								try {
+									kq=userDAO.deleteProduct(product.getAsin());
+									java.net.URL url = new java.net.URL(product.getUrlPreview());
+									InputStream is = url.openStream();
+									byte[] imageBytes = org.apache.commons.io.IOUtils.toByteArray(is);
+									BufferedImage bImageFromConvert = ImageIO.read(new ByteArrayInputStream(imageBytes));
+									int type = bImageFromConvert.getType() == 0 ? BufferedImage.TYPE_INT_ARGB
+											: bImageFromConvert.getType();
+									BufferedImage resizeImageJpg = resizeImage(bImageFromConvert, type, 80, 108);
+									ByteArrayOutputStream os = new ByteArrayOutputStream();
+									ImageIO.write(resizeImageJpg, "png", os);
+									product.setBobImage(os.toByteArray());
+									product.setDayUpdate(new Date());
+								} catch (Exception e) {
+									// TODO: handle exception
+								}
+								userDAO.saveOrUpdateProduct(product);
+							}
+
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
@@ -174,6 +198,14 @@ public class BaseController {
 		}
 		return "01";
 
+	}
+	private static BufferedImage resizeImage(BufferedImage originalImage, int type, int IMG_WIDTH, int IMG_HEIGHT) {
+		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+		g.dispose();
+
+		return resizedImage;
 	}
 
 	@ResponseBody
@@ -297,7 +329,6 @@ public class BaseController {
 			String ip = request.getRemoteAddr();
 			System.out.println("ip---------" + ip);
 			ObjectMapper objectMapper = new ObjectMapper();
-
 			List<AccountMerch> lstacc = userDAO.getAccountMerchByip(ip);
 			String req = objectMapper.writeValueAsString(lstacc);
 			return req;

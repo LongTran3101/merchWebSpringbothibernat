@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import stackjava.com.sbsecurityhibernate.entities.AccountMerch;
 import stackjava.com.sbsecurityhibernate.entities.ImageMerch;
+import stackjava.com.sbsecurityhibernate.entities.ImageMerchDTO;
 import stackjava.com.sbsecurityhibernate.entities.Product;
 import stackjava.com.sbsecurityhibernate.entities.ProductDTOVIEW;
 import stackjava.com.sbsecurityhibernate.entities.SaleMerch;
@@ -57,24 +58,14 @@ public class UserDAO {
 
 	}
 
-	public List<ImageMerch> getImageMerchFromSaleMerch(SaleMerch mech) {
+	public List<ImageMerchDTO> getImageMerchFromSaleMerch(SaleMerch mech) {
 
 		try {
-			List<ImageMerch> lst = new ArrayList<>();
+			List<ImageMerchDTO> lst = new ArrayList<>();
 			Session session = this.sessionFactory.getCurrentSession();
-			List<Object[]> rs = new ArrayList<Object[]>();
-
-			rs = session.createNativeQuery("select DISTINCT name,url from image_merch where acc=:acc and day =:day")
+			lst = session.createNativeQuery("select DISTINCT a.*,b.BobImage  from image_merch a  LEFT JOIN product b on a.asin=b.asin where a.acc=:acc and a.day =:day",ImageMerchDTO.class)
 					.setParameter("acc", mech.getName()).setParameter("day", mech.getDay()).getResultList();
-			if (!rs.isEmpty()) {
-				for (Object[] objects : rs) {
-					ImageMerch a = new ImageMerch();
-					a.setName(String.valueOf(objects[0]));
-					a.setUrl(String.valueOf(objects[1]));
-					lst.add(a);
-				}
-			}
-
+			
 			return lst;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -200,9 +191,9 @@ public class UserDAO {
 	}
 
 	public int getCountProductSearch(String username, String status, String idAccount) {
-		int count=0;
+		int count = 0;
 		try {
-			
+
 			List<ProductDTOVIEW> users = new ArrayList<ProductDTOVIEW>();
 
 			String query = "SELECT count(*)  FROM `product` a where  a.username=:username ";
@@ -221,9 +212,9 @@ public class UserDAO {
 			if (status != null && !status.isEmpty()) {
 				query2.setParameter("status", status);
 			}
-			BigInteger countBig = (BigInteger)query2.getSingleResult();
-			count =countBig.intValue();
-			
+			BigInteger countBig = (BigInteger) query2.getSingleResult();
+			count = countBig.intValue();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -257,7 +248,7 @@ public class UserDAO {
 				query2.setFirstResult(startPosition);
 			} else {
 				query2.setFirstResult(0);
-				
+
 			}
 
 			users = query2.getResultList();
@@ -353,38 +344,16 @@ public class UserDAO {
 
 	}
 
-	private static BufferedImage resizeImage(BufferedImage originalImage, int type, int IMG_WIDTH, int IMG_HEIGHT) {
-		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
-		Graphics2D g = resizedImage.createGraphics();
-		g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
-		g.dispose();
 
-		return resizedImage;
-	}
 
-	public Boolean saveOrUpdateProduct(List<Product> imageMerch) {
+	public Boolean saveOrUpdateProduct(Product imageMerch) {
 		Session session = this.sessionFactory.getCurrentSession();
 		try {
+			session.merge(imageMerch);
+			session.flush();
+		} catch (
 
-			if (imageMerch != null && !imageMerch.isEmpty()) {
-				for (Product product : imageMerch) {
-					java.net.URL url = new java.net.URL(product.getUrlPreview());
-					InputStream is = url.openStream();
-					byte[] imageBytes = org.apache.commons.io.IOUtils.toByteArray(is);
-					BufferedImage bImageFromConvert = ImageIO.read(new ByteArrayInputStream(imageBytes));
-					int type = bImageFromConvert.getType() == 0 ? BufferedImage.TYPE_INT_ARGB
-							: bImageFromConvert.getType();
-					BufferedImage resizeImageJpg = resizeImage(bImageFromConvert, type, 80, 108);
-					ByteArrayOutputStream os = new ByteArrayOutputStream();
-					ImageIO.write(resizeImageJpg, "png", os);
-					product.setBobImage(os.toByteArray());
-					product.setDayUpdate(new Date());
-					session.merge(product);
-					session.flush();
-				}
-
-			}
-		} catch (Exception e) {
+		Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -558,18 +527,47 @@ public class UserDAO {
 		}
 		return out;
 	}
-
-	public boolean deleteProduct(int accid) {
+	
+	public int updateDayCheckProduct(int acc,Date date) {
+		int kq = 0;
 		try {
 			Session session = this.sessionFactory.getCurrentSession();
 
-			session.createNativeQuery("DELETE FROM product WHERE  acc=:accid").setParameter("accid", accid)
+			kq = session.createNativeQuery("update account_merch set dayUpdateProduct =:dayUpdateProduct WHERE  id=:acc").setParameter("acc", acc)
+					.setParameter("dayUpdateProduct", date)
 					.executeUpdate();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		return kq;
+	}
+
+	public int deleteProduct(String asin) {
+		int kq = 0;
+		try {
+			Session session = this.sessionFactory.getCurrentSession();
+
+			kq = session.createNativeQuery("DELETE FROM product WHERE  asin=:asin").setParameter("asin", asin)
+					.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return kq;
+	}
+	public int deleteProductStatusdelete(int acc) {
+		int kq = 0;
+		try {
+			Session session = this.sessionFactory.getCurrentSession();
+
+			kq = session.createNativeQuery("DELETE FROM product WHERE  acc=:acc and status='delete'").setParameter("acc", acc)
+					.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return kq;
 	}
 
 	public boolean updateStatusProduct(String asin) {
