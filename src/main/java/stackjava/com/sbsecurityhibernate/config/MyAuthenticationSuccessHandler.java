@@ -37,6 +37,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
 	
 	public  List<Menu> lstadmin=new ArrayList<>();
+	
 	public static List<Menu> lstuser=new ArrayList<>();
 
 	@Autowired
@@ -57,22 +58,14 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 			}
 			
 		}
+		Constain c=new Constain();
 		if(checkadmin)
 		{
-			lstadmin.add(new Menu("Tài khoản", "/user/allAcc"));
-			lstadmin.add(new Menu("Thống kê", "/user/checkSale"));
-			lstadmin.add(new Menu("Quản lý upload", "/user/imageupload"));
-			lstadmin.add(new Menu("Upload", "/user/upload"));
-			lstadmin.add(new Menu("Quản lý product", "/user/product"));
-			lstadmin.add(new Menu("Quản lý người dùng", "/admin/alluser"));
-			request.getSession().setAttribute("menuLst", lstadmin);
+			
+			request.getSession().setAttribute("menuLst", c.getLstadmin());
 		}else {
-			lstuser.add(new Menu("Tài khoản", "/user/allAcc"));
-			lstuser.add(new Menu("Thống kê", "/user/checkSale"));
-			lstuser.add(new Menu("Quản lý upload", "/user/imageupload"));
-			lstuser.add(new Menu("Upload", "/user/upload"));
-			lstuser.add(new Menu("Quản lý product", "/user/product"));
-			request.getSession().setAttribute("menuLst", lstuser);
+			
+			request.getSession().setAttribute("menuLst", c.getLstuser());
 		}
 		
 		String targetUrl = "/user/checkSale";
