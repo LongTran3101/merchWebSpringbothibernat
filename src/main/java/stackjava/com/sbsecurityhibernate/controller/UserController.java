@@ -435,6 +435,7 @@ public class UserController {
 		}
 		if (lst != null && !lst.isEmpty()) {
 			for (ProductDTOVIEW product : lst) {
+				
 				product.setBase64("data:image/png;base64," + Base64.getEncoder().encodeToString(product.getBobImage()));
 			}
 			int total = userDAO.getCountProductSearch(user.getUsername(), status, idAccountSearch);

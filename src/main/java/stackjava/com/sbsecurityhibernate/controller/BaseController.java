@@ -148,16 +148,19 @@ public class BaseController {
 	private String saveProduct(@RequestBody String req, HttpServletRequest request, HttpServletResponse resp) {
 
 		try {
+			System.out.println("JSON__________"+req);
+			
 			Boolean check = false;
 			ObjectMapper objectMapper = new ObjectMapper();
 			ListPoductDTO mech = objectMapper.readValue(req, ListPoductDTO.class);
-
+			
 			Calendar now = Calendar.getInstance();
 			now.set(Calendar.HOUR, 0);
 			now.set(Calendar.MINUTE, 0);
 			now.set(Calendar.SECOND, 0);
 			now.set(Calendar.HOUR_OF_DAY, 0);
 			List<Product> lst = mech.getList();
+			System.out.println(lst.size() + " ---product Size");
 			// System.out.println(formatter.format(new Date()));
 
 			if (lst != null && !lst.isEmpty()) {
@@ -167,7 +170,7 @@ public class BaseController {
 							for (Product product : lst) {
 								product.setDayUpdate(new Date());
 								try {
-									kq=userDAO.deleteProduct(product.getAsin());
+									kq=userDAO.deleteProduct(product);
 									java.net.URL url = new java.net.URL(product.getUrlPreview());
 									InputStream is = url.openStream();
 									byte[] imageBytes = org.apache.commons.io.IOUtils.toByteArray(is);
@@ -179,6 +182,11 @@ public class BaseController {
 									ImageIO.write(resizeImageJpg, "png", os);
 									product.setBobImage(os.toByteArray());
 									product.setDayUpdate(new Date());
+									if(product.getStatus().contains("Rejected"))
+									{
+										product.setStatus("Rejected");
+									}
+									
 								} catch (Exception e) {
 									// TODO: handle exception
 								}
@@ -186,6 +194,7 @@ public class BaseController {
 							}
 
 					} catch (Exception e) {
+						e.printStackTrace();
 						// TODO: handle exception
 					}
 					

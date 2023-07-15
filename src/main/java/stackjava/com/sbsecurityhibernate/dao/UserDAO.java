@@ -543,13 +543,19 @@ public class UserDAO {
 		return kq;
 	}
 
-	public int deleteProduct(String asin) {
+	public int deleteProduct(Product product) {
 		int kq = 0;
 		try {
+			
 			Session session = this.sessionFactory.getCurrentSession();
-
-			kq = session.createNativeQuery("DELETE FROM product WHERE  asin=:asin").setParameter("asin", asin)
-					.executeUpdate();
+			if(product.getAsin()!=null && !product.getAsin().isEmpty()) {
+				kq = session.createNativeQuery("DELETE FROM product WHERE  asin=:asin").setParameter("asin", product.getAsin())
+						.executeUpdate();
+			}else {
+				String id=product.getUrlPreview().split("/")[6];
+				kq = session.createNativeQuery("DELETE FROM product WHERE  urlPreview like '%"+id+"%'").executeUpdate();
+			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
