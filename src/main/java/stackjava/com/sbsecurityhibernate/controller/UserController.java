@@ -331,7 +331,11 @@ public class UserController {
 			SaleMerch merch = userDAO.getSaleMerchByID(Integer.parseInt(id));
 			List<ImageMerchDTO> lst = userDAO.getImageMerchFromSaleMerch(merch);
 			for (ImageMerchDTO product : lst) {
-				product.setBase64("data:image/png;base64," + Base64.getEncoder().encodeToString(product.getBobImage()));
+				if(product.getBobImage() !=null)
+				{
+					product.setBase64("data:image/png;base64," + Base64.getEncoder().encodeToString(product.getBobImage()));
+				}
+				
 			}
 			model.addAttribute("lst", lst);
 
