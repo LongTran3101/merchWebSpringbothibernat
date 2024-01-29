@@ -177,7 +177,7 @@ public class UserController {
 						file.setIp(merch.getIp());
 						file.setProfile(merch.getPath());
 						file.setNameAccount(merch.getName());
-						file.setNameuser("1");
+						//file.setNameuser("1");
 						userDAO.saveOrUpdateuploadFile(file);
 					} catch (Exception e) {
 						// TODO: handle exception
